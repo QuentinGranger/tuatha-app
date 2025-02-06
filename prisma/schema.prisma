@@ -1,0 +1,137 @@
+// This is your Prisma schema file
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum UserRole {
+  ATHLETE
+  MEDECIN
+}
+
+enum ConsultationType {
+  PRESENTIEL
+  VISIO
+  HYBRIDE
+}
+
+enum Disponibilite {
+  DISPONIBLE
+  OCCUPE
+  CONGE
+}
+
+enum ModeReglement {
+  CB
+  ESPECES
+  CHEQUE
+  TIERS_PAYANT
+  VIREMENT
+}
+
+enum StatutConventionnement {
+  SECTEUR_1
+  SECTEUR_2
+  NON_CONVENTIONNE
+}
+
+model User {
+  id                Int               @id @default(autoincrement())
+  email             String            @unique
+  password          String
+  prenom            String
+  nom              String
+  telephone         String?
+  photo_url        String?
+  role             UserRole
+  created_at       DateTime          @default(now())
+  updated_at       DateTime          @updatedAt
+  
+  // Champs spécifiques aux médecins
+  specialisation   String?           // ex: Kinésithérapeute, Ostéopathe, etc.
+  sous_specialite  String?           // ex: Sport, Pédiatrie, etc.
+  diplomes_urls    String[]          // URLs des diplômes
+  numero_adeli     String?           // Numéro ADELI (identification professionnelle)
+  numero_rpps      String?           // Numéro RPPS (Répertoire Partagé des Professionnels de Santé)
+  consultation_type ConsultationType[]
+  tarif_consultation Decimal?        @db.Decimal(10, 2)
+  
+  // Conventionnement et paiement
+  statut_conventionnement StatutConventionnement?
+  modes_reglement  ModeReglement[]   // Moyens de paiement acceptés
+  carte_vitale     Boolean           @default(true)
+  tiers_payant     Boolean           @default(false)
+  
+  // Horaires et disponibilité
+  horaire_ouverture String?          // Format: HH:mm
+  horaire_fermeture String?          // Format: HH:mm
+  duree_consultation Int?            // Durée en minutes
+  jours_travail    String[]          // ex: ["LUNDI", "MARDI", etc.]
+  disponibilite    Disponibilite     @default(DISPONIBLE)
+  delai_rdv_moyen  Int?             // Délai moyen pour un RDV en jours
+  
+  // Adresse et accessibilité
+  adresse_rue      String?
+  adresse_complement String?
+  code_postal      String?
+  ville            String?
+  pays             String?           @default("France")
+  coordonnees_gps  Json?            // {lat: x, lng: y}
+  acces_pmr        Boolean          @default(false) // Accès handicapé
+  parking          Boolean          @default(false)
+  transport_commun String?          // Description accès transports
+  
+  // Informations professionnelles
+  description      String?           @db.Text
+  experience_annees Int?
+  langues_parlees  String[]          // ex: ["Français", "Anglais"]
+  assurance_rcp    String?          // Assurance responsabilité civile pro
+  
+  // Cabinet et équipement
+  type_cabinet     String?          // ex: SCM, SCI, individuel
+  equipements      String[]         // Liste des équipements disponibles
+  salle_attente    Boolean         @default(true)
+  wifi_patients    Boolean         @default(false)
+  
+  // Réseaux et communication
+  site_web         String?
+  reseaux_sociaux Json?             // {linkedin: "url", twitter: "url", etc.}
+  logiciel_medical String?          // Nom du logiciel utilisé
+  
+  // Gestion des patients
+  nombre_patients_max Int?           // Capacité maximale de patients
+  patients_actuels   Int?            // Nombre actuel de patients
+  age_minimum_patient Int?           // Âge minimum des patients acceptés
+  age_maximum_patient Int?           // Âge maximum des patients acceptés
+  
+  // Urgences et remplacements
+  accepte_urgences Boolean         @default(false)
+  remplacant_habituel String?      // Contact du remplaçant
+  
+  // Préférences de notification
+  notifications_email Boolean        @default(true)
+  notifications_sms   Boolean        @default(false)
+  rappel_rdv_delai   Int?           // Délai de rappel RDV en heures
+  
+  // Statistiques et métriques
+  note_moyenne       Decimal?          @db.Decimal(3,2)
+  nombre_avis        Int             @default(0)
+  consultations_total Int            @default(0)
+  taux_remplissage   Decimal?         @db.Decimal(3,2) // Taux de remplissage du planning
+  
+  // Sécurité et vérification
+  email_verifie      Boolean         @default(false)
+  telephone_verifie  Boolean         @default(false)
+  compte_verifie     Boolean         @default(false)
+  derniere_connexion DateTime?
+  
+  // Timestamps système
+  supprime          Boolean          @default(false)
+  date_suppression  DateTime?
+
+  @@map("users")
+}

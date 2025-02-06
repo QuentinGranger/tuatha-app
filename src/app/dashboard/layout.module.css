@@ -1,0 +1,16 @@
+.layout {
+  min-height: 100vh;
+  display: flex;
+}
+
+.mainContent {
+  flex: 1;
+  margin-left: 300px;
+  min-height: 100vh;
+  background: transparent;
+}
+
+.content {
+  padding: 2rem;
+  margin-top: 70px;
+}

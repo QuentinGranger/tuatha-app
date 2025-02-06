@@ -1,0 +1,255 @@
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.sidebar {
+  width: 300px;
+  height: 100vh;
+  background: linear-gradient(165deg, 
+    #002641 0%,
+    #001e33 45%,
+    #001528 85%,
+    #000c18 100%
+  );
+  background-size: 200% 200%;
+  animation: gradientShift 15s ease infinite;
+  position: fixed;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 4px 0 25px rgba(0, 0, 0, 0.2);
+  border-right: 1px solid rgba(255, 255, 255, 0.07);
+  overflow: hidden;
+}
+
+.sidebar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 250px;
+  background: radial-gradient(
+    circle at top right,
+    rgba(255, 114, 28, 0.08),
+    transparent 60%
+  );
+  pointer-events: none;
+}
+
+.logoContainer {
+  padding: 2rem 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  width: 100%;
+  height: 100px;
+  position: relative;
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.logoContainer::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 15%;
+  right: 15%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 114, 28, 0.3),
+    transparent
+  );
+}
+
+.logo {
+  max-width: 80%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.menu {
+  list-style: none;
+  padding: 1.5rem 0;
+  margin: 0;
+  flex: 1;
+  position: relative;
+}
+
+.menu::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.05),
+    transparent
+  );
+}
+
+.bottomMenu {
+  list-style: none;
+  padding: 1rem 0;
+  margin: 0;
+  background: rgba(0, 0, 0, 0.25);
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  position: relative;
+  backdrop-filter: blur(10px);
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  padding: 0.9rem 2rem;
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
+  font-weight: 400;
+  position: relative;
+  margin: 0.2rem 0;
+  gap: 12px;
+  overflow: hidden;
+}
+
+.menuIcon {
+  width: 20px;
+  height: 20px;
+  opacity: 0.9;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.menuItem span {
+  position: relative;
+  z-index: 2;
+}
+
+.menuItem::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  background: #FF721C;
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 15px rgba(255, 114, 28, 0.5);
+}
+
+.menuItem::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 114, 28, 0.15) 0%,
+    rgba(255, 114, 28, 0.05) 100%
+  );
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+}
+
+.menuItem:hover {
+  color: white;
+  transform: translateX(4px);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(8px);
+}
+
+.menuItem:hover::before {
+  opacity: 1;
+  height: 100%;
+}
+
+.menuItem:hover::after {
+  opacity: 1;
+}
+
+.menuItem:hover .menuIcon {
+  opacity: 1;
+  transform: scale(1.1);
+  color: #FF721C;
+}
+
+.active {
+  color: white;
+  font-weight: 500;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 114, 28, 0.15) 0%,
+    rgba(255, 114, 28, 0.05) 100%
+  );
+  position: relative;
+  backdrop-filter: blur(8px);
+}
+
+.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  background: linear-gradient(180deg, #FF721C, #ff9255);
+  opacity: 1;
+  box-shadow: 0 0 20px rgba(255, 114, 28, 0.6);
+}
+
+.active .menuIcon {
+  opacity: 1;
+  color: #FF721C;
+  filter: drop-shadow(0 0 8px rgba(255, 114, 28, 0.4));
+}
+
+.bottomMenu .menuItem {
+  padding: 0.8rem 2rem;
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
+.bottomMenu .menuItem:hover {
+  opacity: 1;
+}
+
+/* Effet de lueur au survol */
+.menuItem:hover .menuIcon,
+.active .menuIcon {
+  animation: iconPulse 2s infinite;
+}
+
+@keyframes iconPulse {
+  0% {
+    filter: drop-shadow(0 0 5px rgba(255, 114, 28, 0));
+  }
+  50% {
+    filter: drop-shadow(0 0 8px rgba(255, 114, 28, 0.4));
+  }
+  100% {
+    filter: drop-shadow(0 0 5px rgba(255, 114, 28, 0));
+  }
+}
