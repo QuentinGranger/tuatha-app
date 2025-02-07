@@ -4,64 +4,95 @@ import { useState, useEffect } from 'react';
 import styles from './FormComponents.module.css';
 import CustomFoodManager from './CustomFoodManager';
 
-export default function FoodSelector({ selectedFoods, onFoodChange }) {
+export default function FoodSelector({ selectedFoods = [], onFoodsChange }) {
   const [foods, setFoods] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedTimeOfDay, setSelectedTimeOfDay] = useState('breakfast');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
+
+  const fetchFoods = async () => {
+    try {
+      const response = await fetch('/api/foods');
+      if (!response.ok) {
+        throw new Error('Erreur lors de la récupération des aliments');
+      }
+      const data = await response.json();
+      setFoods(data);
+      setLoading(false);
+    } catch (err) {
+      console.error('Error fetching foods:', err);
+      setError('Erreur lors de la récupération des aliments');
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     fetchFoods();
   }, []);
 
-  const fetchFoods = async () => {
-    try {
-      const response = await fetch('/api/foods');
-      const data = await response.json();
-      setFoods(data);
-      setLoading(false);
-    } catch (error) {
-      console.error('Error fetching foods:', error);
-      setLoading(false);
-    }
+  const handleFoodAdded = (newFood) => {
+    setFoods(prevFoods => [...prevFoods, newFood]);
   };
 
-  const toggleFood = (foodId, timeOfDay) => {
-    const existingEntry = selectedFoods.find(item => item.foodId === foodId);
-    
-    if (existingEntry) {
-      // Si l'aliment est déjà sélectionné pour ce moment de la journée, on le retire
-      if (existingEntry.timeOfDay === timeOfDay) {
-        onFoodChange(selectedFoods.filter(item => !(item.foodId === foodId && item.timeOfDay === timeOfDay)));
-      } else {
-        // Si l'aliment est sélectionné pour un autre moment, on met à jour le moment
-        onFoodChange(selectedFoods.map(item => 
-          item.foodId === foodId ? { ...item, timeOfDay } : item
-        ));
-      }
+  const handleTimeOfDaySelect = (timeOfDay) => {
+    setSelectedTimeOfDay(timeOfDay);
+  };
+
+  const handleFoodClick = (food) => {
+    const foodWithTimeOfDay = {
+      ...food,
+      timeOfDay: selectedTimeOfDay
+    };
+
+    const existingFoodIndex = selectedFoods.findIndex(
+      f => f.id === food.id && f.timeOfDay === selectedTimeOfDay
+    );
+
+    if (existingFoodIndex >= 0) {
+      // Si l'aliment est déjà sélectionné pour ce moment de la journée, le retirer
+      const newSelectedFoods = [...selectedFoods];
+      newSelectedFoods.splice(existingFoodIndex, 1);
+      onFoodsChange(newSelectedFoods);
     } else {
-      // Si l'aliment n'est pas encore sélectionné, on l'ajoute
-      onFoodChange([...selectedFoods, { foodId, timeOfDay }]);
+      // Sinon, l'ajouter
+      onFoodsChange([...selectedFoods, foodWithTimeOfDay]);
     }
   };
 
-  const getFoodTimeOfDay = (foodId) => {
-    const entry = selectedFoods.find(item => item.foodId === foodId);
-    return entry ? entry.timeOfDay : null;
-  };
+  const filteredFoods = foods.filter(food => {
+    const matchesSearch = food.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = !selectedCategory || food.category === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
 
-  const filteredFoods = foods.filter(food =>
-    food.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    food.category.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const categories = [...new Set(foods.map(food => food.category))];
 
   if (loading) {
     return <div className={styles.loading}>Chargement des aliments...</div>;
   }
 
+  if (error) {
+    return <div className={styles.error}>{error}</div>;
+  }
+
   return (
     <div className={styles.foodSelector}>
-      <h3>Aliments Recommandés</h3>
-      <div className={styles.searchBar}>
+      <div className={styles.timeOfDaySelector}>
+        {['breakfast', 'lunch', 'dinner'].map(timeOfDay => (
+          <button
+            key={`time-${timeOfDay}`}
+            type="button"
+            className={`${styles.timeButton} ${selectedTimeOfDay === timeOfDay ? styles.selected : ''}`}
+            onClick={() => handleTimeOfDaySelect(timeOfDay)}
+          >
+            {timeOfDay === 'breakfast' ? 'Petit déjeuner' : timeOfDay === 'lunch' ? 'Déjeuner' : 'Dîner'}
+          </button>
+        ))}
+      </div>
+
+      <div className={styles.foodFilters}>
         <input
           type="text"
           placeholder="Rechercher un aliment..."
@@ -69,78 +100,46 @@ export default function FoodSelector({ selectedFoods, onFoodChange }) {
           onChange={(e) => setSearchTerm(e.target.value)}
           className={styles.searchInput}
         />
+        <select
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
+          className={styles.categorySelect}
+        >
+          <option value="">Toutes les catégories</option>
+          {categories.map(category => (
+            <option key={category} value={category}>
+              {category}
+            </option>
+          ))}
+        </select>
       </div>
 
-      {filteredFoods.length === 0 ? (
-        <div className={styles.noResults}>
-          Aucun aliment trouvé pour "{searchTerm}"
-        </div>
-      ) : (
-        <div className={styles.foodList}>
-          {filteredFoods.map((food) => {
-            const timeOfDay = getFoodTimeOfDay(food.id);
-            return (
-              <div
-                key={food.id}
-                className={`${styles.foodItem} ${timeOfDay ? styles.selected : ''}`}
-              >
-                <div className={styles.foodHeader}>
-                  <div className={styles.foodName}>
-                    <span className={styles.foodIcon}>🍽️</span>
-                    {food.name}
-                  </div>
-                  <div className={styles.foodType}>{food.category}</div>
-                </div>
-                
-                <div className={styles.foodDetails}>
-                  <div className={styles.macros}>
-                    <span>{food.calories} kcal</span>
-                    <span>{food.proteins}g protéines</span>
-                    <span>{food.carbs}g glucides</span>
-                    <span>{food.fats}g lipides</span>
-                  </div>
-                  {food.description && (
-                    <p className={styles.description}>{food.description}</p>
-                  )}
-                </div>
-
-                <div className={styles.mealTimeSelector}>
-                  <button
-                    type="button"
-                    className={`${styles.mealTimeButton} ${timeOfDay === 'breakfast' ? styles.selected : ''}`}
-                    onClick={() => toggleFood(food.id, 'breakfast')}
-                  >
-                    <span className={styles.mealTimeIcon}>🌅</span>
-                    Petit déjeuner
-                  </button>
-                  <button
-                    type="button"
-                    className={`${styles.mealTimeButton} ${timeOfDay === 'lunch' ? styles.selected : ''}`}
-                    onClick={() => toggleFood(food.id, 'lunch')}
-                  >
-                    <span className={styles.mealTimeIcon}>☀️</span>
-                    Déjeuner
-                  </button>
-                  <button
-                    type="button"
-                    className={`${styles.mealTimeButton} ${timeOfDay === 'dinner' ? styles.selected : ''}`}
-                    onClick={() => toggleFood(food.id, 'dinner')}
-                  >
-                    <span className={styles.mealTimeIcon}>🌙</span>
-                    Dîner
-                  </button>
-                </div>
+      <div className={styles.foodList}>
+        {filteredFoods.map(food => {
+          const isSelected = selectedFoods.some(
+            f => f.id === food.id && f.timeOfDay === selectedTimeOfDay
+          );
+          return (
+            <div
+              key={`food-${food.id}-${selectedTimeOfDay}`}
+              className={`${styles.foodItem} ${isSelected ? styles.selected : ''}`}
+              onClick={() => handleFoodClick(food)}
+            >
+              <div className={styles.foodInfo}>
+                <h4>{food.name}</h4>
+                <p className={styles.foodCategory}>{food.category}</p>
               </div>
-            );
-          })}
-        </div>
-      )}
-
-      <CustomFoodManager onFoodAdded={() => fetchFoods()} />
-
-      <div className={styles.selectedCount}>
-        {selectedFoods.length} aliments sélectionnés
+              <div className={styles.foodMacros}>
+                <span>P: {food.protein}g</span>
+                <span>G: {food.carbs}g</span>
+                <span>L: {food.fat}g</span>
+              </div>
+            </div>
+          );
+        })}
       </div>
+
+      <CustomFoodManager onFoodAdded={handleFoodAdded} />
     </div>
   );
 }

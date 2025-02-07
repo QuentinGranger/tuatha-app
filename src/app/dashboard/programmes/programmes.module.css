@@ -1,20 +1,20 @@
 .container {
   position: relative;
   min-height: 100vh;
-  padding: 2.5rem;
+  padding: 2rem;
 }
 
 .header {
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
   text-align: center;
   position: relative;
 }
 
 .title {
-  font-size: 2.5rem;
   font-weight: 600;
+  font-size: 2.5rem;
   color: white;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   text-shadow: 0 2px 10px rgba(255, 114, 28, 0.3);
 }
 
@@ -25,89 +25,250 @@
   margin: 0 auto;
 }
 
+.tabsContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 .tabs {
   display: flex;
   gap: 1rem;
   margin-bottom: 2rem;
+  background: rgba(0, 0, 0, 0.2);
   padding: 0.5rem;
-  backdrop-filter: blur(8px);
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
 }
 
 .tab {
   flex: 1;
   padding: 1rem 2rem;
-  text-align: center;
-  color: rgba(255, 255, 255, 0.7);
   background: transparent;
-  border: none;
-  border-radius: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-weight: 500;
-  position: relative;
-  overflow: hidden;
 }
 
 .tab:hover {
-  color: white;
   background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
 }
 
 .tab.active {
+  background: #FF721C;
+  border-color: #FF721C;
   color: white;
-  background: rgba(255, 114, 28, 0.2);
 }
 
-.tab.active::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(45deg, rgba(255, 114, 28, 0.4), transparent);
-  opacity: 0.5;
+.tabContent {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  min-height: 400px;
 }
 
 .programList {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2rem;
-  padding: 1rem;
+  gap: 1.5rem;
+  padding: 1.5rem;
 }
 
 .programCard {
-  backdrop-filter: blur(8px);
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
   padding: 1.5rem;
   transition: all 0.3s ease;
   cursor: pointer;
-  position: relative;
-  overflow: hidden;
 }
 
 .programCard:hover {
   transform: translateY(-2px);
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 114, 28, 0.3);
-  box-shadow: 0 8px 32px rgba(255, 114, 28, 0.15);
+  border-color: #FF721C;
+  background: rgba(255, 114, 28, 0.1);
+}
+
+.programHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 .programTitle {
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: 1.2rem;
   color: white;
+  margin: 0;
+  font-weight: 600;
+  flex: 1;
+}
+
+.cardActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.actionButton {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.actionButton:hover {
+  color: #FF721C;
+  background: rgba(255, 114, 28, 0.1);
+}
+
+.editForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.editInput {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 0.75rem;
+  color: white;
+  font-size: 1rem;
+  width: 100%;
+  transition: all 0.2s ease;
+}
+
+.editInput:focus {
+  outline: none;
+  border-color: #FF721C;
+  background: rgba(255, 114, 28, 0.1);
+}
+
+.editDates {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.editDates label {
+  display: block;
+  color: rgba(255, 255, 255, 0.8);
   margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.editDates input {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 0.75rem;
+  color: white;
+  font-size: 0.9rem;
+}
+
+.editActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.editButton {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.editButton:hover {
+  background: rgba(255, 114, 28, 0.1);
+  border-color: #FF721C;
+  color: #FF721C;
+}
+
+.programStatus {
+  padding: 0.25rem 0.75rem;
+  background: rgba(255, 114, 28, 0.2);
+  border: 1px solid rgba(255, 114, 28, 0.3);
+  border-radius: 12px;
+  color: #FF721C;
+  font-size: 0.8rem;
+  font-weight: 500;
 }
 
 .programDescription {
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.8);
   font-size: 0.9rem;
-  line-height: 1.5;
   margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.programDetails {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.detailSection {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.detailSection h4 {
+  color: #FF721C;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+}
+
+.detailSection p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.85rem;
+  margin: 0.25rem 0;
+}
+
+.supplementsList,
+.exercisesList {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0 0;
+}
+
+.supplementsList li,
+.exercisesList li {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.85rem;
+  padding: 0.25rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.supplementsList li:last-child,
+.exercisesList li:last-child {
+  border-bottom: none;
+}
+
+.exerciseNotes {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 0.25rem;
+  padding-left: 1rem;
+  border-left: 2px solid rgba(255, 114, 28, 0.3);
 }
 
 .programMeta {
@@ -116,21 +277,14 @@
   align-items: center;
   padding-top: 1rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .programDate {
-  font-size: 0.85rem;
   color: rgba(255, 255, 255, 0.6);
-}
-
-.programStatus {
-  padding: 0.35rem 0.75rem;
-  border-radius: 999px;
-  font-size: 0.75rem;
-  font-weight: 500;
-  background: rgba(255, 114, 28, 0.2);
-  color: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(255, 114, 28, 0.3);
+  font-size: 0.8rem;
 }
 
 .loading {
@@ -165,6 +319,16 @@
   backdrop-filter: blur(8px);
   border-radius: 16px;
   border: 1px solid rgba(229, 62, 62, 0.2);
+  margin: 1.5rem;
+}
+
+.empty {
+  text-align: center;
+  padding: 2rem;
+  color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   margin: 1.5rem;
 }
 

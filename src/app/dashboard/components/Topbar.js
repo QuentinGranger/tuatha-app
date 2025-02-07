@@ -173,6 +173,8 @@ export default function Topbar() {
           value={searchQuery}
           onChange={handleSearchChange}
           className={styles.searchInput}
+          data-form-type="other"
+          autoComplete="off"
         />
       </div>
 

@@ -479,6 +479,27 @@ async function main() {
     });
   }
 
+  // Créer l'utilisateur template
+  const templateUser = await prisma.user.create({
+    data: {
+      email: 'template@tuatha.health',
+      password: 'template',
+      firstName: 'Template',
+      lastName: 'User',
+      role: 'PATIENT',
+    },
+  });
+
+  // Créer le patient template
+  const templatePatient = await prisma.patient.create({
+    data: {
+      userId: templateUser.id,
+      sport: 'Template',
+      nutritionalStatus: 'GOOD',
+      progressionStatus: 'IMPROVING',
+    },
+  });
+
   // Créer des exercices
   const exercises = await prisma.exercise.createMany({
     data: [

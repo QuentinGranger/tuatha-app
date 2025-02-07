@@ -166,56 +166,104 @@
 }
 
 .container {
-  position: relative;
-  padding: 2.5rem;
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 24px;
-  overflow: hidden;
-  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
-}
-
-.container::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(255, 114, 28, 0.3), transparent);
-}
-
-.container::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at top right, rgba(255, 114, 28, 0.05), transparent 60%);
-  pointer-events: none;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
 }
 
 .container h2 {
-  margin: 0 0 2rem;
-  font-size: 2rem;
-  font-weight: 600;
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
   color: white;
-  text-align: center;
-  position: relative;
-  padding-bottom: 1rem;
 }
 
-.container h2::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 3px;
-  background: linear-gradient(90deg, #FF721C, rgba(255, 114, 28, 0.5));
-  border-radius: 2px;
+.loadingContainer,
+.successContainer,
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  margin: 2rem auto;
+  max-width: 600px;
+}
+
+.loadingSpinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(255, 255, 255, 0.1);
+  border-left-color: #FF721C;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.successContainer h2,
+.errorContainer h2 {
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.successContainer p,
+.errorContainer p {
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 2rem;
+}
+
+.errorMessage {
+  color: rgb(229, 62, 62) !important;
+  background: rgba(229, 62, 62, 0.1);
+  border: 1px solid rgba(229, 62, 62, 0.2);
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+.actionButton {
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.retryButton {
+  background: rgba(229, 62, 62, 0.3);
+  border: 2px solid rgba(229, 62, 62, 0.4);
+  color: white;
+}
+
+.retryButton:hover {
+  background: rgba(229, 62, 62, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(229, 62, 62, 0.2);
+}
+
+.newButton {
+  background: #FF721C;
+  color: white;
+}
+
+.newButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 114, 28, 0.2);
 }
 
 .message {
@@ -345,26 +393,6 @@
 .newButton span {
   position: relative;
   z-index: 1;
-}
-
-.retryButton {
-  background-color: rgba(229, 62, 62, 0.3);
-}
-
-.retryButton:hover {
-  background-color: rgba(229, 62, 62, 0.4);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(229, 62, 62, 0.2);
-}
-
-.newButton {
-  background-color: rgba(56, 161, 105, 0.3);
-}
-
-.newButton:hover {
-  background-color: rgba(56, 161, 105, 0.4);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(56, 161, 105, 0.2);
 }
 
 @keyframes loading {
