@@ -315,7 +315,7 @@ const PatientDetails = ({ patient, onClose }) => {
           <div className={styles.detailsHeader}>
             <div className={styles.detailsProfileImage}>
               <Image
-                src={patient.profilePictureUrl}
+                src={patient.photoUrl}
                 alt={`${patient.firstName} ${patient.lastName}`}
                 width={100}
                 height={100}
@@ -493,7 +493,7 @@ export default function ActivePatientsList() {
                       <div className={styles.patientInfo}>
                         <div className={styles.imageContainer}>
                           <Image
-                            src={patient.profilePictureUrl}
+                            src={patient.photoUrl}
                             alt={`${patient.firstName} ${patient.lastName}`}
                             width={24}
                             height={24}

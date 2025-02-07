@@ -1,16 +1,39 @@
-// This is your Prisma schema file
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
   provider = "prisma-client-js"
 }
 
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
 enum UserRole {
-  ATHLETE
+  ADMIN
+  HEALTH_PROFESSIONAL
+  PATIENT
   MEDECIN
+  ATHLETE
+}
+
+enum Specialty {
+  NUTRITIONIST
+  PHYSIOTHERAPIST
+  PSYCHOLOGIST
+  DOCTOR
+  GENERAL
+  RADIOLOGIST
+  PEDIATRICIAN
+  PHYSICAL_TRAINER
+  DIETITIAN
+}
+
+enum ContactMethod {
+  EMAIL
+  PHONE
+  SMS
 }
 
 enum ConsultationType {
@@ -25,36 +48,18 @@ enum Disponibilite {
   CONGE
 }
 
-enum ModeReglement {
-  CB
-  ESPECES
-  CHEQUE
-  TIERS_PAYANT
-  VIREMENT
-}
-
 enum StatutConventionnement {
   SECTEUR_1
   SECTEUR_2
   NON_CONVENTIONNE
 }
 
-enum CommunicationPreference {
-  EMAIL
-  PHONE
-  SMS
-}
-
-enum HealthProfessionalSpecialty {
-  DOCTOR
-  PHYSIOTHERAPIST
-  NUTRITIONIST
-  COACH
-}
-
-enum TeamRole {
-  PRIMARY
-  SECONDARY
+enum ModeReglement {
+  CB
+  ESPECES
+  VIREMENT
+  CHEQUE
+  TIERS_PAYANT
 }
 
 enum NutritionalStatus {
@@ -67,153 +72,192 @@ enum ProgressionStatus {
   IMPROVING
   STAGNATING
   DECLINING
+  WORSENING
 }
 
 model User {
-  id                Int               @id @default(autoincrement())
-  email             String            @unique
+  id                String             @id @default(cuid())
+  email             String             @unique
   password          String
-  prenom            String
-  nom              String
-  telephone         String?
-  photo_url        String?
-  role             UserRole
-  created_at       DateTime          @default(now())
-  updated_at       DateTime          @updatedAt
-  
-  // Champs spécifiques aux médecins
-  specialisation   String?           // ex: Kinésithérapeute, Ostéopathe, etc.
-  sous_specialite  String?           // ex: Sport, Pédiatrie, etc.
-  diplomes_urls    String[]          // URLs des diplômes
-  numero_adeli     String?           // Numéro ADELI (identification professionnelle)
-  numero_rpps      String?           // Numéro RPPS (Répertoire Partagé des Professionnels de Santé)
-  consultation_type ConsultationType[]
-  tarif_consultation Decimal?        @db.Decimal(10, 2)
-  
-  // Conventionnement et paiement
-  statut_conventionnement StatutConventionnement?
-  modes_reglement  ModeReglement[]   // Moyens de paiement acceptés
-  carte_vitale     Boolean           @default(true)
-  tiers_payant     Boolean           @default(false)
-  
-  // Horaires et disponibilité
-  horaire_ouverture String?          // Format: HH:mm
-  horaire_fermeture String?          // Format: HH:mm
-  duree_consultation Int?            // Durée en minutes
-  jours_travail    String[]          // ex: ["LUNDI", "MARDI", etc.]
-  disponibilite    Disponibilite     @default(DISPONIBLE)
-  delai_rdv_moyen  Int?             // Délai moyen pour un RDV en jours
-  
-  // Adresse et accessibilité
-  adresse_rue      String?
-  adresse_complement String?
-  code_postal      String?
-  ville            String?
-  pays             String?           @default("France")
-  coordonnees_gps  Json?            // {lat: x, lng: y}
-  acces_pmr        Boolean          @default(false) // Accès handicapé
-  parking          Boolean          @default(false)
-  transport_commun String?          // Description accès transports
-  
-  // Informations professionnelles
-  description      String?           @db.Text
-  experience_annees Int?
-  langues_parlees  String[]          // ex: ["Français", "Anglais"]
-  assurance_rcp    String?          // Assurance responsabilité civile pro
-  
-  // Cabinet et équipement
-  type_cabinet     String?          // ex: SCM, SCI, individuel
-  equipements      String[]         // Liste des équipements disponibles
-  salle_attente    Boolean         @default(true)
-  wifi_patients    Boolean         @default(false)
-  
-  // Réseaux et communication
-  site_web         String?
-  reseaux_sociaux Json?             // {linkedin: "url", twitter: "url", etc.}
-  logiciel_medical String?          // Nom du logiciel utilisé
-  
-  // Gestion des patients
-  nombre_patients_max Int?           // Capacité maximale de patients
-  patients_actuels   Int?            // Nombre actuel de patients
-  age_minimum_patient Int?           // Âge minimum des patients acceptés
-  age_maximum_patient Int?           // Âge maximum des patients acceptés
-  
-  // Urgences et remplacements
-  accepte_urgences Boolean         @default(false)
-  remplacant_habituel String?      // Contact du remplaçant
-  
-  // Préférences de notification
-  notifications_email Boolean        @default(true)
-  notifications_sms   Boolean        @default(false)
-  rappel_rdv_delai   Int?           // Délai de rappel RDV en heures
-  
-  // Statistiques et métriques
-  note_moyenne       Decimal?          @db.Decimal(3,2)
-  nombre_avis        Int             @default(0)
-  consultations_total Int            @default(0)
-  taux_remplissage   Decimal?         @db.Decimal(3,2) // Taux de remplissage du planning
-  
-  // Sécurité et vérification
-  email_verifie      Boolean         @default(false)
-  telephone_verifie  Boolean         @default(false)
-  compte_verifie     Boolean         @default(false)
-  derniere_connexion DateTime?
-  
-  // Timestamps système
-  supprime          Boolean          @default(false)
-  date_suppression  DateTime?
-
-  @@map("users")
-}
-
-model Patient {
-  id               String            @id @default(uuid())
-  firstName        String
-  lastName         String
-  email           String            @unique
-  phone           String
-  profilePictureUrl String?
-  sport           String?
-  injury          String?
-  lastAppointment DateTime
-  nutritionalStatus NutritionalStatus
-  progressionStatus ProgressionStatus
-  healthTeams       PatientHealthTeam[]
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
+  firstName         String
+  lastName          String
+  role              UserRole
+  phoneNumber       String?
+  photoUrl          String?
+  healthProfessional HealthProfessional?
+  patient           Patient?
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
 }
 
 model HealthProfessional {
-  id                     String                 @id @default(uuid())
-  firstName             String
-  lastName              String
-  email                 String                 @unique
-  phone                 String
-  specialty             HealthProfessionalSpecialty
-  licenseNumber         String                 @unique
-  profilePictureUrl     String?
-  availability          Json
-  preferredContactMethod CommunicationPreference
-  emergencyContact      Boolean                @default(false)
-  createdAt             DateTime               @default(now())
-  updatedAt             DateTime               @updatedAt
-  patientHealthTeams    PatientHealthTeam[]
+  id                  String     @id @default(cuid())
+  user                User       @relation(fields: [userId], references: [id])
+  userId              String     @unique
+  specialty           Specialty
+  subSpecialty        String?
+  availability        Json
+  preferredContactMethod ContactMethod
+  emergencyContact    Boolean
+  consultationTypes   ConsultationType[]
+  consultationFee     Float
+  conventionStatus    StatutConventionnement
+  paymentMethods      ModeReglement[]
+  acceptsHealthCard   Boolean
+  description         String?
+  yearsExperience    Int
+  spokenLanguages    String[]
+  openingTime        String
+  closingTime        String
+  consultationDuration Int
+  workingDays        String[]
+  disponibilite      Disponibilite
+  averageWaitTime    Int
+  street             String
+  city               String
+  postalCode         String
+  country            String
+  handicapAccess     Boolean
+  parking            Boolean
+  equipment          String[]
+  acceptsEmergencies Boolean
+  occupancyRate      Float
+  adeliNumber        String?
+  rppsNumber         String?
+  diplomas           String[]
+  programs           Program[]
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
 }
 
-model PatientHealthTeam {
-  id                     String                 @id @default(uuid())
-  patient               Patient                @relation(fields: [patientId], references: [id])
-  patientId             String
-  healthProfessional    HealthProfessional     @relation(fields: [healthProfessionalId], references: [id])
-  healthProfessionalId  String
-  role                  TeamRole
-  startDate             DateTime
-  notes                 String?
-  lastContactDate       DateTime?
-  communicationPreference CommunicationPreference
-  createdAt             DateTime               @default(now())
-  updatedAt             DateTime               @updatedAt
+model Patient {
+  id                String             @id @default(cuid())
+  user              User               @relation(fields: [userId], references: [id])
+  userId            String             @unique
+  sport             String?
+  injury            String?
+  lastAppointment   DateTime?
+  nutritionalStatus NutritionalStatus?
+  progressionStatus ProgressionStatus?
+  patientPathologies PatientPathology[]
+  programs          Program[]
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+}
 
-  @@index([patientId])
-  @@index([healthProfessionalId])
+model Pathology {
+  id          String            @id @default(cuid())
+  name        String            @unique
+  description String?
+  symptoms    String[]
+  treatments  String[]
+  patients    PatientPathology[]
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+}
+
+model PatientPathology {
+  id          String    @id @default(cuid())
+  patient     Patient   @relation(fields: [patientId], references: [id])
+  patientId   String
+  pathology   Pathology @relation(fields: [pathologyId], references: [id])
+  pathologyId String
+  diagnosis   String?
+  severity    String?
+  startDate   DateTime
+  endDate     DateTime?
+  notes       String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([patientId, pathologyId])
+}
+
+model Program {
+  id                  String               @id @default(cuid())
+  title              String
+  description        String?
+  startDate          DateTime
+  endDate            DateTime?
+  status             String               @default("ACTIVE")
+  exercises          ProgramExercise[]
+  patient            Patient              @relation(fields: [patientId], references: [id])
+  patientId          String
+  healthProfessional HealthProfessional   @relation(fields: [healthProfessionalId], references: [id])
+  healthProfessionalId String
+  mealTimes          MealTime[]
+  supplements        Supplement[]         @relation("ProgramSupplement")
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+}
+
+model Exercise {
+  id          String            @id @default(cuid())
+  name        String
+  description String?
+  videoUrl    String?
+  imageUrl    String?
+  category    String
+  difficulty  String
+  equipment   String[]
+  muscleGroups String[]
+  programs    ProgramExercise[]
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+}
+
+model ProgramExercise {
+  id        String   @id @default(cuid())
+  program   Program  @relation(fields: [programId], references: [id])
+  programId String
+  exercise  Exercise @relation(fields: [exerciseId], references: [id])
+  exerciseId String
+  sets      Int?
+  reps      Int?
+  duration  Int?
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Food {
+  id          String   @id @default(cuid())
+  name        String
+  category    String
+  calories    Float
+  proteins    Float
+  carbs       Float
+  fats        Float
+  description String?
+  isCustom    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  mealTimes   MealTime[]
+}
+
+model Supplement {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  type        String
+  description String?
+  dosage      String?
+  frequency   String?
+  sideEffects String[]
+  warnings    String[]
+  imageUrl    String?
+  isCustom    Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  programs    Program[] @relation("ProgramSupplement")
+}
+
+model MealTime {
+  id        String   @id @default(cuid())
+  timeOfDay String   // 'breakfast', 'lunch', 'dinner'
+  program   Program  @relation(fields: [programId], references: [id], onDelete: Cascade)
+  programId String
+  food      Food     @relation(fields: [foodId], references: [id])
+  foodId    String
+
+  @@unique([programId, foodId])
 }

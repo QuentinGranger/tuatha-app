@@ -4,16 +4,6 @@ import styles from './Topbar.module.css';
 import { MdSearch, MdNotifications, MdOutlineClose, MdCheckCircle, MdLogout, MdSettings, MdPerson, MdCalendarToday } from 'react-icons/md';
 import Image from 'next/image';
 
-// Exemple de données utilisateur (à remplacer par les vraies données)
-const userInfo = {
-  prenom: 'Sanji',
-  nom: 'Vinsmoke',
-  specialisation: 'Nutrition',
-  sous_specialite: 'Diététique',
-  photo_url: '/img/professionel/sanji.jpg',
-  experience_annees: 10
-};
-
 const getImageUrl = (url) => {
   if (!url) return '/img/professionel/default-avatar.jpg';
   
@@ -79,133 +69,98 @@ const generateNotificationsList = () => {
       timestamp: new Date(now.getTime() - 120 * 60000), // 2 heures ago
       read: true,
       priority: 'low'
-    },
-    {
-      id: 6,
-      type: 'system',
-      title: 'Mise à jour du logiciel',
-      message: 'Une nouvelle version du logiciel est disponible. Cliquez pour installer.',
-      timestamp: new Date(now.getTime() - 180 * 60000), // 3 heures ago
-      read: true,
-      priority: 'medium'
-    },
-    {
-      id: 7,
-      type: 'message',
-      title: 'Nouveau message',
-      message: 'Dr. Sarah Cohen: "Pouvons-nous discuter du cas de M. Martin?"',
-      timestamp: new Date(now.getTime() - 240 * 60000), // 4 heures ago
-      read: true,
-      priority: 'medium'
-    },
-    {
-      id: 8,
-      type: 'stock',
-      title: 'Alerte stock',
-      message: 'Stock de bandes élastiques bientôt épuisé. Pensez à réapprovisionner.',
-      timestamp: new Date(now.getTime() - 300 * 60000), // 5 heures ago
-      read: true,
-      priority: 'low'
     }
   ];
 };
 
 export default function Topbar() {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [healthProfessional, setHealthProfessional] = useState(null);
+  const [notifications, setNotifications] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
-  const [notifications, setNotifications] = useState(generateNotificationsList());
-  const [lastNotification, setLastNotification] = useState(null);
-  const [user, setUser] = useState(userInfo);
-  
-  const profileRef = useRef(null);
   const notificationsRef = useRef(null);
+  const profileRef = useRef(null);
 
-  // Fermer les dropdowns quand on clique en dehors
+  useEffect(() => {
+    const fetchHealthProfessional = async () => {
+      try {
+        const response = await fetch('/api/health-professional/current');
+        if (!response.ok) {
+          throw new Error('Failed to fetch health professional');
+        }
+        const data = await response.json();
+        setHealthProfessional(data);
+      } catch (error) {
+        console.error('Error fetching health professional:', error);
+      }
+    };
+
+    fetchHealthProfessional();
+  }, []);
+
+  useEffect(() => {
+    // Charger les notifications
+    const notifs = generateNotificationsList();
+    setNotifications(notifs);
+  }, []);
+
   useEffect(() => {
     function handleClickOutside(event) {
-      if (profileRef.current && !profileRef.current.contains(event.target)) {
-        setShowProfileDropdown(false);
-      }
       if (notificationsRef.current && !notificationsRef.current.contains(event.target)) {
         setShowNotifications(false);
+      }
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setShowProfileDropdown(false);
       }
     }
 
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, []);
 
-  // Charger les informations de l'utilisateur
-  useEffect(() => {
-    fetch('/api/user')
-      .then(res => res.json())
-      .then(data => {
-        if (!data.error) {
-          setUser(data);
-        }
-      })
-      .catch(error => console.error('Error fetching user:', error));
-  }, []);
-
-  // Formater le temps relatif
-  const getRelativeTime = (timestamp) => {
-    const now = new Date();
-    const diff = Math.floor((now - timestamp) / 1000); // différence en secondes
-
-    if (diff < 60) return 'À l\'instant';
-    if (diff < 3600) return `Il y a ${Math.floor(diff / 60)}min`;
-    if (diff < 86400) return `Il y a ${Math.floor(diff / 3600)}h`;
-    return 'Il y a plus d\'un jour';
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
   };
 
-  // Simuler la réception d'une nouvelle notification toutes les 20 secondes
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const newNotification = {
-        id: Date.now(),
-        type: 'appointment',
-        title: 'Nouvelle demande',
-        message: 'Demande de rendez-vous entrante...',
-        timestamp: new Date(),
-        read: false,
-        priority: 'medium'
-      };
+  const handleNotificationClick = () => {
+    setShowNotifications(!showNotifications);
+    setShowProfileDropdown(false);
+  };
 
-      setNotifications(prev => [newNotification, ...prev]);
-      setLastNotification(newNotification);
-    }, 20000);
+  const handleProfileClick = () => {
+    setShowProfileDropdown(!showProfileDropdown);
+    setShowNotifications(false);
+  };
 
-    return () => clearInterval(interval);
-  }, []);
-
-  // Mettre à jour lastNotification quand une nouvelle notification arrive
-  useEffect(() => {
-    if (notifications.length > 0) {
-      const newest = notifications.reduce((newest, notification) => 
-        notification.timestamp > newest.timestamp ? notification : newest
-      , notifications[0]);
-      
-      setLastNotification(newest);
-    }
-  }, [notifications]);
-
-  const markAsRead = (id) => {
-    setNotifications(notifications.map(notif => 
-      notif.id === id ? { ...notif, read: true } : notif
-    ));
+  const markAsRead = (notificationId) => {
+    setNotifications(notifications.map(notification => {
+      if (notification.id === notificationId) {
+        return { ...notification, read: true };
+      }
+      return notification;
+    }));
   };
 
   const markAllAsRead = () => {
-    setNotifications(notifications.map(notif => ({ ...notif, read: true })));
+    setNotifications(notifications.map(notification => ({ ...notification, read: true })));
   };
 
-  const deleteNotification = (id) => {
-    setNotifications(notifications.filter(notif => notif.id !== id));
-  };
-
-  const handleLogout = () => {
-    // Implémenter la déconnexion ici
-    console.log('Déconnexion...');
+  const getRelativeTime = (timestamp) => {
+    const now = new Date();
+    const diff = now - timestamp;
+    const minutes = Math.floor(diff / 60000);
+    
+    if (minutes < 1) return 'À l\'instant';
+    if (minutes < 60) return `Il y a ${minutes} minute${minutes > 1 ? 's' : ''}`;
+    
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `Il y a ${hours} heure${hours > 1 ? 's' : ''}`;
+    
+    const days = Math.floor(hours / 24);
+    return `Il y a ${days} jour${days > 1 ? 's' : ''}`;
   };
 
   return (
@@ -215,23 +170,25 @@ export default function Topbar() {
         <input
           type="text"
           placeholder="Rechercher..."
+          value={searchQuery}
+          onChange={handleSearchChange}
           className={styles.searchInput}
         />
       </div>
-      
+
       <div className={styles.rightSection}>
         <div className={styles.notificationContainer} ref={notificationsRef}>
-          {lastNotification && (
+          {notifications.length > 0 && (
             <div className={styles.lastNotification}>
               <span className={styles.lastNotificationTime}>
-                {getRelativeTime(lastNotification.timestamp)}
+                {getRelativeTime(notifications[0].timestamp)}
               </span>
             </div>
           )}
           
           <button 
             className={styles.notificationButton}
-            onClick={() => setShowNotifications(!showNotifications)}
+            onClick={handleNotificationClick}
           >
             <MdNotifications className={styles.notificationIcon} />
             {notifications.filter(n => !n.read).length > 0 && (
@@ -273,12 +230,6 @@ export default function Topbar() {
                               <MdCheckCircle />
                             </button>
                           )}
-                          <button
-                            onClick={() => deleteNotification(notification.id)}
-                            className={styles.deleteButton}
-                          >
-                            <MdOutlineClose />
-                          </button>
                         </div>
                       </div>
                       <p>{notification.message}</p>
@@ -294,24 +245,26 @@ export default function Topbar() {
         </div>
 
         <div className={styles.userInfo} ref={profileRef}>
-          {user && (
+          {healthProfessional && (
             <>
               <div className={styles.userDetails}>
-                <span className={styles.userName}>{user.prenom} {user.nom}</span>
+                <span className={styles.userName}>
+                  {healthProfessional.user.firstName} {healthProfessional.user.lastName}
+                </span>
                 <div className={styles.userSpecialities}>
-                  <span className={styles.userRole}>{user.specialisation}</span>
-                  {user.sous_specialite && (
-                    <span className={styles.userSubRole}>{user.sous_specialite}</span>
+                  <span className={styles.userRole}>{healthProfessional.specialty}</span>
+                  {healthProfessional.subSpecialty && (
+                    <span className={styles.userSubRole}>{healthProfessional.subSpecialty}</span>
                   )}
                 </div>
               </div>
               <div 
-                className={styles.userAvatar} 
-                onClick={() => setShowProfileDropdown(!showProfileDropdown)}
+                className={styles.userAvatar}
+                onClick={handleProfileClick}
               >
                 <Image
-                  src={getImageUrl(user.photo_url)}
-                  alt={`${user.prenom} ${user.nom}`}
+                  src={getImageUrl(healthProfessional.user.photoUrl)}
+                  alt={`${healthProfessional.user.firstName} ${healthProfessional.user.lastName}`}
                   width={42}
                   height={42}
                   priority
@@ -323,27 +276,17 @@ export default function Topbar() {
                   <div className={styles.profileHeader}>
                     <div className={styles.profileImageLarge}>
                       <Image
-                        src={getImageUrl(user.photo_url)}
-                        alt={`${user.prenom} ${user.nom}`}
+                        src={getImageUrl(healthProfessional.user.photoUrl)}
+                        alt={`${healthProfessional.user.firstName} ${healthProfessional.user.lastName}`}
                         width={80}
                         height={80}
                         priority
                       />
                     </div>
                     <div className={styles.profileInfo}>
-                      <h3>{user.prenom} {user.nom}</h3>
-                      <p>{user.specialisation}</p>
-                      <p className={styles.subSpeciality}>{user.sous_specialite}</p>
-                    </div>
-                  </div>
-                  
-                  <div className={styles.profileStats}>
-                    <div className={styles.statItem}>
-                      <MdCalendarToday />
-                      <div>
-                        <span className={styles.statValue}>{user.experience_annees} ans</span>
-                        <span className={styles.statLabel}>d'expérience</span>
-                      </div>
+                      <h3>{healthProfessional.user.firstName} {healthProfessional.user.lastName}</h3>
+                      <p>{healthProfessional.specialty}</p>
+                      <p className={styles.subSpeciality}>{healthProfessional.subSpecialty}</p>
                     </div>
                   </div>
 
@@ -356,7 +299,7 @@ export default function Topbar() {
                       <MdSettings />
                       <span>Paramètres</span>
                     </button>
-                    <button className={`${styles.profileAction} ${styles.logoutAction}`} onClick={handleLogout}>
+                    <button className={`${styles.profileAction} ${styles.logoutAction}`}>
                       <MdLogout />
                       <span>Déconnexion</span>
                     </button>

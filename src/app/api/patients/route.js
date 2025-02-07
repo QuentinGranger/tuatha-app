@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import prisma from '@/services/prisma';
+import prisma from '@/lib/prisma';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -7,27 +7,41 @@ export const runtime = 'nodejs';
 export async function GET() {
   try {
     const patients = await prisma.patient.findMany({
-      select: {
-        id: true,
-        firstName: true,
-        lastName: true,
-        sport: true,
-        injury: true,
-        lastAppointment: true,
-        nutritionalStatus: true,
-        progressionStatus: true,
-        profilePictureUrl: true,
+      include: {
+        user: {
+          select: {
+            firstName: true,
+            lastName: true,
+            email: true,
+            phoneNumber: true,
+            photoUrl: true
+          }
+        }
       },
       orderBy: {
         lastAppointment: 'desc'
       }
     });
 
-    return NextResponse.json(patients);
+    const formattedPatients = patients.map(patient => ({
+      id: patient.id,
+      firstName: patient.user.firstName,
+      lastName: patient.user.lastName,
+      email: patient.user.email,
+      phoneNumber: patient.user.phoneNumber,
+      photoUrl: patient.user.photoUrl,
+      sport: patient.sport,
+      injury: patient.injury,
+      lastAppointment: patient.lastAppointment,
+      nutritionalStatus: patient.nutritionalStatus,
+      progressionStatus: patient.progressionStatus
+    }));
+
+    return NextResponse.json(formattedPatients);
   } catch (error) {
     console.error('Error fetching patients:', error);
     return NextResponse.json(
-      { message: 'Error fetching patients', error: error.message },
+      { error: 'Failed to fetch patients' },
       { status: 500 }
     );
   }

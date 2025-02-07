@@ -1,0 +1,185 @@
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  padding: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.form::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 16px;
+  padding: 1px;
+  background: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 114, 28, 0.2),
+    rgba(255, 255, 255, 0.1)
+  );
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+.field {
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: rgba(255, 114, 28, 0.5);
+  box-shadow: 0 0 0 2px rgba(255, 114, 28, 0.2);
+}
+
+.field select {
+  cursor: pointer;
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, rgba(255, 114, 28, 0.5) 50%),
+                    linear-gradient(135deg, rgba(255, 114, 28, 0.5) 50%, transparent 50%);
+  background-position: 
+    calc(100% - 20px) calc(1em + 2px),
+    calc(100% - 15px) calc(1em + 2px);
+  background-size: 
+    5px 5px,
+    5px 5px;
+  background-repeat: no-repeat;
+}
+
+.field select option {
+  background: #1a1a1a;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 100px;
+  font-family: inherit;
+}
+
+.preview {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  z-index: 1;
+}
+
+.preview h3 {
+  margin: 0 0 1rem 0;
+  color: #FF721C;
+  font-size: 1.2rem;
+}
+
+.preview p {
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0.5rem 0;
+  line-height: 1.5;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.button {
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(255, 114, 28, 0.1),
+    transparent
+  );
+  transform: translateX(-100%);
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.button:hover::before {
+  transform: translateX(100%);
+}
+
+.cancelButton {
+  composes: button;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.cancelButton:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-1px);
+}
+
+.submitButton {
+  composes: button;
+  background: rgba(255, 114, 28, 0.1);
+  border: 1px solid rgba(255, 114, 28, 0.3);
+  color: #FF721C;
+}
+
+.submitButton:hover {
+  background: rgba(255, 114, 28, 0.15);
+  border-color: rgba(255, 114, 28, 0.4);
+  transform: translateY(-1px);
+  box-shadow: 
+    0 4px 15px rgba(255, 114, 28, 0.2),
+    0 0 0 1px rgba(255, 114, 28, 0.1);
+}

@@ -1,304 +1,202 @@
-import { PrismaClient, UserRole, ConsultationType, Disponibilite, ModeReglement, StatutConventionnement, NutritionalStatus, ProgressionStatus } from '@prisma/client';
+import { PrismaClient, UserRole, ConsultationType, Disponibilite, ModeReglement, StatutConventionnement, NutritionalStatus, ProgressionStatus, Specialty, ContactMethod } from '@prisma/client';
 import { hash } from 'bcrypt';
 
 const prisma = new PrismaClient();
 
-const professionnels = [
+const healthProfessionals = [
   {
-    email: 'hulk@avengers.med',
-    password: await hash('password123', 10),
-    prenom: 'Bruce',
-    nom: 'Banner',
-    telephone: '0666666666',
-    photo_url: '/img/professionel/Hulk.jpg',
-    role: UserRole.MEDECIN,
-    specialisation: 'Radiologie',
-    sous_specialite: 'Exposition aux rayons gamma',
-    diplomes_urls: ['harvard.pdf', 'gamma-research.pdf'],
-    numero_adeli: '123456789',
-    numero_rpps: '12345678901',
-    consultation_type: [ConsultationType.PRESENTIEL],
-    tarif_consultation: 150.00,
-    statut_conventionnement: StatutConventionnement.SECTEUR_2,
-    modes_reglement: [ModeReglement.CB, ModeReglement.VIREMENT],
-    carte_vitale: true,
-    description: "Spécialiste en radiologie et expert en rayons gamma. Peut avoir des accès de colère pendant les consultations. Merci de ne pas contrarier le médecin.",
-    experience_annees: 15,
-    langues_parlees: ['Français', 'Anglais', 'Hulk'],
-    horaire_ouverture: '09:00',
-    horaire_fermeture: '17:00',
-    duree_consultation: 30,
-    jours_travail: ['LUNDI', 'MERCREDI', 'VENDREDI'],
-    disponibilite: Disponibilite.DISPONIBLE,
-    delai_rdv_moyen: 7,
-    adresse_rue: '177A Bleecker Street',
-    ville: 'New York',
-    code_postal: '10012',
-    pays: 'USA',
-    acces_pmr: true,
-    parking: true,
-    equipements: ['Scanner gamma', 'Salle de décompression', 'Murs renforcés'],
-    accepte_urgences: true,
-    taux_remplissage: 0.8
+    user: {
+      email: 'chopper.nutritionist@tuatha.app',
+      password: await hash('password123', 10),
+      firstName: 'Tony',
+      lastName: 'Tony',
+      role: UserRole.HEALTH_PROFESSIONAL,
+      phoneNumber: '0677777777',
+      photoUrl: '/img/professionel/chopper.jpg'
+    },
+    professional: {
+      specialty: Specialty.NUTRITIONIST,
+      subSpecialty: 'Médecine d\'aventure',
+      availability: {
+        monday: true,
+        tuesday: true,
+        wednesday: true,
+        thursday: true,
+        friday: true
+      },
+      preferredContactMethod: ContactMethod.EMAIL,
+      emergencyContact: true,
+      consultationTypes: [ConsultationType.PRESENTIEL, ConsultationType.VISIO],
+      consultationFee: 80.00,
+      conventionStatus: StatutConventionnement.SECTEUR_1,
+      paymentMethods: [ModeReglement.CB, ModeReglement.ESPECES, ModeReglement.TIERS_PAYANT],
+      acceptsHealthCard: true,
+      description: "Médecin polyvalent spécialisé dans les soins d'urgence en mer.",
+      yearsExperience: 5,
+      spokenLanguages: ['Français', 'Anglais', 'Animal'],
+      openingTime: '08:00',
+      closingTime: '20:00',
+      consultationDuration: 20,
+      workingDays: ['LUNDI', 'MARDI', 'MERCREDI', 'JEUDI', 'VENDREDI'],
+      disponibilite: Disponibilite.DISPONIBLE,
+      averageWaitTime: 1,
+      street: 'Thousand Sunny',
+      city: 'Grand Line',
+      postalCode: '00001',
+      country: 'Seas',
+      handicapAccess: true,
+      parking: false,
+      equipment: ['Rumble Balls', 'Cabinet mobile', 'Herbes médicinales'],
+      acceptsEmergencies: true,
+      occupancyRate: 0.9,
+      adeliNumber: '987654321',
+      rppsNumber: '98765432101',
+      diplomas: ['drum-kingdom-university.pdf']
+    }
   },
   {
-    email: 'chopper@sunny.med',
-    password: await hash('password123', 10),
-    prenom: 'Tony Tony',
-    nom: 'Chopper',
-    telephone: '0677777777',
-    photo_url: '/img/professionel/chopper.jpg',
-    role: UserRole.MEDECIN,
-    specialisation: 'Médecine générale',
-    sous_specialite: 'Médecine d\'aventure',
-    diplomes_urls: ['drum-kingdom-university.pdf'],
-    numero_adeli: '987654321',
-    numero_rpps: '98765432101',
-    consultation_type: [ConsultationType.PRESENTIEL, ConsultationType.VISIO],
-    tarif_consultation: 80.00,
-    statut_conventionnement: StatutConventionnement.SECTEUR_1,
-    modes_reglement: [ModeReglement.CB, ModeReglement.ESPECES, ModeReglement.TIERS_PAYANT],
-    carte_vitale: true,
-    description: "Médecin polyvalent spécialisé dans les soins d'urgence en mer. Accepte les patients de toutes espèces. N'est pas un tanuki.",
-    experience_annees: 5,
-    langues_parlees: ['Français', 'Anglais', 'Animal'],
-    horaire_ouverture: '08:00',
-    horaire_fermeture: '20:00',
-    duree_consultation: 20,
-    jours_travail: ['LUNDI', 'MARDI', 'MERCREDI', 'JEUDI', 'VENDREDI'],
-    disponibilite: Disponibilite.DISPONIBLE,
-    delai_rdv_moyen: 1,
-    adresse_rue: 'Thousand Sunny',
-    ville: 'Grand Line',
-    code_postal: '00001',
-    pays: 'Seas',
-    acces_pmr: true,
-    parking: false,
-    equipements: ['Rumble Balls', 'Cabinet mobile', 'Herbes médicinales'],
-    accepte_urgences: true,
-    taux_remplissage: 0.9
+    user: {
+      email: 'tsunade.dietitian@tuatha.app',
+      password: await hash('password123', 10),
+      firstName: 'Tsunade',
+      lastName: 'Senju',
+      role: UserRole.HEALTH_PROFESSIONAL,
+      phoneNumber: '0688888888',
+      photoUrl: '/img/professionel/tsunade.jpg'
+    },
+    professional: {
+      specialty: Specialty.DIETITIAN,
+      subSpecialty: 'Ninjutsu médical',
+      availability: {
+        monday: true,
+        wednesday: true,
+        friday: true
+      },
+      preferredContactMethod: ContactMethod.PHONE,
+      emergencyContact: true,
+      consultationTypes: [ConsultationType.PRESENTIEL],
+      consultationFee: 200.00,
+      conventionStatus: StatutConventionnement.SECTEUR_2,
+      paymentMethods: [ModeReglement.CB, ModeReglement.ESPECES],
+      acceptsHealthCard: true,
+      description: "Chirurgienne de génie et experte en médecine ninja.",
+      yearsExperience: 50,
+      spokenLanguages: ['Français', 'Japonais', 'Ninja'],
+      openingTime: '10:00',
+      closingTime: '16:00',
+      consultationDuration: 30,
+      workingDays: ['LUNDI', 'MERCREDI', 'VENDREDI'],
+      disponibilite: Disponibilite.DISPONIBLE,
+      averageWaitTime: 14,
+      street: 'Tour de l\'Hokage',
+      city: 'Konoha',
+      postalCode: '12345',
+      country: 'Pays du Feu',
+      handicapAccess: true,
+      parking: true,
+      equipment: ['Bloc opératoire', 'Salle de régénération', 'Machine à sous'],
+      acceptsEmergencies: true,
+      occupancyRate: 0.6,
+      adeliNumber: '258369147',
+      rppsNumber: '25836914701',
+      diplomas: ['konoha-medical.pdf', 'hokage-certificate.pdf']
+    }
   },
   {
-    email: 'orihime@karakura.med',
-    password: await hash('password123', 10),
-    prenom: 'Orihime',
-    nom: 'Inoue',
-    telephone: '0688888888',
-    photo_url: '/img/professionel/orihime.jpg',
-    role: UserRole.MEDECIN,
-    specialisation: 'Médecine régénérative',
-    sous_specialite: 'Soins spirituels',
-    diplomes_urls: ['karakura-healing.pdf'],
-    numero_adeli: '456789123',
-    numero_rpps: '45678912301',
-    consultation_type: [ConsultationType.PRESENTIEL],
-    tarif_consultation: 95.00,
-    statut_conventionnement: StatutConventionnement.SECTEUR_1,
-    modes_reglement: [ModeReglement.CB],
-    carte_vitale: true,
-    description: "Spécialiste en soins régénératifs instantanés. Utilise une approche holistique avec ses Shun Shun Rikka. Propose des plats originaux pendant la convalescence.",
-    experience_annees: 3,
-    langues_parlees: ['Français', 'Japonais'],
-    horaire_ouverture: '10:00',
-    horaire_fermeture: '18:00',
-    duree_consultation: 45,
-    jours_travail: ['MARDI', 'JEUDI', 'SAMEDI'],
-    disponibilite: Disponibilite.DISPONIBLE,
-    delai_rdv_moyen: 2,
-    adresse_rue: '2-15-1 Karakura',
-    ville: 'Tokyo',
-    code_postal: '162-0845',
-    pays: 'Japon',
-    acces_pmr: true,
-    parking: true,
-    equipements: ['Barrière spirituelle', 'Salle de méditation', 'Cuisine expérimentale'],
-    accepte_urgences: true,
-    taux_remplissage: 0.7
+    user: {
+      email: 'sanji.nutritionist@tuatha.app',
+      password: await hash('password123', 10),
+      firstName: 'Sanji',
+      lastName: 'Vinsmoke',
+      role: UserRole.HEALTH_PROFESSIONAL,
+      phoneNumber: '0699999999',
+      photoUrl: '/img/professionel/sanji.jpg'
+    },
+    professional: {
+      specialty: Specialty.NUTRITIONIST,
+      subSpecialty: 'Cuisine thérapeutique',
+      availability: {
+        tuesday: true,
+        thursday: true,
+        saturday: true
+      },
+      preferredContactMethod: ContactMethod.EMAIL,
+      emergencyContact: true,
+      consultationTypes: [ConsultationType.PRESENTIEL, ConsultationType.VISIO],
+      consultationFee: 90.00,
+      conventionStatus: StatutConventionnement.SECTEUR_1,
+      paymentMethods: [ModeReglement.CB, ModeReglement.ESPECES],
+      acceptsHealthCard: true,
+      description: "Expert en nutrition et cuisine thérapeutique.",
+      yearsExperience: 10,
+      spokenLanguages: ['Français', 'Anglais', 'Love'],
+      openingTime: '11:00',
+      closingTime: '23:00',
+      consultationDuration: 40,
+      workingDays: ['LUNDI', 'MARDI', 'MERCREDI', 'JEUDI', 'VENDREDI', 'SAMEDI'],
+      disponibilite: Disponibilite.DISPONIBLE,
+      averageWaitTime: 3,
+      street: 'Baratie Restaurant',
+      city: 'East Blue',
+      postalCode: '11111',
+      country: 'Seas',
+      handicapAccess: true,
+      parking: false,
+      equipment: ['Cuisine professionnelle', 'Jardin d\'herbes', 'Cave à vin médicinale'],
+      acceptsEmergencies: true,
+      occupancyRate: 0.95,
+      adeliNumber: '147258369',
+      rppsNumber: '14725836901',
+      diplomas: ['baratie-culinary.pdf', 'all-blue-research.pdf']
+    }
   },
   {
-    email: 'recovery@ua.med',
-    password: await hash('password123', 10),
-    prenom: 'Chiyo',
-    nom: 'Shuzenji',
-    telephone: '0699999999',
-    photo_url: '/img/professionel/recovery-girl.jpg',
-    role: UserRole.MEDECIN,
-    specialisation: 'Pédiatrie',
-    sous_specialite: 'Traumatologie des super-héros',
-    diplomes_urls: ['ua-medical.pdf', 'hero-medicine.pdf'],
-    numero_adeli: '789123456',
-    numero_rpps: '78912345601',
-    consultation_type: [ConsultationType.PRESENTIEL, ConsultationType.HYBRIDE],
-    tarif_consultation: 120.00,
-    statut_conventionnement: StatutConventionnement.SECTEUR_2,
-    modes_reglement: [ModeReglement.CB, ModeReglement.TIERS_PAYANT],
-    carte_vitale: true,
-    description: "Infirmière scolaire spécialisée dans les soins aux jeunes héros. Attention : les soins peuvent épuiser le patient.",
-    experience_annees: 40,
-    langues_parlees: ['Français', 'Japonais', 'Anglais'],
-    horaire_ouverture: '07:00',
-    horaire_fermeture: '19:00',
-    duree_consultation: 15,
-    jours_travail: ['LUNDI', 'MARDI', 'MERCREDI', 'JEUDI', 'VENDREDI'],
-    disponibilite: Disponibilite.DISPONIBLE,
-    delai_rdv_moyen: 0,
-    adresse_rue: 'UA High School',
-    ville: 'Musutafu',
-    code_postal: '321-654',
-    pays: 'Japon',
-    acces_pmr: true,
-    parking: true,
-    equipements: ['Lits de récupération', 'Stock de bonbons', 'Défibrillateur Plus Ultra'],
-    accepte_urgences: true,
-    taux_remplissage: 1.0
-  },
-  {
-    email: 'saitama@hero.med',
-    password: await hash('password123', 10),
-    prenom: 'Saitama',
-    nom: 'Sensei',
-    telephone: '0611111111',
-    photo_url: '/img/professionel/saitama.jpg',
-    role: UserRole.MEDECIN,
-    specialisation: 'Préparation physique',
-    sous_specialite: 'Renforcement musculaire extrême',
-    diplomes_urls: ['self-training.pdf'],
-    numero_adeli: '321654987',
-    numero_rpps: '32165498701',
-    consultation_type: [ConsultationType.PRESENTIEL],
-    tarif_consultation: 50.00,
-    statut_conventionnement: StatutConventionnement.NON_CONVENTIONNE,
-    modes_reglement: [ModeReglement.ESPECES],
-    carte_vitale: false,
-    description: "Coach sportif minimaliste. Programme : 100 pompes, 100 squats, 100 abdos et 10km de course. TOUS LES JOURS !",
-    experience_annees: 3,
-    langues_parlees: ['Français', 'Japonais'],
-    horaire_ouverture: '14:00',
-    horaire_fermeture: '17:00',
-    duree_consultation: 60,
-    jours_travail: ['SAMEDI', 'DIMANCHE'],
-    disponibilite: Disponibilite.DISPONIBLE,
-    delai_rdv_moyen: 30,
-    adresse_rue: 'Z-City, Apt 666',
-    ville: 'Z-City',
-    code_postal: '666-666',
-    pays: 'Japon',
-    acces_pmr: false,
-    parking: false,
-    equipements: ['Zone d\'entraînement', 'Climatisation cassée', 'Manga'],
-    accepte_urgences: false,
-    taux_remplissage: 0.2
-  },
-  {
-    email: 'sanji@baratie.med',
-    password: await hash('password123', 10),
-    prenom: 'Sanji',
-    nom: 'Vinsmoke',
-    telephone: '0622222222',
-    photo_url: '/img/professionel/sanji.jpg',
-    role: UserRole.MEDECIN,
-    specialisation: 'Nutrition',
-    sous_specialite: 'Cuisine thérapeutique',
-    diplomes_urls: ['baratie-culinary.pdf', 'all-blue-research.pdf'],
-    numero_adeli: '147258369',
-    numero_rpps: '14725836901',
-    consultation_type: [ConsultationType.PRESENTIEL, ConsultationType.VISIO],
-    tarif_consultation: 90.00,
-    statut_conventionnement: StatutConventionnement.SECTEUR_1,
-    modes_reglement: [ModeReglement.CB, ModeReglement.ESPECES],
-    carte_vitale: true,
-    description: "Expert en nutrition et cuisine thérapeutique. Attention : comportement différent selon le genre du patient.",
-    experience_annees: 10,
-    langues_parlees: ['Français', 'Anglais', 'Love'],
-    horaire_ouverture: '11:00',
-    horaire_fermeture: '23:00',
-    duree_consultation: 40,
-    jours_travail: ['LUNDI', 'MARDI', 'MERCREDI', 'JEUDI', 'VENDREDI', 'SAMEDI'],
-    disponibilite: Disponibilite.DISPONIBLE,
-    delai_rdv_moyen: 3,
-    adresse_rue: 'Baratie Restaurant',
-    ville: 'East Blue',
-    code_postal: '11111',
-    pays: 'Seas',
-    acces_pmr: true,
-    parking: false,
-    equipements: ['Cuisine professionnelle', 'Jardin d\'herbes', 'Cave à vin médicinale'],
-    accepte_urgences: true,
-    taux_remplissage: 0.95
-  },
-  {
-    email: 'tsunade@konoha.med',
-    password: await hash('password123', 10),
-    prenom: 'Tsunade',
-    nom: 'Senju',
-    telephone: '0633333333',
-    photo_url: '/img/professionel/tsunade.jpg',
-    role: UserRole.MEDECIN,
-    specialisation: 'Chirurgie',
-    sous_specialite: 'Ninjutsu médical',
-    diplomes_urls: ['konoha-medical.pdf', 'hokage-certificate.pdf'],
-    numero_adeli: '258369147',
-    numero_rpps: '25836914701',
-    consultation_type: [ConsultationType.PRESENTIEL],
-    tarif_consultation: 200.00,
-    statut_conventionnement: StatutConventionnement.SECTEUR_2,
-    modes_reglement: [ModeReglement.CB, ModeReglement.ESPECES],
-    carte_vitale: true,
-    description: "Chirurgienne de génie et experte en médecine ninja. Possibilité de paris pendant la consultation (non remboursés).",
-    experience_annees: 50,
-    langues_parlees: ['Français', 'Japonais', 'Ninja'],
-    horaire_ouverture: '10:00',
-    horaire_fermeture: '16:00',
-    duree_consultation: 30,
-    jours_travail: ['LUNDI', 'MERCREDI', 'VENDREDI'],
-    disponibilite: Disponibilite.DISPONIBLE,
-    delai_rdv_moyen: 14,
-    adresse_rue: 'Tour de l\'Hokage',
-    ville: 'Konoha',
-    code_postal: '12345',
-    pays: 'Pays du Feu',
-    acces_pmr: true,
-    parking: true,
-    equipements: ['Bloc opératoire', 'Salle de régénération', 'Machine à sous'],
-    accepte_urgences: true,
-    taux_remplissage: 0.6
-  },
-  {
-    email: 'zeno@dragon.med',
-    password: await hash('password123', 10),
-    prenom: 'Zeno',
-    nom: 'Sama',
-    telephone: '0644444444',
-    photo_url: '/img/professionel/zeno.jpg',
-    role: UserRole.MEDECIN,
-    specialisation: 'Médecine universelle',
-    sous_specialite: 'Manipulation temporelle',
-    diplomes_urls: ['universe-7.pdf', 'all-universes.pdf'],
-    numero_adeli: '369147258',
-    numero_rpps: '36914725801',
-    consultation_type: [ConsultationType.PRESENTIEL, ConsultationType.VISIO, ConsultationType.HYBRIDE],
-    tarif_consultation: 1000.00,
-    statut_conventionnement: StatutConventionnement.NON_CONVENTIONNE,
-    modes_reglement: [ModeReglement.CB],
-    carte_vitale: false,
-    description: "Médecin omnipotent. Peut effacer l'univers en cas d'insatisfaction. Consultation sur recommandation divine uniquement.",
-    experience_annees: 1000000,
-    langues_parlees: ['Toutes'],
-    horaire_ouverture: '00:00',
-    horaire_fermeture: '23:59',
-    duree_consultation: 1,
-    jours_travail: ['LUNDI', 'MARDI', 'MERCREDI', 'JEUDI', 'VENDREDI', 'SAMEDI', 'DIMANCHE'],
-    disponibilite: Disponibilite.DISPONIBLE,
-    delai_rdv_moyen: 365,
-    adresse_rue: 'Palais de Zeno',
-    ville: 'Au-delà',
-    code_postal: '00000',
-    pays: 'Multivers',
-    acces_pmr: true,
-    parking: true,
-    equipements: ['Bouton de destruction universelle', 'Salle temporelle', 'Gardes divins'],
-    accepte_urgences: false,
-    taux_remplissage: 0.1
+    user: {
+      email: 'hulk.dietitian@tuatha.app',
+      password: await hash('password123', 10),
+      firstName: 'Bruce',
+      lastName: 'Banner',
+      role: UserRole.HEALTH_PROFESSIONAL,
+      phoneNumber: '0666666666',
+      photoUrl: '/img/professionel/hulk.jpg'
+    },
+    professional: {
+      specialty: Specialty.DIETITIAN,
+      subSpecialty: 'Radiologie',
+      availability: {
+        monday: true,
+        wednesday: true,
+        friday: true
+      },
+      preferredContactMethod: ContactMethod.SMS,
+      emergencyContact: true,
+      consultationTypes: [ConsultationType.PRESENTIEL],
+      consultationFee: 150.00,
+      conventionStatus: StatutConventionnement.SECTEUR_2,
+      paymentMethods: [ModeReglement.CB, ModeReglement.VIREMENT],
+      acceptsHealthCard: true,
+      description: "Spécialiste en radiologie et expert en rayons gamma.",
+      yearsExperience: 15,
+      spokenLanguages: ['Français', 'Anglais', 'Hulk'],
+      openingTime: '09:00',
+      closingTime: '17:00',
+      consultationDuration: 30,
+      workingDays: ['LUNDI', 'MERCREDI', 'VENDREDI'],
+      disponibilite: Disponibilite.DISPONIBLE,
+      averageWaitTime: 7,
+      street: '177A Bleecker Street',
+      city: 'New York',
+      postalCode: '10012',
+      country: 'USA',
+      handicapAccess: true,
+      parking: true,
+      equipment: ['Scanner gamma', 'Salle de décompression', 'Murs renforcés'],
+      acceptsEmergencies: true,
+      occupancyRate: 0.8,
+      adeliNumber: '123456789',
+      rppsNumber: '12345678901',
+      diplomas: ['harvard.pdf', 'gamma-research.pdf']
+    }
   }
 ];
 
@@ -308,7 +206,7 @@ const patients = [
     lastName: 'Wayne',
     email: 'batman@wayne-enterprises.com',
     phone: '0666666666',
-    profilePictureUrl: '/img/patient/batman.jpg',
+    profilePicture: '/img/patient/batman.jpg',
     sport: 'Arts Martiaux',
     injury: 'Multiples fractures dues aux chutes de buildings',
     lastAppointment: new Date('2025-02-05'),
@@ -320,7 +218,7 @@ const patients = [
     lastName: 'Midoriya',
     email: 'deku@ua.edu',
     phone: '0677777777',
-    profilePictureUrl: '/img/patient/deku.jpg',
+    profilePicture: '/img/patient/deku.jpg',
     sport: 'Super-Héroïsme',
     injury: 'Bras cassés à répétition (One For All)',
     lastAppointment: new Date('2025-02-04'),
@@ -332,7 +230,7 @@ const patients = [
     lastName: 'Goku',
     email: 'goku@capsule-corp.com',
     phone: '0688888888',
-    profilePictureUrl: '/img/patient/goku.jpg',
+    profilePicture: '/img/patient/goku.jpg',
     sport: 'Arts Martiaux',
     injury: 'Surmenage dû aux entraînements à 100x la gravité',
     lastAppointment: new Date('2025-02-03'),
@@ -344,7 +242,7 @@ const patients = [
     lastName: 'Stark',
     email: 'tony@stark-industries.com',
     phone: '0699999999',
-    profilePictureUrl: '/img/patient/ironman.jpg',
+    profilePicture: '/img/patient/ironman.jpg',
     sport: 'Vol en armure',
     injury: 'Problèmes cardiaques (réacteur ARK)',
     lastAppointment: new Date('2025-02-02'),
@@ -356,7 +254,7 @@ const patients = [
     lastName: 'Luffy',
     email: 'luffy@thousand-sunny.com',
     phone: '0611111111',
-    profilePictureUrl: '/img/patient/luffy.jpg',
+    profilePicture: '/img/patient/luffy.jpg',
     sport: 'Piraterie',
     injury: 'Élongation excessive des membres (fruit du Gomu Gomu)',
     lastAppointment: new Date('2025-02-01'),
@@ -368,7 +266,7 @@ const patients = [
     lastName: 'Uzumaki',
     email: 'naruto@konoha.gov',
     phone: '0622222222',
-    profilePictureUrl: '/img/patient/naruto.jpg',
+    profilePicture: '/img/patient/naruto.jpg',
     sport: 'Ninjutsu',
     injury: 'Épuisement de chakra',
     lastAppointment: new Date('2025-01-31'),
@@ -380,7 +278,7 @@ const patients = [
     lastName: 'Unknown',
     email: 'saitama@hero-association.org',
     phone: '0633333333',
-    profilePictureUrl: '/img/patient/saitama.jpg',
+    profilePicture: '/img/patient/saitama.jpg',
     sport: 'Super-Héroïsme',
     injury: 'Dépression due à la facilité des combats',
     lastAppointment: new Date('2025-01-30'),
@@ -392,7 +290,7 @@ const patients = [
     lastName: 'Parker',
     email: 'spidey@daily-bugle.com',
     phone: '0644444444',
-    profilePictureUrl: '/img/patient/spiderman.jpg',
+    profilePicture: '/img/patient/spiderman.jpg',
     sport: 'Acrobaties urbaines',
     injury: 'Tendinite aux poignets (lancer de toiles)',
     lastAppointment: new Date('2025-01-29'),
@@ -404,7 +302,7 @@ const patients = [
     lastName: 'Odinson',
     email: 'thor@asgard.realm',
     phone: '0655555555',
-    profilePictureUrl: '/img/patient/thor.jpg',
+    profilePicture: '/img/patient/thor.jpg',
     sport: 'Lancer de marteau',
     injury: 'Syndrome du canal carpien (Mjolnir)',
     lastAppointment: new Date('2025-01-28'),
@@ -416,73 +314,12 @@ const patients = [
     lastName: 'Prince',
     email: 'wonder@themyscira.com',
     phone: '0666123456',
-    profilePictureUrl: '/img/patient/wonderwoman.jpg',
+    profilePicture: '/img/patient/wonderwoman.jpg',
     sport: 'Combat amazonien',
     injury: 'Tendinite à l\'épaule (lancer de lasso)',
     lastAppointment: new Date('2025-01-27'),
     nutritionalStatus: NutritionalStatus.GOOD,
     progressionStatus: ProgressionStatus.IMPROVING
-  }
-];
-
-const healthProfessionals = [
-  {
-    firstName: 'Tony',
-    lastName: 'Tony',
-    email: 'chopper.nutritionist@tuatha.app',
-    phone: '+33612345678',
-    specialty: 'DOCTOR',
-    licenseNumber: 'NUT123456',
-    preferredContactMethod: 'EMAIL',
-    availability: JSON.stringify({
-      monday: ['9:00-12:00', '14:00-17:00'],
-      tuesday: ['9:00-12:00', '14:00-17:00'],
-      wednesday: ['9:00-12:00'],
-      thursday: ['14:00-17:00'],
-      friday: ['9:00-12:00', '14:00-17:00']
-    })
-  },
-  {
-    firstName: 'Tsunade',
-    lastName: 'Senju',
-    email: 'tsunade.dietitian@tuatha.app',
-    phone: '+33623456789',
-    specialty: 'DOCTOR',
-    licenseNumber: 'DIT789012',
-    preferredContactMethod: 'PHONE',
-    availability: JSON.stringify({
-      monday: ['10:00-18:00'],
-      wednesday: ['10:00-18:00'],
-      friday: ['10:00-18:00']
-    })
-  },
-  {
-    firstName: 'Sanji',
-    lastName: 'Vinsmoke',
-    email: 'sanji.nutritionist@tuatha.app',
-    phone: '+33634567890',
-    specialty: 'NUTRITIONIST',
-    licenseNumber: 'NUT345678',
-    preferredContactMethod: 'EMAIL',
-    availability: JSON.stringify({
-      tuesday: ['8:00-16:00'],
-      thursday: ['8:00-16:00'],
-      saturday: ['10:00-14:00']
-    })
-  },
-  {
-    firstName: 'Bruce',
-    lastName: 'Banner',
-    email: 'hulk.dietitian@tuatha.app',
-    phone: '+33645678901',
-    specialty: 'COACH',
-    licenseNumber: 'DIT901234',
-    preferredContactMethod: 'SMS',
-    availability: JSON.stringify({
-      monday: ['14:00-20:00'],
-      wednesday: ['14:00-20:00'],
-      friday: ['14:00-20:00']
-    })
   }
 ];
 
@@ -513,28 +350,233 @@ const patientHealthTeams = [
   }
 ];
 
+const foods = [
+  {
+    id: 'food_1',
+    name: "Poulet",
+    category: "Protéines",
+    calories: 165,
+    proteins: 31,
+    carbs: 0,
+    fats: 3.6,
+    description: "Viande maigre riche en protéines"
+  },
+  {
+    id: 'food_2',
+    name: "Saumon",
+    category: "Protéines",
+    calories: 208,
+    proteins: 22,
+    carbs: 0,
+    fats: 13,
+    description: "Poisson gras riche en oméga-3"
+  },
+  {
+    id: 'food_3',
+    name: "Quinoa",
+    category: "Céréales",
+    calories: 120,
+    proteins: 4.4,
+    carbs: 21.3,
+    fats: 1.9,
+    description: "Céréale complète riche en protéines végétales"
+  },
+  {
+    id: 'food_4',
+    name: "Avocat",
+    category: "Fruits",
+    calories: 160,
+    proteins: 2,
+    carbs: 8.5,
+    fats: 14.7,
+    description: "Fruit riche en graisses saines"
+  },
+  {
+    id: 'food_5',
+    name: "Épinards",
+    category: "Légumes",
+    calories: 23,
+    proteins: 2.9,
+    carbs: 3.6,
+    fats: 0.4,
+    description: "Légume vert riche en fer"
+  }
+];
+
+const supplements = [
+  {
+    name: 'Whey Protein',
+    type: 'Protéine',
+    description: 'Protéine de lactosérum de haute qualité',
+    dosage: '30g par portion',
+    frequency: '1-2 fois par jour',
+    sideEffects: ['Ballonnements possibles', 'Intolérance au lactose'],
+    warnings: ['Contient du lactose']
+  },
+  {
+    name: 'BCAA',
+    type: 'Acides aminés',
+    description: 'Acides aminés ramifiés essentiels',
+    dosage: '5-10g',
+    frequency: 'Avant ou pendant l\'entraînement',
+    sideEffects: ['Fatigue possible'],
+    warnings: ['Ne pas dépasser la dose recommandée']
+  },
+  {
+    name: 'Créatine',
+    type: 'Performance',
+    description: 'Améliore la force et la récupération musculaire',
+    dosage: '5g par jour',
+    frequency: 'Quotidien',
+    sideEffects: ['Rétention d\'eau'],
+    warnings: ['Maintenir une bonne hydratation']
+  }
+];
+
 async function main() {
   console.log('Start seeding...');
 
-  // Create professionals
-  for (const professionnel of professionnels) {
+  // Create health professionals
+  for (const hp of healthProfessionals) {
     const user = await prisma.user.create({
-      data: professionnel,
+      data: hp.user
     });
     console.log(`Created user with id: ${user.id}`);
+
+    const professional = await prisma.healthProfessional.create({
+      data: {
+        userId: user.id,
+        ...hp.professional
+      }
+    });
+    console.log(`Created professional with id: ${professional.id}`);
   }
 
   // Create patients
   for (const patient of patients) {
-    const createdPatient = await prisma.patient.upsert({
-      where: { email: patient.email },
-      update: patient,
-      create: patient,
+    const user = await prisma.user.create({
+      data: {
+        email: patient.email,
+        password: await hash('password123', 10),
+        firstName: patient.firstName,
+        lastName: patient.lastName,
+        role: UserRole.PATIENT,
+        phoneNumber: patient.phone,
+        photoUrl: patient.profilePicture
+      }
     });
-    console.log(`Created patient with id: ${createdPatient.id}`);
+    console.log(`Created user with id: ${user.id}`);
+
+    await prisma.patient.create({
+      data: {
+        userId: user.id,
+        sport: patient.sport,
+        injury: patient.injury,
+        lastAppointment: patient.lastAppointment,
+        nutritionalStatus: patient.nutritionalStatus,
+        progressionStatus: patient.progressionStatus
+      }
+    });
   }
 
-  console.log('Seeding finished.');
+  // Créer des exercices
+  const exercises = await prisma.exercise.createMany({
+    data: [
+      {
+        name: "Squat",
+        description: "Un exercice fondamental pour renforcer les jambes",
+        videoUrl: "https://example.com/squat.mp4",
+        imageUrl: "/exercises/squat.jpg",
+        category: "LOWER_BODY",
+        difficulty: "INTERMEDIATE",
+        equipment: ["BODYWEIGHT"],
+        muscleGroups: ["QUADRICEPS", "HAMSTRINGS", "GLUTES"]
+      },
+      {
+        name: "Pompes",
+        description: "Excellent exercice pour le haut du corps",
+        videoUrl: "https://example.com/pushup.mp4",
+        imageUrl: "/exercises/pushup.jpg",
+        category: "UPPER_BODY",
+        difficulty: "BEGINNER",
+        equipment: ["BODYWEIGHT"],
+        muscleGroups: ["CHEST", "SHOULDERS", "TRICEPS"]
+      },
+      {
+        name: "Planche",
+        description: "Renforce les abdominaux et améliore la stabilité",
+        videoUrl: "https://example.com/plank.mp4",
+        imageUrl: "/exercises/plank.jpg",
+        category: "CORE",
+        difficulty: "BEGINNER",
+        equipment: ["BODYWEIGHT"],
+        muscleGroups: ["CORE", "SHOULDERS"]
+      }
+    ]
+  });
+
+  // Créer un programme d'exemple
+  const luffyUser = await prisma.user.findFirst({ 
+    where: { email: 'luffy@thousand-sunny.com' },
+    include: { patient: true }
+  });
+  const chopperUser = await prisma.user.findFirst({ 
+    where: { email: 'chopper.nutritionist@tuatha.app' },
+    include: { healthProfessional: true }
+  });
+
+  const program = await prisma.program.create({
+    data: {
+      title: "Programme de Renforcement Débutant",
+      description: "Un programme complet pour débutants visant à améliorer la force générale",
+      startDate: new Date(),
+      status: "ACTIVE",
+      patientId: luffyUser.patient.id,
+      healthProfessionalId: chopperUser.healthProfessional.id,
+      exercises: {
+        create: [
+          {
+            exerciseId: (await prisma.exercise.findFirst({ where: { name: "Squat" } })).id,
+            sets: 3,
+            reps: 12,
+            notes: "Gardez le dos droit et descendez jusqu'à ce que vos cuisses soient parallèles au sol"
+          },
+          {
+            exerciseId: (await prisma.exercise.findFirst({ where: { name: "Pompes" } })).id,
+            sets: 3,
+            reps: 10,
+            notes: "Commencez sur les genoux si nécessaire"
+          },
+          {
+            exerciseId: (await prisma.exercise.findFirst({ where: { name: "Planche" } })).id,
+            sets: 3,
+            duration: 30,
+            notes: "Maintenez la position pendant 30 secondes"
+          }
+        ]
+      }
+    }
+  });
+
+  // Seed Foods
+  for (const food of foods) {
+    await prisma.food.upsert({
+      where: { id: food.id },
+      update: food,
+      create: food,
+    });
+  }
+
+  // Seed Supplements
+  for (const supplement of supplements) {
+    await prisma.supplement.upsert({
+      where: { name: supplement.name },
+      update: supplement,
+      create: supplement,
+    });
+  }
+
+  console.log('Seeding finished');
 }
 
 main()
