@@ -1,0 +1,429 @@
+.networkMap {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 20px;
+  background: rgba(17, 25, 40, 0.3);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  overflow: visible;
+}
+
+.title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0 0 20px 0;
+  color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+  letter-spacing: 0.5px;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.title:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, rgba(255, 114, 28, 0.2), rgba(255, 114, 28, 0.8), rgba(255, 114, 28, 0.2));
+  border-radius: 3px;
+}
+
+.canvasContainer {
+  width: 100%;
+  position: relative;
+  height: 450px;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  overflow: visible;
+  transition: all 0.3s ease;
+  background: rgba(0, 0, 0, 0.15);
+  display: block;
+}
+
+.canvasContainer:hover {
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 114, 28, 0.2);
+}
+
+.canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  background: radial-gradient(circle at center, rgba(255, 114, 28, 0.05) 0%, rgba(0, 0, 0, 0.05) 70%);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.legend {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 25px;
+  padding: 15px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.9);
+  transition: all 0.2s ease;
+}
+
+.legendItem:hover {
+  background: rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.legendColor {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  margin-right: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.tooltip {
+  position: absolute;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 6px;
+  font-size: 14px;
+  z-index: 1000;
+  pointer-events: none;
+  max-width: 250px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.tooltip.visible {
+  opacity: 1;
+}
+
+.nodeCircle {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.nodeCircle:hover {
+  transform: scale(1.1);
+}
+
+.nodeName {
+  font-size: 13px;
+  fill: #fff;
+  text-anchor: middle;
+  pointer-events: none;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.nodeImage {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  clip-path: circle(50%);
+  border: 2px solid white;
+}
+
+@media (max-width: 768px) {
+  .networkMap {
+    padding: 15px;
+  }
+  
+  .title {
+    font-size: 1.2rem;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .canvasContainer {
+    height: 350px;
+  }
+  
+  .legend {
+    padding: 10px;
+    margin-top: 15px;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .legendItem {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+.networkCanvas {
+  width: 100%;
+  height: 100%;
+  min-height: 350px;
+  border-radius: 12px;
+}
+
+.networkContainer {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  min-height: 350px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.patientNode {
+  position: absolute;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: rgba(255, 114, 28, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 2px solid rgba(255, 114, 28, 0.8);
+  box-shadow: 0 6px 24px rgba(255, 114, 28, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.professionalNode {
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.professionalNode:hover, .selectedProfessional {
+  transform: scale(1.08);
+  border: 2px solid rgba(255, 114, 28, 0.8);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
+}
+
+.selectedProfessional {
+  box-shadow: 0 0 25px rgba(255, 214, 0, 0.4);
+}
+
+.network {
+  width: 100%;
+  height: 100%;
+}
+
+.nodeTooltip {
+  position: absolute;
+  padding: 15px;
+  border-radius: 8px;
+  background: rgba(26, 32, 53, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 1000;
+  max-width: 250px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+  font-size: 0.9rem;
+}
+
+.tooltipHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.tooltipAvatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  margin-right: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.tooltipInfo {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tooltipInfoItem {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.tooltipLabel {
+  color: rgba(255, 255, 255, 0.6);
+  margin-right: 10px;
+}
+
+.tooltipValue {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
+
+/* Style pour les données */
+.dataHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.dataTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.dataActions {
+  display: flex;
+  gap: 8px;
+}
+
+.dataActionButton {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: rgba(255, 255, 255, 0.8);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dataActionButton:hover {
+  background: rgba(255, 114, 28, 0.2);
+  color: rgba(255, 255, 255, 1);
+}
+
+/* Animations */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 114, 28, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 20px rgba(255, 114, 28, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 114, 28, 0);
+  }
+}
+
+.pulseAnimation {
+  animation: pulse 2s infinite;
+}
+
+/* Style pour les lignes de connexion */
+.connection {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: drawLine 2s ease forwards;
+}
+
+@keyframes drawLine {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.emptyState p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.1rem;
+  margin-top: 15px;
+}
+
+.mapHelp {
+  text-align: center;
+  margin-top: 12px;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+}
+
+.doctorColor {
+  background-color: #4169E1;
+}
+
+.physiotherapistColor {
+  background-color: #32CD32;
+}
+
+.trainerColor {
+  background-color: #FF8C00;
+}
+
+.nutritionistColor {
+  background-color: #8A2BE2;
+}
+
+.dietitianColor {
+  background-color: #20B2AA;
+}

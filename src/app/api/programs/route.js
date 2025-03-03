@@ -1,5 +1,7 @@
-import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 
 // GET - Récupérer tous les programmes ou un programme spécifique
 export async function GET(request) {
@@ -32,13 +34,22 @@ export async function GET(request) {
       });
 
       if (!program) {
-        return NextResponse.json(
-          { error: 'Program not found' },
-          { status: 404 }
+        return new Response(
+          JSON.stringify({ error: 'Program not found' }),
+          { 
+            status: 404,
+            headers: { 'Content-Type': 'application/json' }
+          }
         );
       }
 
-      return NextResponse.json(program);
+      return new Response(
+        JSON.stringify(program),
+        { 
+          status: 200,
+          headers: { 'Content-Type': 'application/json' }
+        }
+      );
     }
 
     const where = status ? { status } : {};
@@ -64,12 +75,21 @@ export async function GET(request) {
       }
     });
 
-    return NextResponse.json(programs);
+    return new Response(
+      JSON.stringify(programs),
+      { 
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      }
+    );
   } catch (error) {
     console.error('Error fetching programs:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch programs' },
-      { status: 500 }
+    return new Response(
+      JSON.stringify({ error: 'Failed to fetch programs' }),
+      { 
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      }
     );
   }
 }
@@ -81,7 +101,7 @@ export async function POST(request) {
 
     // Validation des données requises
     if (!data.title || !data.patientId || !data.healthProfessionalId || !data.startDate) {
-      return NextResponse.json(
+      return json(
         { error: 'Missing required fields' },
         { status: 400 }
       );
@@ -129,10 +149,10 @@ export async function POST(request) {
       }
     });
 
-    return NextResponse.json(program);
+    return json(program);
   } catch (error) {
     console.error('Error creating program:', error);
-    return NextResponse.json(
+    return json(
       { error: 'Failed to create program' },
       { status: 500 }
     );
@@ -146,7 +166,7 @@ export async function PUT(request) {
     const id = searchParams.get('id');
     
     if (!id) {
-      return NextResponse.json(
+      return json(
         { error: 'Program ID is required' },
         { status: 400 }
       );
@@ -160,7 +180,7 @@ export async function PUT(request) {
     });
 
     if (!existingProgram) {
-      return NextResponse.json(
+      return json(
         { error: 'Program not found' },
         { status: 404 }
       );
@@ -209,10 +229,10 @@ export async function PUT(request) {
       }
     });
 
-    return NextResponse.json(program);
+    return json(program);
   } catch (error) {
     console.error('Error updating program:', error);
-    return NextResponse.json(
+    return json(
       { error: 'Failed to update program' },
       { status: 500 }
     );
@@ -226,7 +246,7 @@ export async function DELETE(request) {
     const id = searchParams.get('id');
     
     if (!id) {
-      return NextResponse.json(
+      return json(
         { error: 'Program ID is required' },
         { status: 400 }
       );
@@ -243,7 +263,7 @@ export async function DELETE(request) {
     });
 
     if (!existingProgram) {
-      return NextResponse.json(
+      return json(
         { error: 'Program not found' },
         { status: 404 }
       );
@@ -283,10 +303,10 @@ export async function DELETE(request) {
       });
     });
 
-    return NextResponse.json({ success: true });
+    return json({ success: true });
   } catch (error) {
     console.error('Error deleting program:', error);
-    return NextResponse.json(
+    return json(
       { error: 'Failed to delete program: ' + error.message },
       { status: 500 }
     );

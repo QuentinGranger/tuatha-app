@@ -1,0 +1,146 @@
+.financialSummaryContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.summaryCards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  width: 100%;
+}
+
+.summaryCard {
+  display: flex;
+  align-items: center;
+  padding: 24px;
+  background: rgba(17, 25, 40, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.summaryCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+  pointer-events: none;
+}
+
+.summaryCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.cardIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 136, 0, 0.15);
+  border-radius: 12px;
+  color: #FF8800;
+  margin-right: 16px;
+  transition: all 0.3s ease;
+}
+
+.iconPaid {
+  background: rgba(39, 174, 96, 0.15);
+  color: #27AE60;
+}
+
+.iconPending {
+  background: rgba(255, 194, 41, 0.15);
+  color: #FFC229;
+}
+
+.cardContent {
+  flex: 1;
+}
+
+.cardContent h3 {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 0 4px 0;
+}
+
+.amount {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.95);
+  margin-bottom: 2px;
+}
+
+.period {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Barre de progression */
+.progressContainer {
+  padding: 16px 24px;
+  background: rgba(17, 25, 40, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  backdrop-filter: blur(12px);
+}
+
+.progressLabel {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.progressBar {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #FF8800, #FFA340);
+  border-radius: 4px;
+  transition: width 1s ease-in-out;
+}
+
+/* Media queries pour la responsivité */
+@media (max-width: 1024px) {
+  .summaryCards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .summaryCards {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 580px) {
+  .summaryCards {
+    grid-template-columns: 1fr;
+  }
+  
+  .summaryCard {
+    padding: 16px;
+  }
+}

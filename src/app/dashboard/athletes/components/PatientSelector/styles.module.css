@@ -1,0 +1,191 @@
+.container {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 300px;
+  height: calc(100vh - 180px);
+  display: flex;
+  flex-direction: column;
+}
+
+.loading {
+  padding: 1rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.search {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: white;
+  font-size: 0.875rem;
+}
+
+.searchInput::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.5rem;
+}
+
+.patientsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.patient {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  text-align: left;
+}
+
+.patient:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.patient.selected {
+  background: rgba(255, 114, 28, 0.1);
+}
+
+.avatar {
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
+
+.avatar img {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.status {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 0, 0, 0.5);
+}
+
+.good {
+  background: #4CAF50;
+}
+
+.average {
+  background: #FFC107;
+}
+
+.critical {
+  background: #F44336;
+}
+
+.info {
+  flex: 1;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.name {
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sport {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.75rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.alerts {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.alert {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: white;
+}
+
+.nutrition {
+  background: rgba(255, 114, 28, 0.9);
+}
+
+.injury {
+  background: rgba(244, 67, 54, 0.9);
+}
+
+/* Media queries pour la responsivité */
+@media (max-width: 1200px) {
+  .container {
+    max-width: 100%;
+    height: auto;
+    max-height: 180px;
+  }
+  
+  .patientsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+  
+  .list {
+    max-height: 120px;
+  }
+}
+
+/* Pour les écrans très petits */
+@media (max-width: 480px) {
+  .search {
+    padding: 0.5rem;
+  }
+  
+  .patient {
+    padding: 0.5rem;
+  }
+  
+  .name {
+    font-size: 0.9rem;
+  }
+  
+  .sport {
+    font-size: 0.75rem;
+  }
+}

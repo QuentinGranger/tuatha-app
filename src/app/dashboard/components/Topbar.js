@@ -90,6 +90,7 @@ export default function Topbar() {
           throw new Error('Failed to fetch health professional');
         }
         const data = await response.json();
+        // L'API peut renvoyer directement un objet ou un objet avec une propriété healthProfessional
         setHealthProfessional(data);
       } catch (error) {
         console.error('Error fetching health professional:', error);

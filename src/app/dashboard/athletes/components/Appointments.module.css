@@ -1,0 +1,648 @@
+.container {
+  color: var(--color-text);
+}
+
+.emptyState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  font-size: 1.1rem;
+  color: var(--color-text-light);
+  font-style: italic;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.headerLeft {
+  display: flex;
+  gap: 16px;
+}
+
+.viewToggle {
+  display: flex;
+  align-items: center;
+  background: rgba(30, 41, 59, 0.4);
+  border-radius: 10px;
+  padding: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.viewButton {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--color-text-light);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.viewButton:hover {
+  color: var(--color-text);
+}
+
+.viewButton.active {
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.2), rgba(251, 146, 60, 0.2));
+  color: var(--color-accent);
+  font-weight: 500;
+}
+
+.monthSelector {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(30, 41, 59, 0.4);
+  border-radius: 10px;
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.month {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.monthArrow {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--color-text-light);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.monthArrow:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--color-text);
+}
+
+.newAppointmentButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: linear-gradient(135deg, var(--color-accent), #fb923c);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.newAppointmentButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+}
+
+/* Calendar View */
+.calendar {
+  background: rgba(30, 41, 59, 0.4);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+}
+
+.calendarHeader {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background: rgba(15, 23, 42, 0.3);
+  padding: 14px 0;
+}
+
+.dayName {
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.calendarBody {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-auto-rows: minmax(120px, auto);
+}
+
+.calendarDay {
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 10px;
+  min-height: 120px;
+  position: relative;
+}
+
+.calendarDay.otherMonth {
+  background: rgba(15, 23, 42, 0.2);
+  color: var(--color-text-light);
+  opacity: 0.7;
+}
+
+.calendarDay.today {
+  background: rgba(249, 115, 22, 0.05);
+}
+
+.calendarDay.hasAppointments {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.dayNumber {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text);
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.calendarDay.today .dayNumber {
+  background: var(--color-accent);
+  color: white;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.appointments {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 85px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.appointments::-webkit-scrollbar {
+  width: 4px;
+}
+
+.appointments::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.appointments::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+}
+
+.appointmentPill {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.appointmentPill:hover {
+  transform: translateY(-2px);
+}
+
+.appointmentPill.nutrition {
+  background: linear-gradient(90deg, rgba(249, 115, 22, 0.9), rgba(251, 146, 60, 0.9));
+}
+
+.appointmentPill.medical {
+  background: linear-gradient(90deg, rgba(59, 130, 246, 0.9), rgba(96, 165, 250, 0.9));
+}
+
+.appointmentPill.performance {
+  background: linear-gradient(90deg, rgba(16, 185, 129, 0.9), rgba(52, 211, 153, 0.9));
+}
+
+.appointmentPill.other {
+  background: linear-gradient(90deg, rgba(139, 92, 246, 0.9), rgba(167, 139, 250, 0.9));
+}
+
+.appointmentCount {
+  font-size: 0.8rem;
+  color: var(--color-text-light);
+  text-align: center;
+  margin-top: 6px;
+}
+
+/* List View */
+.listContainer {
+  background: rgba(30, 41, 59, 0.4);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+}
+
+.dateGroup {
+  margin-bottom: 12px;
+}
+
+.dateHeader {
+  padding: 14px 20px;
+  background: rgba(15, 23, 42, 0.3);
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dateValue {
+  color: var(--color-text);
+}
+
+.dateDayName {
+  color: var(--color-accent);
+}
+
+.appointmentsList {
+  padding: 12px 20px;
+}
+
+.appointmentItem {
+  display: flex;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 16px 0;
+}
+
+.appointmentItem:last-child {
+  border-bottom: none;
+}
+
+.appointmentTime {
+  width: 100px;
+  flex-shrink: 0;
+}
+
+.timeRange {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.duration {
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+}
+
+.appointmentContent {
+  flex: 1;
+  padding: 0 20px;
+}
+
+.appointmentTitle {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 6px;
+}
+
+.appointmentMeta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.appointmentType {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+}
+
+.typeIndicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.typeIndicator.nutrition {
+  background: var(--color-accent);
+}
+
+.typeIndicator.medical {
+  background: #3b82f6;
+}
+
+.typeIndicator.performance {
+  background: #10b981;
+}
+
+.typeIndicator.other {
+  background: #8b5cf6;
+}
+
+.appointmentWith {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+}
+
+.appointmentWith i {
+  color: var(--color-text-light);
+}
+
+.appointmentNotes {
+  font-size: 0.9rem;
+  color: var(--color-text-light);
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.appointmentLocation {
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.appointmentActions {
+  width: 140px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.actionButton {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  justify-content: center;
+}
+
+.editButton {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--color-text);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.editButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.cancelButton {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.cancelButton:hover {
+  background: rgba(239, 68, 68, 0.15);
+}
+
+/* Modal */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: rgba(30, 41, 59, 0.95);
+  border-radius: 20px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modalTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.closeButton {
+  background: transparent;
+  border: none;
+  color: var(--color-text-light);
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.closeButton:hover {
+  color: var(--color-text);
+}
+
+.modalBody {
+  padding: 24px;
+}
+
+.formRow {
+  margin-bottom: 20px;
+}
+
+.formLabel {
+  display: block;
+  font-size: 0.95rem;
+  color: var(--color-text-light);
+  margin-bottom: 8px;
+}
+
+.formInput {
+  width: 100%;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 0.95rem;
+  color: var(--color-text);
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.formInput:focus {
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.2);
+}
+
+.formTextarea {
+  width: 100%;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 0.95rem;
+  color: var(--color-text);
+  outline: none;
+  transition: all 0.2s ease;
+  resize: vertical;
+  min-height: 100px;
+}
+
+.formTextarea:focus {
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.2);
+}
+
+.formSelect {
+  width: 100%;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 0.95rem;
+  color: var(--color-text);
+  outline: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23cbd5e1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 40px;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  padding: 20px 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cancelModalButton {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: transparent;
+  color: var(--color-text-light);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cancelModalButton:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--color-text);
+}
+
+.saveButton {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: linear-gradient(135deg, var(--color-accent), #fb923c);
+  color: white;
+  border: none;
+}
+
+.saveButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .headerLeft {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .viewToggle, .monthSelector {
+    width: 100%;
+  }
+  
+  .newAppointmentButton {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .calendarHeader, .calendarBody {
+    font-size: 0.8rem;
+  }
+  
+  .appointments {
+    max-height: 70px;
+  }
+  
+  .appointmentItem {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .appointmentTime {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .appointmentContent {
+    padding: 0;
+  }
+  
+  .appointmentActions {
+    width: 100%;
+    flex-direction: row;
+    margin-top: 10px;
+  }
+  
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+}

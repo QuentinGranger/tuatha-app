@@ -1,7 +1,10 @@
+import PatientDashboard from './components/PatientDashboard';
+import styles from './page.module.css';
+
 export default function Athletes() {
   return (
-    <div className="container">
-      <h1>Dossiers Athlètes</h1>
+    <div className={styles.container}>
+      <PatientDashboard />
     </div>
   );
 }

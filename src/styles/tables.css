@@ -1,0 +1,74 @@
+/* Imports */
+@import './variables.css';
+
+/* Tableaux */
+.patient-sessions table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-bottom: 1.5rem;
+  font-size: 0.9375rem;
+}
+
+.patient-sessions table th,
+.patient-sessions table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+
+.patient-sessions table th {
+  font-weight: 600;
+  color: var(--color-secondary-dark);
+  background-color: rgba(255, 255, 255, 0.1);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.patient-sessions table th:first-child {
+  border-top-left-radius: var(--radius-md);
+}
+
+.patient-sessions table th:last-child {
+  border-top-right-radius: var(--radius-md);
+}
+
+.patient-sessions table tbody tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: var(--transition);
+}
+
+.patient-sessions table tbody tr:hover {
+  background-color: rgba(255, 114, 28, 0.1);
+}
+
+.patient-sessions table tbody tr:last-child td:first-child {
+  border-bottom-left-radius: var(--radius-md);
+}
+
+.patient-sessions table tbody tr:last-child td:last-child {
+  border-bottom-right-radius: var(--radius-md);
+}
+
+.patient-sessions table td {
+  color: var(--color-text);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Progressbar */
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: var(--color-primary);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}

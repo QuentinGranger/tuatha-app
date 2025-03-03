@@ -1,0 +1,96 @@
+.dashboard {
+  display: flex;
+  gap: 24px;
+  min-height: calc(100vh - 80px);
+  width: 100%;
+  box-sizing: border-box;
+  max-width: 100%;
+  overflow-x: hidden; /* Empêche tout défilement horizontal */
+}
+
+.sidebar {
+  flex: 0 0 auto;
+  max-width: 300px;
+  transition: all 0.3s ease;
+}
+
+.content {
+  flex: 1;
+  min-width: 0; /* Très important pour empêcher le dépassement du flex child */
+  overflow-x: hidden; /* Empêche le défilement horizontal dans le contenu */
+  padding-right: 16px; /* Un peu d'espace pour éviter que le contenu ne touche le bord droit */
+  display: flex;
+  flex-direction: column;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 1.1rem;
+  color: var(--color-text-light);
+}
+
+.emptyState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  font-size: 1.1rem;
+  color: var(--color-text-light);
+  font-style: italic;
+}
+
+.tabContent {
+  margin-top: 24px;
+  max-width: 100%;
+  overflow-x: hidden; /* Empêche le défilement horizontal dans le contenu des onglets */
+}
+
+/* Media queries pour la responsivité */
+@media (max-width: 1024px) {
+  .dashboard {
+    flex-direction: column;
+    padding: 0 8px;
+  }
+  
+  .sidebar {
+    max-width: 100%;
+    width: 100%;
+  }
+  
+  .content {
+    width: 100%;
+    padding-right: 0;
+  }
+}
+
+/* Pour les petits écrans */
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 0 4px;
+    gap: 16px;
+  }
+  
+  .tabContent {
+    margin-top: 16px;
+  }
+}
+
+/* Pour les très petits écrans */
+@media (max-width: 480px) {
+  .dashboard {
+    gap: 12px;
+  }
+  
+  .tabContent {
+    margin-top: 12px;
+  }
+}
+
+/* Assurez-vous que tous les éléments enfants respectent la largeur maximale */
+.dashboard * {
+  max-width: 100%;
+  box-sizing: border-box;
+}

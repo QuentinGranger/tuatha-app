@@ -1,0 +1,326 @@
+/* Styles pour le modal de détail de facture */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  overflow-y: auto;
+  padding: 20px 0;
+}
+
+.modalContainer {
+  background: rgba(17, 25, 40, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  backdrop-filter: blur(16px);
+  width: 90%;
+  max-width: 800px;
+  margin: auto;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 136, 0, 0.1);
+  animation: modalAppear 0.3s ease-out;
+}
+
+@keyframes modalAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.headerInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.modalTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+}
+
+.createdDate {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 4px;
+}
+
+.statusBadge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.statusPaid {
+  background-color: rgba(39, 174, 96, 0.15);
+  color: #27AE60;
+  border: 1px solid rgba(39, 174, 96, 0.3);
+}
+
+.statusPending {
+  background-color: rgba(255, 194, 41, 0.15);
+  color: #FFC229;
+  border: 1px solid rgba(255, 194, 41, 0.3);
+}
+
+.statusOverdue {
+  background-color: rgba(235, 87, 87, 0.15);
+  color: #EB5757;
+  border: 1px solid rgba(235, 87, 87, 0.3);
+}
+
+.closeButton {
+  color: rgba(255, 255, 255, 0.7);
+  background: none;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.closeButton:hover {
+  color: white;
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: rotate(90deg);
+}
+
+.modalContent {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+.infoGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.infoLabel {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 500;
+}
+
+.infoValue {
+  color: white;
+  font-weight: 500;
+}
+
+.infoSubValue {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+}
+
+.paymentMethods {
+  display: flex;
+  gap: 12px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.paymentIcon {
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.paymentIcon:hover {
+  color: #FF8800;
+}
+
+.itemsSection {
+  margin-top: 4px;
+}
+
+.itemsCard {
+  background-color: rgba(255, 255, 255, 0.03);
+  border-radius: 16px;
+  padding: 16px;
+  margin-top: 12px;
+}
+
+.itemRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.itemRow:last-child {
+  border-bottom: none;
+}
+
+.itemDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.itemName {
+  color: white;
+  font-weight: 500;
+}
+
+.itemSubDetails {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.itemAmount {
+  color: white;
+  font-weight: 500;
+}
+
+.summarySection {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 16px;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.summaryLabel {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.summaryValue {
+  color: white;
+}
+
+.totalRow {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.totalLabel {
+  color: white;
+  font-weight: 600;
+}
+
+.totalValue {
+  color: #FF8800;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.notesSection {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 16px;
+}
+
+.notesText {
+  color: rgba(255, 255, 255, 0.7);
+  font-style: italic;
+  margin-top: 8px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 20px 24px;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.actionButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: rgba(17, 25, 40, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.actionButton:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  transform: translateY(-1px);
+}
+
+.payButton {
+  margin-left: auto;
+  background-color: rgba(39, 174, 96, 0.15);
+  border: 1px solid rgba(39, 174, 96, 0.3);
+  color: #27AE60;
+}
+
+.payButton:hover {
+  background-color: rgba(39, 174, 96, 0.25);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .infoGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .titleRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .actions {
+    justify-content: center;
+  }
+  
+  .payButton {
+    margin-left: 0;
+    width: 100%;
+    justify-content: center;
+  }
+}

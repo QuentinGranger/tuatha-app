@@ -1,0 +1,212 @@
+.container {
+  color: var(--color-text);
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+.emptyState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  font-size: 1.1rem;
+  color: var(--color-text-light);
+  font-style: italic;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  margin-bottom: 30px;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.statsCard {
+  background: rgba(30, 41, 59, 0.4);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cardTitle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.cardIcon {
+  color: var(--color-accent);
+}
+
+.cardDate {
+  font-size: 0.9rem;
+  color: var(--color-text-light);
+}
+
+.chartContainer {
+  height: 200px;
+  margin-top: 10px;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.performanceTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  overflow-x: auto;
+  display: block;
+  max-width: 100%;
+}
+
+.performanceTable table {
+  width: 100%;
+  min-width: 100%;
+}
+
+.performanceTable th {
+  text-align: left;
+  padding: 12px 15px;
+  background: rgba(15, 23, 42, 0.5);
+  color: var(--color-text-light);
+  font-weight: 500;
+  font-size: 0.9rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.performanceTable td {
+  padding: 12px 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.95rem;
+}
+
+.performanceTable tr:last-child td {
+  border-bottom: none;
+}
+
+.performanceTrend {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.trendUp {
+  color: #10b981;
+}
+
+.trendDown {
+  color: #ef4444;
+}
+
+.trendFlat {
+  color: #f59e0b;
+}
+
+.barContainer {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.barFill {
+  height: 100%;
+  background: linear-gradient(90deg, rgba(249, 115, 22, 0.7), rgba(249, 115, 22, 0.9));
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.barLabel {
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+}
+
+/* Media queries pour la responsivité */
+@media (max-width: 1024px) {
+  .statsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+  }
+  
+  .statsCard {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .statsGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .cardHeader {
+    margin-bottom: 15px;
+  }
+  
+  .cardTitle {
+    font-size: 1rem;
+  }
+  
+  .performanceTable th, .performanceTable td {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+  
+  .chartContainer {
+    height: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .statsCard {
+    padding: 12px;
+    border-radius: 12px;
+  }
+  
+  .cardTitle {
+    font-size: 0.95rem;
+  }
+  
+  .cardDate {
+    font-size: 0.8rem;
+  }
+  
+  .performanceTable th, .performanceTable td {
+    padding: 8px 10px;
+    font-size: 0.85rem;
+  }
+  
+  .chartContainer {
+    height: 150px;
+  }
+}

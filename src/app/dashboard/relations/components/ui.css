@@ -1,0 +1,574 @@
+/* Styles pour l'interrupteur (switch) */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.2);
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: rgba(255, 114, 28, 0.8);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px rgba(255, 114, 28, 0.5);
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/* Bordures arrondies */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/* Classes de texte pour la visibilité */
+.text-white {
+  color: #fff !important;
+}
+
+.text-muted {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.text-primary {
+  color: rgba(255, 114, 28, 0.9) !important;
+}
+
+.text-danger {
+  color: #ff4c4c !important;
+}
+
+.text-success {
+  color: #4caf50 !important;
+}
+
+/* Classes pour les arrière-plans */
+.bg-glass {
+  background-color: rgba(0, 0, 0, 0.2) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 8px;
+  overflow: auto; /* Pour éviter le débordement */
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
+}
+
+.bg-dark {
+  background-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+.bg-accent {
+  background-color: rgba(255, 114, 28, 0.2) !important;
+}
+
+/* Classes pour les boutons */
+.btn-glass {
+  background-color: rgba(0, 0, 0, 0.25) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 6px;
+  transition: all 0.2s;
+  white-space: nowrap; /* Évite que le texte du bouton soit coupé */
+  backdrop-filter: blur(5px) !important;
+  -webkit-backdrop-filter: blur(5px) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2) !important;
+}
+
+.btn-glass:hover {
+  background-color: rgba(255, 114, 28, 0.25) !important;
+  border-color: rgba(255, 114, 28, 0.3) !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
+}
+
+.btn-accent {
+  background-color: rgba(255, 114, 28, 0.7) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 114, 28, 0.8) !important;
+  border-radius: 6px;
+  transition: all 0.2s;
+  white-space: nowrap; /* Évite que le texte du bouton soit coupé */
+  backdrop-filter: blur(5px) !important;
+  -webkit-backdrop-filter: blur(5px) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
+}
+
+.btn-accent:hover {
+  background-color: rgba(255, 114, 28, 0.9) !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Classes pour les formulaires */
+.text-input {
+  background-color: rgba(0, 0, 0, 0.2) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+  border-radius: 6px;
+  padding: 8px 12px;
+  width: 100%; /* Assure que l'input utilise toute la largeur disponible */
+  box-sizing: border-box; /* Inclut le padding et la bordure dans la largeur */
+}
+
+.text-input::placeholder {
+  color: rgba(255, 255, 255, 0.4) !important;
+}
+
+select.text-white {
+  background-color: rgba(0, 0, 0, 0.2) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+  width: 100%; /* Assure que le select utilise toute la largeur disponible */
+  box-sizing: border-box; /* Inclut le padding et la bordure dans la largeur */
+}
+
+select.text-white option {
+  background-color: #1a2035;
+  color: #ffffff;
+}
+
+/* Spacing utilities */
+.p-0 { padding: 0 !important; }
+.p-1 { padding: 0.25rem !important; }
+.p-2 { padding: 0.5rem !important; }
+.p-3 { padding: 1rem !important; }
+.p-4 { padding: 1.5rem !important; }
+
+.m-0 { margin: 0 !important; }
+.m-1 { margin: 0.25rem !important; }
+.m-2 { margin: 0.5rem !important; }
+.m-3 { margin: 1rem !important; }
+.m-4 { margin: 1.5rem !important; }
+
+.mt-1 { margin-top: 0.25rem !important; }
+.mt-2 { margin-top: 0.5rem !important; }
+.mt-3 { margin-top: 1rem !important; }
+.mt-4 { margin-top: 1.5rem !important; }
+
+.mb-1 { margin-bottom: 0.25rem !important; }
+.mb-2 { margin-bottom: 0.5rem !important; }
+.mb-3 { margin-bottom: 1rem !important; }
+.mb-4 { margin-bottom: 1.5rem !important; }
+
+/* Border utilities */
+.rounded { border-radius: 6px !important; }
+.rounded-lg { border-radius: 12px !important; }
+.border-accent { border: 1px solid rgba(255, 114, 28, 0.5) !important; }
+
+/* Display utilities */
+.d-flex { display: flex !important; }
+.flex-column { flex-direction: column !important; }
+.flex-wrap { flex-wrap: wrap !important; } /* Permet aux éléments flex de passer à la ligne */
+.justify-content-between { justify-content: space-between !important; }
+.align-items-center { align-items: center !important; }
+.gap-1 { gap: 0.25rem !important; }
+.gap-2 { gap: 0.5rem !important; }
+.gap-3 { gap: 1rem !important; }
+
+/* Styles globaux pour les composants de la page Relations */
+
+/* Couleurs de texte */
+.text-white {
+  color: #fff !important;
+}
+
+.text-muted {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.text-primary {
+  color: rgba(255, 114, 28, 0.9) !important;
+}
+
+.text-danger {
+  color: #ff4c4c !important;
+}
+
+.text-success {
+  color: #4caf50 !important;
+}
+
+/* Backgrounds */
+.bg-glass {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  overflow: auto; /* Pour éviter le débordement */
+}
+
+.bg-dark {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.bg-darker {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Éléments d'interface */
+.tab {
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  white-space: nowrap; /* Évite que le texte des onglets soit coupé */
+}
+
+.tab.active {
+  background-color: rgba(255, 114, 28, 0.2);
+  color: rgba(255, 114, 28, 1);
+}
+
+.btn {
+  background-color: rgba(0, 0, 0, 0.3);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap; /* Évite que le texte du bouton soit coupé */
+}
+
+.btn:hover {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.btn-primary {
+  background-color: rgba(255, 114, 28, 0.8);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: rgba(255, 114, 28, 1);
+}
+
+/* Styles pour les statuts */
+.status-active {
+  background-color: #4CAF50;
+}
+
+.status-pending {
+  background-color: #FFC107;
+}
+
+.status-inactive {
+  background-color: #F44336;
+}
+
+/* Classes pour les containers */
+.container {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  margin: 1rem 0;
+  padding: 1rem;
+  overflow: auto; /* Pour éviter le débordement */
+  height: auto; /* Ajustement automatique de la hauteur */
+  max-height: 100%; /* Pour limiter la hauteur au conteneur parent */
+}
+
+.container-dark {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  margin: 1rem 0;
+  padding: 1rem;
+  overflow: auto; /* Pour éviter le débordement */
+}
+
+.container-accent {
+  background-color: rgba(255, 114, 28, 0.1);
+  border: 1px solid rgba(255, 114, 28, 0.2);
+  border-radius: 10px;
+  margin: 1rem 0;
+  padding: 1rem;
+  overflow: auto; /* Pour éviter le débordement */
+}
+
+/* Boutons personnalisés */
+.btn-primary {
+  background-color: rgba(255, 114, 28, 0.8);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap; /* Évite que le texte du bouton soit coupé */
+}
+
+.btn-primary:hover {
+  background-color: rgba(255, 114, 28, 1);
+}
+
+.btn-secondary {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap; /* Évite que le texte du bouton soit coupé */
+}
+
+.btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Styles pour les onglets */
+.tab-container {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 0.5rem;
+  overflow-x: auto; /* Permet de faire défiler horizontalement si beaucoup d'onglets */
+  -webkit-overflow-scrolling: touch; /* Pour une meilleure expérience sur mobile */
+}
+
+.tab {
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap; /* Évite que le texte des onglets soit coupé */
+}
+
+.tab:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.tab.active {
+  background-color: rgba(255, 114, 28, 0.7);
+}
+
+/* Classe spécifique pour les onglets actifs */
+.active-tab-button {
+  background-color: rgba(255, 114, 28, 0.15) !important;
+  color: rgba(255, 114, 28, 1) !important;
+  font-weight: 600 !important;
+  border-color: rgba(255, 114, 28, 0.3) !important;
+  box-shadow: 0 4px 15px rgba(255, 114, 28, 0.15) !important;
+  position: relative;
+}
+
+.active-tab-button::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: rgba(255, 114, 28, 0.8);
+}
+
+/* Styles pour les listes */
+.list-item {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  padding: 0.75rem;
+  transition: all 0.3s ease;
+  word-break: break-word; /* Permet aux mots longs de se couper pour éviter le débordement */
+}
+
+.list-item:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.list-item.selected {
+  background-color: rgba(255, 114, 28, 0.2);
+  border-left: 3px solid rgba(255, 114, 28, 0.8);
+}
+
+/* Styles spécifiques pour le dashboard */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden; /* Évite le débordement du conteneur principal */
+}
+
+.dashboard-content {
+  display: flex;
+  flex: 1;
+  overflow: hidden; /* Contient le débordement */
+}
+
+.dashboard-panel {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  overflow: auto; /* Permet le défilement à l'intérieur du panneau */
+  height: 100%;
+}
+
+/* Gestion des images pour éviter qu'elles ne soient coupées */
+img {
+  max-width: 100%; /* L'image ne dépassera jamais la largeur de son conteneur */
+  height: auto; /* Préserve le ratio de l'image */
+}
+
+/* Gestion des textes pour éviter qu'ils ne soient coupés */
+p, h1, h2, h3, h4, h5, h6, span, div {
+  word-wrap: break-word; /* Permet aux mots longs de se couper pour éviter le débordement */
+  max-width: 100%; /* Limite la largeur au conteneur parent */
+}
+
+/* Amélioration pour les écrans de différentes tailles */
+@media (max-width: 1200px) {
+  .tab-container {
+    flex-wrap: wrap; /* Les onglets passent à la ligne sur les petits écrans */
+  }
+  
+  .collaborationActions, .skillsList {
+    flex-wrap: wrap; /* Les boutons d'action passent à la ligne sur les petits écrans */
+  }
+}
+
+/* Pour que les grilles de contenu s'adaptent aux petits écrans */
+.responsive-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+  width: 100%;
+}
+
+/* Pour les panneaux scrollables */
+.scrollable-panel {
+  overflow-y: auto;
+  max-height: 100%;
+  padding-right: 5px; /* Espace pour la barre de défilement */
+}
+
+/* Pour les tableaux responsives */
+.table-responsive {
+  overflow-x: auto;
+  width: 100%;
+}
+
+/* Assurer que les éléments flex ne débordent pas */
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Classes pour gérer les hauteurs variables */
+.h-100 {
+  height: 100% !important;
+}
+
+.min-h-0 {
+  min-height: 0 !important; /* Utile pour les conteneurs flex qui doivent pouvoir se rétrécir */
+}
+
+.overflow-auto {
+  overflow: auto !important;
+}
+
+.overflow-hidden {
+  overflow: hidden !important;
+}
+
+/* S'assurer que les panneaux peuvent être redimensionnés */
+.resizable-panel {
+  resize: both;
+  overflow: auto;
+}
+
+/* Styles pour les messages */
+.message-bubble {
+  background-color: rgba(0, 0, 0, 0.3) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 12px;
+  padding: 10px 15px;
+  margin-bottom: 8px;
+  max-width: 80%;
+  word-wrap: break-word;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.sent-message {
+  margin-left: auto;
+  background-color: rgba(255, 114, 28, 0.15) !important;
+  border: 1px solid rgba(255, 114, 28, 0.2) !important;
+  border-bottom-right-radius: 2px;
+}
+
+.received-message {
+  margin-right: auto;
+  background-color: rgba(0, 0, 0, 0.25) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-bottom-left-radius: 2px;
+}
+
+/* Styles pour les onglets principaux */
+.main-tab {
+  background-color: rgba(0, 0, 0, 0.2) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 8px;
+  color: white;
+  padding: 10px 20px;
+  margin-right: 5px;
+  transition: all 0.3s ease;
+}
+
+.main-tab:hover {
+  background-color: rgba(0, 0, 0, 0.3) !important;
+  color: rgba(255, 114, 28, 0.9);
+}
+
+.main-tab.active {
+  background-color: rgba(255, 114, 28, 0.15) !important;
+  color: rgba(255, 114, 28, 1) !important;
+  border: 1px solid rgba(255, 114, 28, 0.3) !important;
+  box-shadow: 0 4px 15px rgba(255, 114, 28, 0.15) !important;
+}

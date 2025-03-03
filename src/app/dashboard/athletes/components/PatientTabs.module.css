@@ -1,0 +1,133 @@
+.tabs {
+  display: flex;
+  gap: 10px;
+  padding: 5px;
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+  width: 100%;
+  -webkit-overflow-scrolling: touch; /* Améliore le scroll tactile sur iOS */
+  flex-wrap: nowrap; /* Empêche de passer à la ligne */
+  margin: 0 auto;
+  justify-content: flex-start;
+  box-sizing: border-box;
+}
+
+.tabs::-webkit-scrollbar {
+  height: 6px;
+}
+
+.tabs::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tabs::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: transparent;
+  border: none;
+  border-radius: 12px;
+  color: var(--color-text-light);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0; /* Empêche la compression des onglets */
+  min-width: fit-content; /* Assure une taille minimale adaptée au contenu */
+}
+
+.tab:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--color-text);
+}
+
+.tab.active {
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.2), rgba(251, 146, 60, 0.2));
+  color: var(--color-text);
+  box-shadow: 0 2px 8px rgba(249, 115, 22, 0.15);
+  position: relative;
+}
+
+.tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-accent), #f97316);
+  border-radius: 1.5px;
+}
+
+.icon {
+  font-size: 1.1rem;
+}
+
+/* Tablettes et écrans moyens */
+@media (max-width: 768px) {
+  .tabs {
+    padding: 4px;
+    gap: 5px;
+  }
+  
+  .tab {
+    padding: 10px 16px;
+    font-size: 0.85rem;
+  }
+  
+  .label {
+    display: none;
+  }
+  
+  .tab.active::after {
+    bottom: -3px;
+  }
+  
+  .icon {
+    font-size: 1.2rem; /* Légèrement plus grand quand le texte est caché */
+  }
+}
+
+/* Écrans medium */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .tab {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Petits écrans mobiles */
+@media (max-width: 480px) {
+  .tabs {
+    padding: 3px;
+    gap: 3px;
+    border-radius: 12px;
+  }
+  
+  .tab {
+    padding: 8px 12px;
+  }
+  
+  .tab.active::after {
+    width: 12px;
+    height: 2px;
+  }
+  
+  .icon {
+    font-size: 1.1rem;
+  }
+}

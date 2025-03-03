@@ -1,0 +1,293 @@
+.searchAndFilterContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.searchSection {
+  position: relative;
+  width: 100%;
+}
+
+.searchBarContainer {
+  display: flex;
+  align-items: center;
+  background: rgba(17, 25, 40, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 0 16px;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.searchBarContainer.focused {
+  border-color: rgba(255, 136, 0, 0.5);
+  box-shadow: 0 0 0 2px rgba(255, 136, 0, 0.2);
+}
+
+.searchIconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.5);
+  margin-right: 12px;
+}
+
+.searchIcon {
+  font-size: 18px;
+}
+
+.searchInput {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 16px;
+  padding: 12px 0;
+  outline: none;
+  width: 100%;
+}
+
+.searchInput::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.clearButton {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  margin-left: 8px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.clearButton:hover {
+  color: white;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.searchCategories {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.categoryButton {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: 100px;
+  background: rgba(17, 25, 40, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.categoryButton:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.categoryButton.active {
+  background: rgba(255, 136, 0, 0.15);
+  border-color: rgba(255, 136, 0, 0.3);
+  color: #FF8800;
+}
+
+.suggestionsContainer {
+  position: absolute;
+  width: 100%;
+  background: rgba(17, 25, 40, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  margin-top: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.suggestionsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.suggestionItem {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.suggestionItem:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.suggestionIcon {
+  color: rgba(255, 255, 255, 0.6);
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.suggestionText {
+  flex: 1;
+  color: white;
+  font-weight: 500;
+}
+
+.suggestionType {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.1);
+  padding: 3px 8px;
+  border-radius: 100px;
+  margin-left: 8px;
+}
+
+.filterContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.filterPeriod {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+.filterLabel {
+  display: flex;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  gap: 8px;
+}
+
+.filterIcon {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 16px;
+}
+
+.filterButtons {
+  display: flex;
+  gap: 8px;
+}
+
+.filterButton {
+  padding: 6px 12px;
+  background: rgba(17, 25, 40, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filterButton:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.filterButton.active {
+  background: rgba(255, 136, 0, 0.15);
+  border-color: rgba(255, 136, 0, 0.3);
+  color: #FF8800;
+}
+
+.filterOptions {
+  display: flex;
+  gap: 16px;
+}
+
+.filterDropdown {
+  position: relative;
+}
+
+.filterDropdown select {
+  appearance: none;
+  background: rgba(17, 25, 40, 0.7);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 8px 32px 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.filterDropdown select:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.filterDropdown select:focus {
+  border-color: rgba(255, 136, 0, 0.5);
+  box-shadow: 0 0 0 2px rgba(255, 136, 0, 0.2);
+}
+
+.filterDropdown::after {
+  content: '';
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid rgba(255, 255, 255, 0.5);
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .filterContainer,
+  .filterPeriod,
+  .filterOptions {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .filterButtons {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  
+  .filterButton {
+    flex: 1;
+    text-align: center;
+    min-width: 80px;
+  }
+  
+  .filterOptions {
+    flex-direction: row;
+  }
+  
+  .filterDropdown {
+    flex: 1;
+  }
+  
+  .filterDropdown select {
+    width: 100%;
+  }
+}

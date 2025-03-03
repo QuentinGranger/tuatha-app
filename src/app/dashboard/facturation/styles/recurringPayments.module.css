@@ -1,0 +1,210 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: rgba(17, 25, 40, 0.7);
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.addButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 12px;
+  border: none;
+  background-color: #FF8800;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.addButton:hover {
+  background-color: #FF9933;
+}
+
+.searchContainer {
+  margin-bottom: 20px;
+}
+
+.searchBox {
+  position: relative;
+  width: 100%;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.searchInput {
+  width: 100%;
+  padding: 12px 12px 12px 40px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.2);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.9rem;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #FF8800;
+  box-shadow: 0 0 0 2px rgba(255, 136, 0, 0.25);
+}
+
+.tableContainer {
+  flex: 1;
+  overflow: auto;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.paymentsTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.paymentsTable th, 
+.paymentsTable td {
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.paymentsTable th {
+  background: rgba(0, 0, 0, 0.3);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  white-space: nowrap;
+}
+
+.paymentsTable th:first-child {
+  border-top-left-radius: 12px;
+}
+
+.paymentsTable th:last-child {
+  border-top-right-radius: 12px;
+}
+
+.thContent {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.thIcon {
+  color: #FF8800;
+}
+
+.paymentsTable tr:last-child td {
+  border-bottom: none;
+}
+
+.paymentsTable tbody tr {
+  background: rgba(0, 0, 0, 0.1);
+  transition: background 0.2s ease;
+}
+
+.paymentsTable tbody tr:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.suspendedRow {
+  background: rgba(100, 0, 0, 0.1) !important;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.suspendedRow:hover {
+  background: rgba(100, 0, 0, 0.2) !important;
+}
+
+.idCell {
+  font-family: monospace;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.amountCell {
+  font-weight: 600;
+  color: #FF8800;
+}
+
+.dateCell {
+  white-space: nowrap;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 8px;
+}
+
+.actionButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.2);
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pauseButton:hover {
+  background: rgba(255, 0, 0, 0.2);
+  color: rgba(255, 100, 100, 0.9);
+  border-color: rgba(255, 100, 100, 0.3);
+}
+
+.resumeButton:hover {
+  background: rgba(0, 255, 0, 0.1);
+  color: rgba(100, 255, 100, 0.9);
+  border-color: rgba(100, 255, 100, 0.3);
+}
+
+.emptyState {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.5);
+  padding: 40px 0;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
+  
+  .paymentsTable {
+    font-size: 0.8rem;
+  }
+  
+  .paymentsTable th, 
+  .paymentsTable td {
+    padding: 10px 12px;
+  }
+}

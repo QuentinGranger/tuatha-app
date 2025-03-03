@@ -1,5 +1,7 @@
-import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 
 export async function GET() {
   try {
@@ -9,10 +11,10 @@ export async function GET() {
       }
     });
 
-    return NextResponse.json(professionals);
+    return Response.json({ professionals });
   } catch (error) {
     console.error('Error fetching health professionals:', error);
-    return NextResponse.json(
+    return Response.json(
       { error: 'Failed to fetch health professionals' },
       { status: 500 }
     );

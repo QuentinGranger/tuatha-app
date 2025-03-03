@@ -1,9 +1,42 @@
 'use client';
 import { useEffect, useState, useCallback } from 'react';
-import Image from 'next/image';
 import { format, addDays, isBefore } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import styles from './ActivePatientsList.module.css';
+
+// Fonction d'aide pour obtenir l'URL de l'avatar
+const getAvatarUrl = (patient) => {
+  if (!patient) return '/img/patient/default-avatar.jpg';
+  
+  // Si le patient a un champ photoUrl
+  if (patient.photoUrl) {
+    // Si l'URL commence par '/', c'est déjà un chemin absolu
+    if (patient.photoUrl.startsWith('/')) return patient.photoUrl;
+    
+    // Si ce n'est qu'un nom de fichier sans slash
+    if (!patient.photoUrl.includes('/')) {
+      return `/img/patient/${patient.photoUrl}`;
+    }
+    
+    return patient.photoUrl;
+  }
+
+  // Si le patient a un champ photo
+  if (patient.photo) {
+    if (patient.photo.startsWith('/')) return patient.photo;
+    if (!patient.photo.includes('/')) return `/img/patient/${patient.photo}`;
+    return patient.photo;
+  }
+  
+  // Si le patient a user.photoUrl
+  if (patient.user && patient.user.photoUrl) {
+    if (patient.user.photoUrl.startsWith('/')) return patient.user.photoUrl;
+    if (!patient.user.photoUrl.includes('/')) return `/img/patient/${patient.user.photoUrl}`;
+    return patient.user.photoUrl;
+  }
+  
+  return '/img/patient/default-avatar.jpg';
+};
 
 const getStatusClass = (status) => {
   const classes = {
@@ -314,8 +347,8 @@ const PatientDetails = ({ patient, onClose }) => {
           
           <div className={styles.detailsHeader}>
             <div className={styles.detailsProfileImage}>
-              <Image
-                src={patient.photoUrl}
+              <img
+                src={getAvatarUrl(patient)}
                 alt={`${patient.firstName} ${patient.lastName}`}
                 width={100}
                 height={100}
@@ -324,7 +357,10 @@ const PatientDetails = ({ patient, onClose }) => {
                   height: '100%',
                   objectFit: 'cover',
                 }}
-                unoptimized
+                onError={(e) => {
+                  console.error('Error loading patient details avatar:', e);
+                  e.target.src = '/img/patient/default-avatar.jpg';
+                }}
               />
             </div>
             <div className={styles.detailsInfo}>
@@ -421,16 +457,21 @@ export default function ActivePatientsList() {
       } catch (err) {
         setError(err.message);
         console.error('Error fetching patients:', err);
+        // Initialiser avec un tableau vide en cas d'erreur
+        setPatients([]);
       }
     };
 
     fetchPatients();
   }, []);
 
-  const filteredPatients = patients.filter((patient) => {
-    const fullName = `${patient.firstName} ${patient.lastName}`.toLowerCase();
-    return fullName.includes(searchQuery.toLowerCase());
-  });
+  // Vérifier que patients est bien un tableau avant d'appliquer filter
+  const filteredPatients = Array.isArray(patients) 
+    ? patients.filter((patient) => {
+        const fullName = `${patient.firstName} ${patient.lastName}`.toLowerCase();
+        return fullName.includes(searchQuery.toLowerCase());
+      })
+    : [];
 
   const handlePatientClick = (patient) => {
     setSelectedPatient(patient);
@@ -492,8 +533,8 @@ export default function ActivePatientsList() {
                     <td className={styles.tableCell}>
                       <div className={styles.patientInfo}>
                         <div className={styles.imageContainer}>
-                          <Image
-                            src={patient.photoUrl}
+                          <img
+                            src={getAvatarUrl(patient)}
                             alt={`${patient.firstName} ${patient.lastName}`}
                             width={24}
                             height={24}
@@ -504,6 +545,10 @@ export default function ActivePatientsList() {
                             }}
                             className={styles.image}
                             unoptimized
+                            onError={(e) => {
+                              console.error('Error loading patient table avatar:', e);
+                              e.target.src = '/img/patient/default-avatar.jpg';
+                            }}
                           />
                         </div>
                         <div className={styles.patientStatus}>

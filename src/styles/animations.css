@@ -1,0 +1,91 @@
+/* Imports */
+@import './variables.css';
+
+/* Animations de base */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Classes d'animation */
+.fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.slide-up {
+  animation: slideUp 0.5s ease-out forwards;
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+/* Loader */
+.loader {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top: 3px solid var(--color-primary);
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  animation: spin 1s linear infinite;
+}
+
+/* Loader container */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  min-height: 200px;
+}
+
+.loading-text {
+  font-size: 0.9rem;
+  color: var(--color-text-light);
+  margin-top: 1rem;
+}
+
+/* Transitions */
+.hover-lift {
+  transition: var(--transition);
+}
+
+.hover-lift:hover {
+  transform: translateY(-3px);
+}
+
+.hover-shadow {
+  transition: var(--transition);
+}
+
+.hover-shadow:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* Effets spéciaux */
+.glow {
+  box-shadow: 0 0 8px rgba(255, 114, 28, 0.5);
+}
+
+.primary-gradient {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+}

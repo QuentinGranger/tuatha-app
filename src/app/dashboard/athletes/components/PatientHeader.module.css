@@ -1,0 +1,283 @@
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 20px;
+  color: var(--color-text);
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.patientInfo {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  flex: 1 1 300px;
+  min-width: 0;
+}
+
+.avatar {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.avatarImage {
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+}
+
+.status {
+  position: absolute;
+  bottom: 3px;
+  right: 3px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: #4ade80; /* Vert pour actif */
+  border: 2px solid rgba(15, 23, 42, 0.8);
+}
+
+.details {
+  flex: 1;
+  min-width: 0; /* Permet au texte de se rétrécir */
+  overflow: hidden;
+}
+
+.name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+.name h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vipBadge {
+  background: linear-gradient(135deg, #f97316, #fb923c);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+.basicInfo {
+  display: flex;
+  gap: 16px;
+  color: var(--color-text-light);
+  font-size: 0.9rem;
+  flex-wrap: wrap;
+}
+
+.infoItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+  cursor: default;
+}
+
+.infoItem:last-child {
+  cursor: pointer;
+  text-decoration: underline dotted;
+  text-underline-offset: 4px;
+}
+
+.infoItem i {
+  color: var(--color-accent);
+  font-size: 0.85rem;
+}
+
+.contactPopup {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 250px;
+  background: rgba(30, 41, 59, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+  padding: 12px;
+  z-index: 100;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  margin-top: 10px;
+}
+
+.contactPopup p {
+  margin: 8px 0;
+  font-size: 0.85rem;
+}
+
+.nutritionGoal, .lastConsultation {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  flex: 1 1 200px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.goalLabel, .consultationLabel {
+  font-size: 0.9rem;
+  color: var(--color-text-light);
+  margin-bottom: 8px;
+}
+
+.goalValue, .consultationDate {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  flex: 1 1 200px;
+  justify-content: center;
+  align-items: center;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.actionButton {
+  background: rgba(79, 70, 229, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  color: var(--color-text);
+  padding: 8px 16px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex: 1;
+  max-width: 130px;
+}
+
+.actionButton:hover {
+  background: rgba(79, 70, 229, 0.3);
+  transform: translateY(-2px);
+}
+
+.actionButton i {
+  font-size: 0.9rem;
+  color: var(--color-accent);
+}
+
+@media (max-width: 1100px) {
+  .header {
+    flex-direction: column;
+  }
+
+  .patientInfo, .nutritionGoal, .lastConsultation, .actions {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+  
+  .actions {
+    justify-content: space-around;
+  }
+  
+  .actionButton {
+    max-width: 30%;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  
+  .patientInfo, .nutritionGoal, .lastConsultation, .actions {
+    padding: 12px;
+    border-radius: 12px;
+  }
+
+  .name h1 {
+    font-size: 1.3rem;
+  }
+
+  .actionButton {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  
+  .patientInfo {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+  }
+  
+  .avatar {
+    align-self: center;
+    margin-bottom: 8px;
+  }
+  
+  .details {
+    width: 100%;
+  }
+  
+  .name {
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+  }
+  
+  .basicInfo {
+    justify-content: center;
+  }
+  
+  .nutritionGoal, .lastConsultation {
+    padding: 10px;
+  }
+  
+  .actions {
+    padding: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .actionButton {
+    max-width: 100%;
+    width: 100%;
+    margin-bottom: 6px;
+  }
+}

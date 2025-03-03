@@ -22,7 +22,8 @@ export default function ProgramList() {
         throw new Error('Failed to fetch programs');
       }
       const data = await response.json();
-      setPrograms(data);
+      // L'API peut renvoyer directement un tableau ou un objet avec une propriété programs
+      setPrograms(Array.isArray(data) ? data : (data.programs || []));
     } catch (err) {
       console.error('Error fetching programs:', err);
       setError(err.message);

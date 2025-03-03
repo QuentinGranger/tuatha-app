@@ -1,0 +1,18 @@
+-- AlterTable
+ALTER TABLE "Patient" ADD COLUMN     "bodyFat" DOUBLE PRECISION,
+ADD COLUMN     "carbIntake" DOUBLE PRECISION,
+ADD COLUMN     "enduranceScore" INTEGER,
+ADD COLUMN     "fatIntake" DOUBLE PRECISION,
+ADD COLUMN     "flexibilityScore" INTEGER,
+ADD COLUMN     "height" DOUBLE PRECISION,
+ADD COLUMN     "hydration" DOUBLE PRECISION,
+ADD COLUMN     "maxHeartRate" INTEGER,
+ADD COLUMN     "muscleMass" DOUBLE PRECISION,
+ADD COLUMN     "proteinIntake" DOUBLE PRECISION,
+ADD COLUMN     "recoveryScore" INTEGER,
+ADD COLUMN     "restingHeartRate" INTEGER,
+ADD COLUMN     "sleepQuality" INTEGER,
+ADD COLUMN     "strengthScore" INTEGER,
+ADD COLUMN     "stressLevel" INTEGER,
+ADD COLUMN     "vo2max" DOUBLE PRECISION,
+ADD COLUMN     "weight" DOUBLE PRECISION;

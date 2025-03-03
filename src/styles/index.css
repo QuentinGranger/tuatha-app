@@ -1,0 +1,32 @@
+/**
+ * Tuatha Dashboard - Performance CSS
+ * 
+ * Ce fichier centralise tous les imports CSS pour le tableau de bord.
+ * Structure glassmorphique premium avec touches d'orange.
+ */
+
+/* Import des fichiers de style */
+@import './variables.css';
+@import './layout.css';
+@import './glass-components.css';
+@import './controls.css';
+@import './tables.css';
+@import './animations.css';
+
+/* Réglages globaux additionnels */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Pour éviter les problèmes de rendu avec backdrop-filter */
+@supports not (backdrop-filter: blur(5px)) {
+  .glass-panel, 
+  .macro-item, 
+  .notes-box, 
+  .table-wrapper,
+  .selector-buttons button,
+  .athlete-selector select,
+  .button-secondary {
+    background-color: rgba(30, 41, 59, 0.8);
+  }
+}

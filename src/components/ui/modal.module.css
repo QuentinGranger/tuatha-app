@@ -1,0 +1,116 @@
+/* Modale avec style glassmorphisme et accents orange Tuatha */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modalContainer {
+  /* Fond dégradé similaire au fond de l'app mais plus sombre */
+  background: linear-gradient(135deg, rgba(0, 17, 13, 0.9) 0%, rgba(0, 38, 65, 0.9) 100%);
+  border-radius: 16px;
+  /* Bordure subtile avec accent orange */
+  border: 1px solid rgba(255, 136, 0, 0.3);
+  /* Effet glassmorphisme */
+  backdrop-filter: blur(16px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  padding: 0;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s ease-out;
+  width: 90%;
+  max-width: 800px;
+  color: #fff;
+}
+
+.modalContainer.small {
+  max-width: 500px;
+}
+
+.modalContainer.medium {
+  max-width: 800px;
+}
+
+.modalContainer.large {
+  max-width: 1000px;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255, 136, 0, 0.2);
+  background: linear-gradient(90deg, rgba(255, 136, 0, 0.15) 0%, rgba(0, 38, 65, 0.8) 100%);
+}
+
+.modalHeader h2 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.closeButton:hover {
+  color: #FF8800;
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.1);
+}
+
+.modalContent {
+  padding: 24px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .modalContainer {
+    width: 95%;
+    max-height: 95vh;
+  }
+}

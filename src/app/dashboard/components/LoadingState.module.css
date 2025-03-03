@@ -1,0 +1,31 @@
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  height: 100%;
+  min-height: 200px;
+}
+
+.loadingIcon {
+  animation: spin 1.5s linear infinite;
+  color: #3B82F6;
+  margin-bottom: 1rem;
+}
+
+.loadingMessage {
+  font-size: 0.9rem;
+  color: #6B7280;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
