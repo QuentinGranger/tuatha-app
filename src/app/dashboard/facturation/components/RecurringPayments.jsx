@@ -1,15 +1,14 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from 'react';
-import { FiPlus, FiSearch, FiFilter, FiUser, FiCalendar, FiDollarSign, FiClock, FiPause, FiPlay, FiRefreshCw } from 'react-icons/fi';
+import { FiPlus, FiSearch, FiFilter, FiUser, FiCalendar, FiDollarSign, FiClock, FiPause, FiPlay, FiRefreshCw, FiEdit, FiTrash2, FiX } from 'react-icons/fi';
 import styles from '../styles/recurringPayments.module.css';
-import CreateRecurringPaymentModal from './CreateRecurringPaymentModal';
 import { programTypes } from './programTypes';
 
-const RecurringPayments = () => {
+const RecurringPayments = ({ onCreateButtonClick, newRecurringPayment, onEditPayment, onDeletePayment }) => {
   const [payments, setPayments] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [showCreateModal, setShowCreateModal] = useState(false);
+  const searchInputRef = useRef(null);
   
   // Format options
   const formatCurrency = (amount) => {
@@ -52,57 +51,127 @@ const RecurringPayments = () => {
         id: 'SUB-0003',
         patientId: 'pat-003',
         patientName: 'Diana Prince',
-        programTypeId: 'joint-health',
-        plan: 'Santé Articulaire',
-        amount: 85,
-        frequency: 'Bimensuel',
+        programTypeId: 'nutri-basic',
+        plan: 'Suivi Nutritionnel Basique',
+        amount: 90,
+        frequency: 'Mensuel',
         nextDate: '2024-04-05',
-        active: true,
+        active: false,
         suspended: true
       }
     ]);
   }, []);
 
-  const handleCreatePayment = (newPayment) => {
-    setPayments([newPayment, ...payments]);
+  // Ajouter ou mettre à jour un paiement
+  useEffect(() => {
+    if (newRecurringPayment) {
+      setPayments(prev => {
+        // Vérifier si ce paiement existe déjà (mise à jour)
+        const existingIndex = prev.findIndex(p => p.id === newRecurringPayment.id);
+        
+        if (existingIndex !== -1) {
+          // Mise à jour du paiement existant
+          const updatedPayments = [...prev];
+          updatedPayments[existingIndex] = newRecurringPayment;
+          return updatedPayments;
+        } else {
+          // Ajout d'un nouveau paiement
+          return [newRecurringPayment, ...prev];
+        }
+      });
+    }
+  }, [newRecurringPayment]);
+
+  // Gérer la recherche
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
   };
 
-  const togglePaymentStatus = (id, isSuspended) => {
-    setPayments(payments.map(payment => 
-      payment.id === id 
-        ? { ...payment, suspended: isSuspended } 
-        : payment
-    ));
+  // Effacer la recherche
+  const clearSearch = () => {
+    setSearchTerm('');
+    if (searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
   };
-  
-  const filteredPayments = payments.filter(payment => 
-    payment.patientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    payment.plan.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-  
+
+  // Filtrer les paiements par terme de recherche
+  const filteredPayments = payments.filter(payment => {
+    if (!searchTerm.trim()) return true;
+    const searchLower = searchTerm.toLowerCase();
+    return (
+      payment.patientName.toLowerCase().includes(searchLower) ||
+      payment.plan.toLowerCase().includes(searchLower) ||
+      formatCurrency(payment.amount).includes(searchTerm) ||
+      payment.frequency.toLowerCase().includes(searchLower)
+    );
+  });
+
+  // Activation/désactivation d'un paiement récurrent
+  const togglePaymentStatus = (id, suspend = false) => {
+    setPayments(payments.map(payment => {
+      if (payment.id === id) {
+        return {
+          ...payment,
+          active: suspend ? false : true,
+          suspended: suspend
+        };
+      }
+      return payment;
+    }));
+  };
+
+  // Gérer la suppression d'un paiement
+  const handleDeletePayment = (id) => {
+    // Si la prop onDeletePayment existe, l'appeler
+    if (onDeletePayment) {
+      onDeletePayment(id);
+    }
+    
+    // Également supprimer de l'état local
+    setPayments(payments.filter(payment => payment.id !== id));
+  };
+
+  // Gérer l'édition d'un paiement
+  const handleEditPayment = (payment) => {
+    if (onEditPayment) {
+      onEditPayment(payment);
+    }
+  };
+
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
-        <h2 className={styles.title}>Paiements récurrents</h2>
-        <button 
-          className={styles.addButton}
-          onClick={() => setShowCreateModal(true)}
-        >
-          <FiPlus size={20} />
-          Créer
-        </button>
-      </div>
-      
-      <div className={styles.searchContainer}>
-        <div className={styles.searchBox}>
+    <div className={styles.recurringPaymentsContainer}>
+      <div className={styles.headerSection}>
+        <div className={styles.header}>
+          <h2 className={styles.title}>Paiements Récurrents</h2>
+          <button 
+            className={styles.addButton} 
+            onClick={onCreateButtonClick}
+          >
+            <FiPlus size={16} />
+            <span>Nouveau</span>
+          </button>
+        </div>
+        
+        <div className={styles.searchContainer}>
           <FiSearch className={styles.searchIcon} />
           <input
+            ref={searchInputRef}
             type="text"
-            placeholder="Rechercher par patient ou par type de programme..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Rechercher un patient, programme..."
             className={styles.searchInput}
+            value={searchTerm}
+            onChange={handleSearch}
           />
+          {searchTerm && (
+            <button
+              className={styles.clearSearchButton}
+              onClick={clearSearch}
+              title="Effacer la recherche"
+            >
+              <FiX size={14} />
+            </button>
+          )}
         </div>
       </div>
       
@@ -110,53 +179,29 @@ const RecurringPayments = () => {
         <table className={styles.paymentsTable}>
           <thead>
             <tr>
-              <th>Ref.</th>
-              <th>
-                <div className={styles.thContent}>
-                  <FiUser className={styles.thIcon} />
-                  Patient
-                </div>
-              </th>
-              <th>
-                <div className={styles.thContent}>
-                  <FiRefreshCw className={styles.thIcon} />
-                  Programme
-                </div>
-              </th>
-              <th>
-                <div className={styles.thContent}>
-                  <FiDollarSign className={styles.thIcon} />
-                  Montant
-                </div>
-              </th>
-              <th>
-                <div className={styles.thContent}>
-                  <FiClock className={styles.thIcon} />
-                  Fréquence
-                </div>
-              </th>
-              <th>
-                <div className={styles.thContent}>
-                  <FiCalendar className={styles.thIcon} />
-                  Prochain paiement
-                </div>
-              </th>
+              <th><FiUser title="Patient" /></th>
+              <th>Programme</th>
+              <th><FiDollarSign title="Montant" /></th>
+              <th><FiClock title="Fréquence" /></th>
+              <th><FiCalendar title="Prochaine date" /></th>
+              <th>Statut</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {filteredPayments.length > 0 ? (
-              filteredPayments.map((payment) => (
-                <tr 
-                  key={payment.id} 
-                  className={payment.suspended ? styles.suspendedRow : ''}
-                >
-                  <td className={styles.idCell}>{payment.id}</td>
-                  <td>{payment.patientName}</td>
+              filteredPayments.map(payment => (
+                <tr key={payment.id} className={payment.suspended ? styles.suspendedRow : ''}>
+                  <td className={styles.patientCell}>{payment.patientName}</td>
                   <td>{payment.plan}</td>
                   <td className={styles.amountCell}>{formatCurrency(payment.amount)}</td>
                   <td>{payment.frequency}</td>
-                  <td className={styles.dateCell}>{formatDate(payment.nextDate)}</td>
+                  <td>{formatDate(payment.nextDate)}</td>
+                  <td>
+                    <span className={`${styles.statusBadge} ${payment.suspended ? styles.suspended : payment.active ? styles.active : styles.inactive}`}>
+                      {payment.suspended ? 'Suspendu' : payment.active ? 'Actif' : 'Inactif'}
+                    </span>
+                  </td>
                   <td>
                     <div className={styles.actionButtons}>
                       {payment.suspended ? (
@@ -176,6 +221,20 @@ const RecurringPayments = () => {
                           <FiPause size={16} />
                         </button>
                       )}
+                      <button 
+                        className={`${styles.actionButton} ${styles.editButton}`}
+                        onClick={() => handleEditPayment(payment)}
+                        title="Modifier le paiement"
+                      >
+                        <FiEdit size={16} />
+                      </button>
+                      <button 
+                        className={`${styles.actionButton} ${styles.deleteButton}`}
+                        onClick={() => handleDeletePayment(payment.id)}
+                        title="Supprimer le paiement"
+                      >
+                        <FiTrash2 size={16} />
+                      </button>
                     </div>
                   </td>
                 </tr>
@@ -190,12 +249,6 @@ const RecurringPayments = () => {
           </tbody>
         </table>
       </div>
-      
-      <CreateRecurringPaymentModal 
-        isOpen={showCreateModal}
-        onClose={() => setShowCreateModal(false)}
-        onCreatePayment={handleCreatePayment}
-      />
     </div>
   );
 };

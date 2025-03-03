@@ -5,7 +5,7 @@ import styles from '../styles/createRecurringPaymentModal.module.css';
 import { FiX, FiRepeat, FiUser, FiCalendar, FiDollarSign, FiClock, FiLoader } from 'react-icons/fi';
 import { programTypes } from './programTypes';
 
-const CreateRecurringPaymentModal = ({ isOpen, onClose, onCreatePayment }) => {
+const CreateRecurringPaymentModal = ({ isOpen, onClose, onCreatePayment, editMode = false, initialData = null }) => {
   const [formData, setFormData] = useState({
     patientId: '',
     patientName: '',
@@ -21,77 +21,122 @@ const CreateRecurringPaymentModal = ({ isOpen, onClose, onCreatePayment }) => {
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState({});
 
-  // Récupérer les patients au chargement de la modale
+  // Réinitialiser le formulaire quand la modale s'ouvre ou initialiser avec les données d'édition
   useEffect(() => {
     if (isOpen) {
-      fetchPatients();
-      // Initialiser la date du prochain paiement à la date du jour
-      const today = new Date().toISOString().split('T')[0];
-      setFormData(prev => ({
-        ...prev,
-        nextDate: today
-      }));
+      if (editMode && initialData) {
+        // Si on est en mode édition et qu'on a des données initiales, on les utilise
+        setFormData({
+          id: initialData.id, // Important pour l'édition
+          patientId: initialData.patientId,
+          patientName: initialData.patientName,
+          programTypeId: initialData.programTypeId,
+          plan: initialData.plan,
+          amount: initialData.amount.toString(),
+          frequency: initialData.frequency,
+          nextDate: initialData.nextDate,
+          active: initialData.active,
+          suspended: initialData.suspended
+        });
+      } else {
+        // Sinon, on réinitialise le formulaire
+        setFormData({
+          patientId: '',
+          patientName: '',
+          programTypeId: '',
+          plan: '',
+          amount: '',
+          frequency: 'Mensuel',
+          nextDate: '',
+          active: true
+        });
+        
+        // Initialiser la date du prochain paiement à la date du jour
+        const today = new Date().toISOString().split('T')[0];
+        setFormData(prev => ({
+          ...prev,
+          nextDate: today
+        }));
+      }
+      setErrors({});
+    }
+  }, [isOpen, editMode, initialData]);
+
+  // Charger les patients depuis l'API
+  useEffect(() => {
+    if (isOpen) {
+      setLoading(true);
+      // Simule une récupération des données depuis l'API puisque c'est un exemple
+      setTimeout(() => {
+        // Utiliser les données des patients du fichier seed.mjs
+        const mockPatients = [
+          {
+            id: 'pat-001',
+            firstName: 'Bruce',
+            lastName: 'Wayne',
+            email: 'batman@wayne-enterprises.com'
+          },
+          {
+            id: 'pat-002',
+            firstName: 'Izuku',
+            lastName: 'Midoriya',
+            email: 'deku@ua.edu'
+          },
+          {
+            id: 'pat-003',
+            firstName: 'Son',
+            lastName: 'Goku',
+            email: 'goku@capsule-corp.com'
+          },
+          {
+            id: 'pat-004',
+            firstName: 'Tony',
+            lastName: 'Stark',
+            email: 'tony@stark-industries.com'
+          }
+        ];
+        setPatients(mockPatients);
+        setLoading(false);
+      }, 1000);
     }
   }, [isOpen]);
 
-  const fetchPatients = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch('/api/patients');
-      
-      if (!response.ok) {
-        throw new Error('Erreur lors de la récupération des patients');
+  // Mettre à jour le montant en fonction du programme sélectionné
+  useEffect(() => {
+    if (formData.programTypeId && !editMode) {
+      const selectedProgram = programTypes.find(p => p.id === formData.programTypeId);
+      if (selectedProgram) {
+        setFormData(prev => ({
+          ...prev,
+          plan: selectedProgram.name,
+          amount: selectedProgram.amount
+        }));
       }
-      
-      const data = await response.json();
-      setPatients(data);
-    } catch (error) {
-      console.error("Erreur de chargement des patients:", error);
-    } finally {
-      setLoading(false);
     }
-  };
-
-  if (!isOpen) return null;
+  }, [formData.programTypeId, editMode]);
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
     
-    // Cas spécial pour la sélection du patient
     if (name === 'patientId' && value) {
       const selectedPatient = patients.find(p => p.id === value);
       if (selectedPatient) {
-        setFormData({
-          ...formData,
+        setFormData(prev => ({
+          ...prev,
           patientId: value,
           patientName: `${selectedPatient.firstName} ${selectedPatient.lastName}`
-        });
-      }
-    } 
-    // Cas spécial pour la sélection du type de programme
-    else if (name === 'programTypeId' && value) {
-      const selectedProgram = programTypes.find(p => p.id === value);
-      if (selectedProgram) {
-        setFormData({
-          ...formData,
-          programTypeId: value,
-          plan: selectedProgram.name,
-          amount: selectedProgram.id === 'custom' ? formData.amount : selectedProgram.amount.toString()
-        });
+        }));
       }
     } else {
-      setFormData({
-        ...formData,
-        [name]: type === 'checkbox' ? checked : value
-      });
+      setFormData(prev => ({
+        ...prev,
+        [name]: value
+      }));
     }
-
-    // Effacer l'erreur lorsque l'utilisateur corrige le champ
+    
+    // Supprimer l'erreur pour ce champ si elle existe
     if (errors[name]) {
-      setErrors({
-        ...errors,
-        [name]: undefined
-      });
+      setErrors(prev => ({ ...prev, [name]: null }));
     }
   };
 
@@ -103,15 +148,15 @@ const CreateRecurringPaymentModal = ({ isOpen, onClose, onCreatePayment }) => {
     }
     
     if (!formData.programTypeId) {
-      newErrors.programTypeId = 'Veuillez sélectionner un type de programme';
+      newErrors.programTypeId = 'Veuillez sélectionner un programme';
     }
     
     if (!formData.amount || isNaN(formData.amount) || Number(formData.amount) <= 0) {
-      newErrors.amount = 'Un montant valide est requis';
+      newErrors.amount = 'Veuillez entrer un montant valide';
     }
     
     if (!formData.nextDate) {
-      newErrors.nextDate = 'La date du prochain paiement est requise';
+      newErrors.nextDate = 'Veuillez sélectionner une date';
     }
     
     setErrors(newErrors);
@@ -122,25 +167,38 @@ const CreateRecurringPaymentModal = ({ isOpen, onClose, onCreatePayment }) => {
     e.preventDefault();
     
     if (validateForm()) {
-      const newPayment = {
-        id: `SUB-${Math.floor(Math.random() * 10000).toString().padStart(4, '0')}`,
-        patientId: formData.patientId,
-        patientName: formData.patientName,
-        programTypeId: formData.programTypeId,
-        plan: formData.plan,
-        amount: Number(formData.amount),
-        frequency: formData.frequency,
-        nextDate: formData.nextDate,
-        active: true,
-        suspended: false
-      };
-      
-      onCreatePayment(newPayment);
-      onClose();
+      if (editMode) {
+        // Mode édition - utiliser l'ID existant
+        const updatedPayment = {
+          ...formData,
+          amount: Number(formData.amount),
+        };
+        
+        onCreatePayment(updatedPayment);
+      } else {
+        // Mode création - générer un nouvel ID
+        const paymentId = `SUB-${Math.floor(1000 + Math.random() * 9000)}`;
+        
+        const newPayment = {
+          id: paymentId,
+          patientId: formData.patientId,
+          patientName: formData.patientName,
+          programTypeId: formData.programTypeId,
+          plan: formData.plan,
+          amount: Number(formData.amount),
+          frequency: formData.frequency,
+          nextDate: formData.nextDate,
+          active: true,
+          suspended: false
+        };
+        
+        onCreatePayment(newPayment);
+      }
     }
   };
 
-  const frequencyOptions = ['Mensuel', 'Bimensuel', 'Trimestriel', 'Annuel'];
+  // Si la modale n'est pas ouverte, ne pas la rendre
+  if (!isOpen) return null;
 
   return (
     <div className={styles.modalOverlay}>
@@ -148,7 +206,7 @@ const CreateRecurringPaymentModal = ({ isOpen, onClose, onCreatePayment }) => {
         <div className={styles.modalHeader}>
           <h2 className={styles.modalTitle}>
             <FiRepeat className={styles.titleIcon} />
-            Créer un paiement récurrent
+            {editMode ? 'Modifier le paiement récurrent' : 'Créer un paiement récurrent'}
           </h2>
           <button className={styles.closeButton} onClick={onClose}>
             <FiX size={24} />
@@ -172,6 +230,7 @@ const CreateRecurringPaymentModal = ({ isOpen, onClose, onCreatePayment }) => {
                 value={formData.patientId}
                 onChange={handleChange}
                 className={styles.select}
+                disabled={editMode} // Désactiver en mode édition
               >
                 <option value="">-- Sélectionner un patient --</option>
                 {patients.map(patient => (
@@ -183,10 +242,10 @@ const CreateRecurringPaymentModal = ({ isOpen, onClose, onCreatePayment }) => {
             )}
             {errors.patientId && <span className={styles.error}>{errors.patientId}</span>}
           </div>
-          
+
           <div className={styles.formGroup}>
             <label className={styles.label}>
-              <FiUser className={styles.labelIcon} />
+              <FiRepeat className={styles.labelIcon} />
               Type de programme
             </label>
             <select
@@ -194,22 +253,23 @@ const CreateRecurringPaymentModal = ({ isOpen, onClose, onCreatePayment }) => {
               value={formData.programTypeId}
               onChange={handleChange}
               className={styles.select}
+              disabled={editMode} // Désactiver en mode édition
             >
               <option value="">-- Sélectionner un programme --</option>
               {programTypes.map(program => (
                 <option key={program.id} value={program.id}>
-                  {program.name} {program.id !== 'custom' ? `(${program.amount} €)` : ''}
+                  {program.name} ({program.amount}€)
                 </option>
               ))}
             </select>
             {errors.programTypeId && <span className={styles.error}>{errors.programTypeId}</span>}
           </div>
-          
+
           <div className={styles.formRow}>
             <div className={styles.formGroup}>
               <label className={styles.label}>
                 <FiDollarSign className={styles.labelIcon} />
-                Montant
+                Montant (€)
               </label>
               <input
                 type="number"
@@ -218,13 +278,12 @@ const CreateRecurringPaymentModal = ({ isOpen, onClose, onCreatePayment }) => {
                 onChange={handleChange}
                 className={styles.input}
                 placeholder="0.00"
-                min="0"
                 step="0.01"
-                disabled={formData.programTypeId && formData.programTypeId !== 'custom'}
+                min="0"
               />
               {errors.amount && <span className={styles.error}>{errors.amount}</span>}
             </div>
-            
+
             <div className={styles.formGroup}>
               <label className={styles.label}>
                 <FiClock className={styles.labelIcon} />
@@ -236,9 +295,12 @@ const CreateRecurringPaymentModal = ({ isOpen, onClose, onCreatePayment }) => {
                 onChange={handleChange}
                 className={styles.select}
               >
-                {frequencyOptions.map(option => (
-                  <option key={option} value={option}>{option}</option>
-                ))}
+                <option value="Hebdomadaire">Hebdomadaire</option>
+                <option value="Bimensuel">Bimensuel</option>
+                <option value="Mensuel">Mensuel</option>
+                <option value="Trimestriel">Trimestriel</option>
+                <option value="Semestriel">Semestriel</option>
+                <option value="Annuel">Annuel</option>
               </select>
             </div>
           </div>
@@ -263,7 +325,7 @@ const CreateRecurringPaymentModal = ({ isOpen, onClose, onCreatePayment }) => {
               Annuler
             </button>
             <button type="submit" className={styles.submitButton}>
-              Créer le paiement récurrent
+              {editMode ? 'Mettre à jour' : 'Créer le paiement récurrent'}
             </button>
           </div>
         </form>

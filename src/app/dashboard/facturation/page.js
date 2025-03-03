@@ -6,6 +6,7 @@ import InvoiceList from './components/InvoiceList';
 import SearchAndFilter from './components/SearchAndFilter';
 import RecurringPayments from './components/RecurringPayments';
 import CreateInvoiceModal from './components/CreateInvoiceModal';
+import CreateRecurringPaymentModal from './components/CreateRecurringPaymentModal';
 
 export default function Facturation() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -13,8 +14,12 @@ export default function Facturation() {
   const [currentStatus, setCurrentStatus] = useState('all');
   const [currentSort, setCurrentSort] = useState('date-desc');
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isCreateRecurringModalOpen, setIsCreateRecurringModalOpen] = useState(false);
+  const [isEditRecurringModalOpen, setIsEditRecurringModalOpen] = useState(false);
+  const [currentEditPayment, setCurrentEditPayment] = useState(null);
   const [invoices, setInvoices] = useState([]);
   const [newInvoice, setNewInvoice] = useState(null);
+  const [newRecurringPayment, setNewRecurringPayment] = useState(null);
 
   // Récupérer les factures depuis le composant InvoiceList
   const fetchInvoicesFromList = (invoicesData) => {
@@ -48,6 +53,45 @@ export default function Facturation() {
   const handleAddInvoice = (invoice) => {
     setNewInvoice(invoice);
     setIsCreateModalOpen(false);
+  };
+
+  // Gestion des paiements récurrents
+  const openCreateRecurringModal = () => {
+    setIsCreateRecurringModalOpen(true);
+  };
+
+  const closeCreateRecurringModal = () => {
+    setIsCreateRecurringModalOpen(false);
+  };
+
+  const handleCreateRecurringPayment = (payment) => {
+    setNewRecurringPayment(payment);
+    closeCreateRecurringModal();
+  };
+
+  // Gestion de l'édition des paiements récurrents
+  const handleEditRecurringPayment = (payment) => {
+    setCurrentEditPayment(payment);
+    setIsEditRecurringModalOpen(true);
+  };
+
+  const closeEditRecurringModal = () => {
+    setIsEditRecurringModalOpen(false);
+    setCurrentEditPayment(null);
+  };
+
+  const handleUpdateRecurringPayment = (updatedPayment) => {
+    // Ici, nous pourrions appeler une API pour mettre à jour le paiement
+    // Pour l'exemple, nous mettons simplement à jour l'état local
+    setNewRecurringPayment(updatedPayment); // Cela déclenchera la mise à jour dans le composant RecurringPayments
+    closeEditRecurringModal();
+  };
+
+  // Gestion de la suppression des paiements récurrents
+  const handleDeleteRecurringPayment = (paymentId) => {
+    // Ici, nous pourrions appeler une API pour supprimer le paiement
+    // Pour l'exemple, la suppression est gérée directement dans le composant RecurringPayments
+    console.log(`Paiement récurrent supprimé: ${paymentId}`);
   };
 
   return (
@@ -87,15 +131,34 @@ export default function Facturation() {
         </div>
         
         <div className={styles.paymentsSection}>
-          <RecurringPayments />
+          <RecurringPayments 
+            onCreateButtonClick={openCreateRecurringModal}
+            newRecurringPayment={newRecurringPayment}
+            onEditPayment={handleEditRecurringPayment}
+            onDeletePayment={handleDeleteRecurringPayment}
+          />
         </div>
       </div>
 
-      {isCreateModalOpen && (
-        <CreateInvoiceModal 
-          isOpen={isCreateModalOpen}
-          onClose={handleCloseModal}
-          onCreateInvoice={handleAddInvoice}
+      <CreateInvoiceModal 
+        isOpen={isCreateModalOpen}
+        onClose={handleCloseModal}
+        onCreateInvoice={handleAddInvoice}
+      />
+
+      <CreateRecurringPaymentModal
+        isOpen={isCreateRecurringModalOpen}
+        onClose={closeCreateRecurringModal}
+        onCreatePayment={handleCreateRecurringPayment}
+      />
+
+      {isEditRecurringModalOpen && currentEditPayment && (
+        <CreateRecurringPaymentModal
+          isOpen={isEditRecurringModalOpen}
+          onClose={closeEditRecurringModal}
+          onCreatePayment={handleUpdateRecurringPayment}
+          editMode={true}
+          initialData={currentEditPayment}
         />
       )}
     </div>

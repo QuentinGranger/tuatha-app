@@ -1,4 +1,4 @@
-.container {
+.recurringPaymentsContainer {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -10,11 +10,15 @@
   overflow: hidden;
 }
 
+.headerSection {
+  margin-bottom: 20px;
+}
+
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .title {
@@ -43,12 +47,9 @@
 }
 
 .searchContainer {
-  margin-bottom: 20px;
-}
-
-.searchBox {
   position: relative;
   width: 100%;
+  margin-bottom: 15px;
 }
 
 .searchIcon {
@@ -57,22 +58,53 @@
   top: 50%;
   transform: translateY(-50%);
   color: rgba(255, 255, 255, 0.5);
+  pointer-events: none;
 }
 
 .searchInput {
   width: 100%;
-  padding: 12px 12px 12px 40px;
+  padding: 10px 40px 10px 40px;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(0, 0, 0, 0.2);
   color: rgba(255, 255, 255, 0.9);
   font-size: 0.9rem;
+  backdrop-filter: blur(4px);
+  transition: all 0.2s ease;
 }
 
 .searchInput:focus {
   outline: none;
   border-color: #FF8800;
   box-shadow: 0 0 0 2px rgba(255, 136, 0, 0.25);
+}
+
+.searchInput::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.clearSearchButton {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.clearSearchButton:hover {
+  background: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .tableContainer {
@@ -99,65 +131,65 @@
   background: rgba(0, 0, 0, 0.3);
   font-weight: 600;
   color: rgba(255, 255, 255, 0.9);
-  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
-.paymentsTable th:first-child {
-  border-top-left-radius: 12px;
-}
-
-.paymentsTable th:last-child {
-  border-top-right-radius: 12px;
-}
-
-.thContent {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.thIcon {
-  color: #FF8800;
+.paymentsTable tr:hover {
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .paymentsTable tr:last-child td {
   border-bottom: none;
 }
 
-.paymentsTable tbody tr {
-  background: rgba(0, 0, 0, 0.1);
-  transition: background 0.2s ease;
-}
-
-.paymentsTable tbody tr:hover {
-  background: rgba(0, 0, 0, 0.2);
-}
-
-.suspendedRow {
-  background: rgba(100, 0, 0, 0.1) !important;
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.suspendedRow:hover {
-  background: rgba(100, 0, 0, 0.2) !important;
-}
-
-.idCell {
-  font-family: monospace;
-  color: rgba(255, 255, 255, 0.6);
+.patientCell {
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.95);
 }
 
 .amountCell {
-  font-weight: 600;
+  font-weight: 500;
   color: #FF8800;
 }
 
-.dateCell {
-  white-space: nowrap;
+.statusBadge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.active {
+  background: rgba(39, 174, 96, 0.2);
+  color: #27AE60;
+}
+
+.inactive {
+  background: rgba(149, 165, 166, 0.2);
+  color: #95A5A6;
+}
+
+.suspended {
+  background: rgba(231, 76, 60, 0.2);
+  color: #E74C3C;
+}
+
+.suspendedRow {
+  opacity: 0.6;
+}
+
+.emptyState {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+  padding: 30px 0;
 }
 
 .actionButtons {
   display: flex;
+  align-items: center;
   gap: 8px;
 }
 
@@ -168,34 +200,37 @@
   width: 32px;
   height: 32px;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(0, 0, 0, 0.2);
+  border: none;
+  background: rgba(0, 0, 0, 0.3);
   color: rgba(255, 255, 255, 0.7);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
+.actionButton:hover {
+  background: rgba(0, 0, 0, 0.5);
+  color: rgba(255, 255, 255, 0.9);
+}
+
 .pauseButton:hover {
-  background: rgba(255, 0, 0, 0.2);
-  color: rgba(255, 100, 100, 0.9);
-  border-color: rgba(255, 100, 100, 0.3);
+  color: #E74C3C;
 }
 
 .resumeButton:hover {
-  background: rgba(0, 255, 0, 0.1);
-  color: rgba(100, 255, 100, 0.9);
-  border-color: rgba(100, 255, 100, 0.3);
+  color: #27AE60;
 }
 
-.emptyState {
-  text-align: center;
-  color: rgba(255, 255, 255, 0.5);
-  padding: 40px 0;
+.editButton:hover {
+  color: #3498DB;
+}
+
+.deleteButton:hover {
+  color: #E74C3C;
 }
 
 /* Responsive styles */
 @media (max-width: 768px) {
-  .container {
+  .recurringPaymentsContainer {
     padding: 16px;
   }
   
