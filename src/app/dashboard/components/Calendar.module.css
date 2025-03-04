@@ -1,0 +1,402 @@
+.calendarContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: rgba(17, 25, 40, 0.7);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+}
+
+.calendarHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.calendarTitle {
+  display: flex;
+  align-items: center;
+}
+
+.calendarTitle h2 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+}
+
+.calendarTitle h2 svg {
+  color: #FF8800;
+}
+
+.calendarControls {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.controlsRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 20px;
+}
+
+.dateNavigation {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.currentPeriod {
+  color: #FF8800;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.todayButton {
+  background: rgba(255, 136, 0, 0.15);
+  border: 1px solid rgba(255, 136, 0, 0.3);
+  color: #FF8800;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.todayButton:hover {
+  background: rgba(255, 136, 0, 0.25);
+}
+
+.navButton {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.navButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.addButton {
+  background: rgba(255, 136, 0, 0.15);
+  border: 1px solid rgba(255, 136, 0, 0.3);
+  color: #FF8800;
+  border-radius: 8px;
+  padding: 8px 15px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.addButton:hover {
+  background: rgba(255, 136, 0, 0.25);
+  transform: translateY(-1px);
+}
+
+.addButton svg {
+  font-size: 0.8rem;
+}
+
+.calendarWrapper {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.calendarBody {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  border-radius: 16px;
+}
+
+/* Vue Semaine */
+.weekView {
+  height: 100%;
+  overflow: auto;
+}
+
+.weekTable {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.timeHeader {
+  width: 60px;
+  background: rgba(0, 0, 0, 0.2);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.8rem;
+  padding: 10px;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dayHeader {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  height: 70px;
+}
+
+.dayHeaderContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.dayName {
+  font-weight: 600;
+  color: #FF8800;
+  font-size: 0.95rem;
+  text-transform: capitalize;
+  margin-bottom: 5px;
+}
+
+.dayDate {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.hourRow {
+  height: 60px;
+}
+
+.timeCell {
+  width: 60px;
+  background: rgba(0, 0, 0, 0.1);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
+  text-align: center;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dayCell {
+  position: relative;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  vertical-align: top;
+}
+
+.currentDay {
+  background-color: rgba(255, 136, 0, 0.1);
+}
+
+/* Vue Jour */
+.dayView {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.dayViewHeader {
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dayViewHeader h3 {
+  margin: 0;
+  color: #FF8800;
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.dayViewBody {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.hourSlot {
+  display: flex;
+  height: 60px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.hourLabel {
+  width: 60px;
+  min-width: 60px;
+  background: rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.hourContent {
+  position: relative;
+  flex: 1;
+}
+
+/* Rendez-vous */
+.appointment {
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  background: rgba(255, 136, 0, 0.2);
+  border-left: 4px solid #FF8800;
+  border-radius: 6px;
+  padding: 5px;
+  overflow: hidden;
+  z-index: 2;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+
+.appointment:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.appointmentTime {
+  font-weight: bold;
+  font-size: 0.75rem;
+  margin-bottom: 2px;
+}
+
+.appointmentTitle {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  gap: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.appointmentIcon {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+/* Statuts des rendez-vous */
+.confirmed {
+  background-color: rgba(76, 175, 80, 0.2);
+  border-left-color: #4CAF50;
+}
+
+.pending {
+  background-color: rgba(255, 193, 7, 0.2);
+  border-left-color: #FFC107;
+}
+
+.cancelled {
+  background-color: rgba(244, 67, 54, 0.2);
+  border-left-color: #F44336;
+}
+
+.timeblock {
+  background-color: rgba(33, 150, 243, 0.2);
+  border-left-color: #2196F3;
+}
+
+/* Vue Agenda */
+.agendaView {
+  height: 100%;
+  overflow-y: auto;
+  padding: 0 10px;
+}
+
+.agendaDay {
+  margin-bottom: 20px;
+}
+
+.agendaDayHeader {
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px 8px 0 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: none;
+}
+
+.agendaDayHeader h3 {
+  margin: 0;
+  color: #FF8800;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.agendaDayContent {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 0 0 8px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.agendaAppointment {
+  display: flex;
+  padding: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.agendaAppointment:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.agendaTime {
+  width: 70px;
+  min-width: 70px;
+  font-size: 0.85rem;
+  color: #FF8800;
+  font-weight: 500;
+}
+
+.agendaAppointmentContent {
+  flex: 1;
+}
+
+.agendaAppointmentTitle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.agendaAppointmentNotes {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}

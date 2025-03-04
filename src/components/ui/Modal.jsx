@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useRef } from 'react';
-import { createPortal } from 'react-dom';
 import { IoMdClose } from 'react-icons/io';
 import styles from './modal.module.css';
 
@@ -38,8 +37,8 @@ const Modal = ({ isOpen, onClose, title, children, size = 'medium' }) => {
 
   if (!isOpen) return null;
 
-  // Création du contenu de la modale
-  const modalContent = (
+  // Rendre la modale directement dans le flux du DOM
+  return (
     <div className={styles.modalOverlay} aria-modal="true" role="dialog">
       <div 
         ref={modalRef} 
@@ -62,11 +61,6 @@ const Modal = ({ isOpen, onClose, title, children, size = 'medium' }) => {
       </div>
     </div>
   );
-
-  // Utiliser createPortal pour rendre la modale directement dans le body
-  return typeof document !== 'undefined' 
-    ? createPortal(modalContent, document.body) 
-    : null;
 };
 
 export default Modal;

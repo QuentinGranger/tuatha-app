@@ -1,0 +1,329 @@
+.todoListContainer {
+  border-radius: 16px;
+  background: rgba(17, 25, 40, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 24px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.todoHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.todoHeader h2 {
+  margin: 0;
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  letter-spacing: 0.5px;
+  background: linear-gradient(90deg, #FFF, rgba(255, 136, 0, 0.8));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.todoActions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.searchContainer {
+  position: relative;
+  width: 240px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.searchInput {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 8px 12px 8px 36px;
+  color: white;
+  font-size: 0.9rem;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.searchInput:focus {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 136, 0, 0.5);
+}
+
+.searchInput::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.addButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 136, 0, 0.8);
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.addButton:hover {
+  background: rgba(255, 136, 0, 0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 136, 0, 0.3);
+}
+
+.todoListContent {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  padding-bottom: 16px;
+  /* Smooth scroll */
+  scroll-behavior: smooth;
+}
+
+.todoColumns {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+  height: calc(100% - 60px);
+  padding-right: 4px;
+}
+
+.todoColumn {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 16px;
+  width: 300px;
+  min-width: 300px;
+  max-height: calc(100vh - 200px);
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.todoColumn.draggingOver {
+  background: rgba(255, 255, 255, 0.08);
+  transform: scale(1.01);
+}
+
+.columnHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.columnInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.columnIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #FF8800;
+}
+
+.taskCount {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  border-radius: 11px;
+  padding: 0 8px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-left: 8px;
+}
+
+.columnAddButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.columnAddButton:hover {
+  background-color: rgba(255, 136, 0, 0.2);
+  color: #FF8800;
+  transform: translateY(-2px);
+}
+
+.taskList {
+  overflow-y: auto;
+  flex-grow: 1;
+  padding-right: 8px;
+  /* Animation pour la liste lors du drag-and-drop */
+  transition: min-height 0.3s ease;
+}
+
+.taskCard {
+  position: relative;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  cursor: grab;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.taskCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.taskCard:active {
+  cursor: grabbing;
+}
+
+.taskCard.dragging {
+  opacity: 0.6;
+  transform: scale(0.95);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.taskCard:hover .taskActions {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.taskActions {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transform: translateY(-5px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 5;
+}
+
+.actionButton {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(5px);
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 12px;
+}
+
+.editButton:hover {
+  background-color: rgba(255, 136, 0, 0.8);
+  transform: translateY(-2px);
+}
+
+.deleteButton:hover {
+  background-color: rgba(255, 77, 77, 0.8);
+  transform: translateY(-2px);
+}
+
+.over {
+  border-top: 2px solid #FF8800;
+}
+
+/* Styles pour la barre de défilement */
+.taskList::-webkit-scrollbar {
+  width: 6px;
+}
+
+.taskList::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+
+.taskList::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+}
+
+.taskList::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.todoListHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.todoListTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+}
+
+.todoListActions {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+@keyframes moveToComplete {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-20px) scale(1.05);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.taskCardMoving {
+  animation: moveToComplete 1s ease-in-out;
+  border-color: rgba(114, 218, 103, 0.5) !important;
+  background: rgba(25, 40, 25, 0.75) !important;
+  z-index: 10;
+  position: relative;
+}

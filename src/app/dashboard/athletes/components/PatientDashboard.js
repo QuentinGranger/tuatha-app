@@ -13,7 +13,7 @@ import Documents from './Documents';
 import Appointments from './Appointments';
 import styles from './PatientDashboard.module.css';
 
-export default function PatientDashboard() {
+export default function PatientDashboard({ className }) {
   const [patients, setPatients] = useState([]);
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -55,7 +55,17 @@ export default function PatientDashboard() {
 
   const renderTabContent = () => {
     if (!selectedPatient) {
-      return <div className={styles.emptyState}>Veuillez sélectionner un patient</div>;
+      return (
+        <div className={styles.emptyState}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#FF8800" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          <p>Veuillez sélectionner un patient</p>
+        </div>
+      );
     }
 
     switch (activeTab) {
@@ -77,33 +87,29 @@ export default function PatientDashboard() {
   };
 
   return (
-    <div className={styles.dashboard}>
-      <div className={styles.sidebar}>
-        <PatientSelector 
-          patients={patients} 
-          selectedPatientId={selectedPatient?.id} 
-          onPatientChange={handlePatientChange} 
-        />
-      </div>
+    <main className={`${styles.dashboard} ${className || ''}`}>
+      <PatientSelector 
+        className={styles.sidebar}
+        patients={patients} 
+        selectedPatientId={selectedPatient?.id} 
+        onPatientChange={handlePatientChange} 
+      />
       
-      <div className={styles.content}>
-        {loading ? (
-          <div className={styles.loading}>Chargement...</div>
-        ) : (
-          <>
-            <PatientHeader patient={selectedPatient} />
-            
-            <PatientTabs 
-              activeTab={activeTab} 
-              onTabChange={setActiveTab} 
-            />
-            
-            <div className={styles.tabContent}>
-              {renderTabContent()}
-            </div>
-          </>
-        )}
-      </div>
-    </div>
+      {loading ? (
+        <div className={styles.loading}>
+          <div className={styles.spinner}></div>
+          <span>Chargement...</span>
+        </div>
+      ) : (
+        <section className={styles.content}>
+          <PatientHeader patient={selectedPatient} />
+          <PatientTabs 
+            activeTab={activeTab} 
+            onTabChange={setActiveTab} 
+          />
+          {renderTabContent()}
+        </section>
+      )}
+    </main>
   );
 }

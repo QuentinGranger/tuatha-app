@@ -4,6 +4,13 @@
   max-width: 100%;
   overflow-x: hidden;
   box-sizing: border-box;
+  background: rgba(17, 25, 40, 0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  padding: 24px;
 }
 
 .emptyState {
@@ -14,6 +21,11 @@
   font-size: 1.1rem;
   color: var(--color-text-light);
   font-style: italic;
+  background: rgba(17, 25, 40, 0.4);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .header {
@@ -23,6 +35,12 @@
   margin-bottom: 24px;
   flex-wrap: wrap;
   gap: 16px;
+  background: rgba(22, 31, 49, 0.5);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 16px;
 }
 
 .searchContainer {
@@ -40,12 +58,12 @@
   font-size: 0.9rem;
   color: var(--color-text);
   outline: none;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 .searchInput:focus {
-  border-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.2);
+  border-color: rgba(255, 136, 0, 0.3);
+  box-shadow: 0 0 0 2px rgba(255, 136, 0, 0.2);
 }
 
 .searchIcon {
@@ -71,28 +89,68 @@
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 .primaryButton {
-  background: linear-gradient(135deg, var(--color-accent), #fb923c);
+  background: linear-gradient(135deg, #FF8800, rgba(255, 136, 0, 0.8));
   color: white;
   border: none;
+  box-shadow: 0 4px 12px rgba(255, 136, 0, 0.3);
 }
 
 .primaryButton:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+  box-shadow: 0 6px 16px rgba(255, 136, 0, 0.4);
 }
 
 .secondaryButton {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(30, 41, 59, 0.6);
   color: var(--color-text);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .secondaryButton:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 136, 0, 0.15);
+  color: #FF8800;
+  transform: translateY(-2px);
+}
+
+.groupsFilter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 24px;
+  background: rgba(22, 31, 49, 0.5);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 16px;
+}
+
+.filterChip {
+  padding: 8px 16px;
+  background: rgba(30, 41, 59, 0.6);
+  border-radius: 10px;
+  font-size: 0.9rem;
+  color: var(--color-text-light);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.filterChip:hover {
+  background: rgba(255, 136, 0, 0.15);
+  color: #FF8800;
+}
+
+.filterChip.active {
+  background: linear-gradient(135deg, rgba(255, 136, 0, 0.2), rgba(255, 136, 0, 0.1));
+  color: #FF8800;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(255, 136, 0, 0.2);
 }
 
 .documentsGrid {
@@ -105,17 +163,19 @@
 .documentCard {
   background: rgba(30, 41, 59, 0.4);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-radius: 16px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .documentCard:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  border-color: rgba(249, 115, 22, 0.2);
+  border-color: rgba(255, 136, 0, 0.3);
 }
 
 .documentPreview {
@@ -135,7 +195,7 @@
 
 .fileIcon {
   font-size: 3rem;
-  color: var(--color-accent);
+  color: #FF8800;
 }
 
 .fileExtension {
@@ -143,12 +203,13 @@
   bottom: 12px;
   right: 12px;
   padding: 4px 8px;
-  border-radius: 6px;
+  border-radius: 8px;
   background: rgba(15, 23, 42, 0.8);
   color: var(--color-text);
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
+  border: 1px solid rgba(255, 136, 0, 0.3);
 }
 
 .documentInfo {
@@ -174,16 +235,24 @@
 
 .documentCategory {
   display: inline-block;
-  padding: 2px 8px;
-  border-radius: 6px;
-  background: rgba(249, 115, 22, 0.1);
-  color: var(--color-accent);
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: rgba(255, 136, 0, 0.15);
+  color: #FF8800;
   font-size: 0.8rem;
+  font-weight: 600;
   margin-bottom: 8px;
+  border: 1px solid rgba(255, 136, 0, 0.2);
 }
 
 .recentFilesSection {
   margin-top: 40px;
+  background: rgba(22, 31, 49, 0.5);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 20px;
 }
 
 .sectionTitle {
@@ -196,12 +265,13 @@
 }
 
 .sectionTitle i {
-  color: var(--color-accent);
+  color: #FF8800;
 }
 
 .recentFilesList {
   background: rgba(30, 41, 59, 0.4);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-radius: 16px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.05);
@@ -225,7 +295,7 @@
 }
 
 .fileRowIcon {
-  color: var(--color-accent);
+  color: #FF8800;
   font-size: 1.2rem;
 }
 
@@ -267,9 +337,9 @@
 }
 
 .pageButton.active {
-  background: linear-gradient(135deg, rgba(249, 115, 22, 0.2), rgba(251, 146, 60, 0.2));
-  color: var(--color-accent);
-  border: 1px solid rgba(249, 115, 22, 0.3);
+  background: linear-gradient(135deg, rgba(255, 136, 0, 0.2), rgba(255, 136, 0, 0.1));
+  color: #FF8800;
+  border: 1px solid rgba(255, 136, 0, 0.3);
   font-weight: 600;
 }
 
@@ -346,13 +416,13 @@
 }
 
 .uploadArea:hover, .uploadArea.dragging {
-  border-color: var(--color-accent);
-  background: rgba(249, 115, 22, 0.05);
+  border-color: #FF8800;
+  background: rgba(255, 136, 0, 0.05);
 }
 
 .uploadIcon {
   font-size: 3rem;
-  color: var(--color-accent);
+  color: #FF8800;
   margin-bottom: 16px;
 }
 
@@ -400,8 +470,8 @@
 }
 
 .detailsInput:focus {
-  border-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.2);
+  border-color: rgba(255, 136, 0, 0.3);
+  box-shadow: 0 0 0 2px rgba(255, 136, 0, 0.2);
 }
 
 .detailsSelect {
@@ -425,36 +495,6 @@
   gap: 16px;
   padding: 20px 24px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.groupsFilter {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 24px;
-}
-
-.filterChip {
-  padding: 8px 16px;
-  border-radius: 20px;
-  background: rgba(30, 41, 59, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  color: var(--color-text-light);
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.filterChip:hover {
-  background: rgba(30, 41, 59, 0.6);
-  color: var(--color-text);
-}
-
-.filterChip.active {
-  background: linear-gradient(135deg, rgba(249, 115, 22, 0.2), rgba(251, 146, 60, 0.2));
-  color: var(--color-accent);
-  border: 1px solid rgba(249, 115, 22, 0.3);
-  font-weight: 500;
 }
 
 @media (max-width: 768px) {

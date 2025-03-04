@@ -1,21 +1,21 @@
 'use client';
+import React from 'react';
 import ActivePatientsList from './components/ActivePatientsList';
+import Calendar from './components/Calendar';
+import TodoList from './components/TodoList';
 import './page.css';
 
 export default function DashboardPage() {
   return (
-    <div className="dashboard">
+    <div className="dashboard-wrapper">
       <div className="activePatients">
         <ActivePatientsList />
       </div>
-      <div className="stats">
-        <h3>Statistiques</h3>
-      </div>
       <div className="calendar">
-        <h3>Calendrier</h3>
+        <Calendar />
       </div>
-      <div className="notifications">
-        <h3>Notifications</h3>
+      <div className="toDoList">
+        <TodoList />
       </div>
     </div>
   );

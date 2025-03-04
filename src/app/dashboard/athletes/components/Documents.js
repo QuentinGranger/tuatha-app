@@ -116,15 +116,45 @@ export default function Documents({ patient }) {
   const getFileIcon = (type) => {
     switch(type) {
       case 'pdf':
-        return 'fas fa-file-pdf';
+        return (
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <rect x="6" y="13" width="12" height="8"></rect>
+          </svg>
+        );
       case 'image':
-        return 'fas fa-file-image';
+        return (
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+            <polyline points="21 15 16 10 5 21"></polyline>
+          </svg>
+        );
       case 'excel':
-        return 'fas fa-file-excel';
+        return (
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <polyline points="8 13 10.5 15.5 8 18"></polyline>
+            <polyline points="16 13 13.5 15.5 16 18"></polyline>
+          </svg>
+        );
       case 'word':
-        return 'fas fa-file-word';
+        return (
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+        );
       default:
-        return 'fas fa-file';
+        return (
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+          </svg>
+        );
     }
   };
   
@@ -139,16 +169,29 @@ export default function Documents({ patient }) {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-          <i className={`fas fa-search ${styles.searchIcon}`}></i>
+          <svg className={styles.searchIcon} xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
         </div>
         
         <div className={styles.actionButtons}>
           <button className={`${styles.actionButton} ${styles.secondaryButton}`}>
-            <i className="fas fa-share-alt"></i>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="18" cy="5" r="3"></circle>
+              <circle cx="6" cy="12" r="3"></circle>
+              <circle cx="18" cy="19" r="3"></circle>
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+            </svg>
             Partager
           </button>
           <button className={`${styles.actionButton} ${styles.primaryButton}`}>
-            <i className="fas fa-upload"></i>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="17 8 12 3 7 8"></polyline>
+              <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
             Importer
           </button>
         </div>
@@ -174,7 +217,7 @@ export default function Documents({ patient }) {
                 {doc.preview ? (
                   <img src={doc.preview} alt={doc.name} className={styles.previewImage} />
                 ) : (
-                  <i className={`${getFileIcon(doc.type)} ${styles.fileIcon}`}></i>
+                  getFileIcon(doc.type)
                 )}
                 <span className={styles.fileExtension}>{doc.type}</span>
               </div>
@@ -198,7 +241,10 @@ export default function Documents({ patient }) {
       
       <div className={styles.recentFilesSection}>
         <h2 className={styles.sectionTitle}>
-          <i className="fas fa-clock"></i>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
           Fichiers récents
         </h2>
         
@@ -206,7 +252,7 @@ export default function Documents({ patient }) {
           {recentFiles.map(file => (
             <div key={file.id} className={styles.fileRow}>
               <div className={styles.fileRowIcon}>
-                <i className={getFileIcon(file.type)}></i>
+                {getFileIcon(file.type)}
               </div>
               <div className={styles.fileRowName}>
                 {file.name}

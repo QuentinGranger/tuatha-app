@@ -1,0 +1,419 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal {
+  background: rgba(17, 25, 40, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 600px;
+  max-height: calc(100vh - 40px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.modalHeader h3 {
+  margin: 0;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.closeButton {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.closeButton:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  transform: rotate(90deg);
+}
+
+.modalContent {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) rgba(0, 0, 0, 0.1);
+}
+
+.modalContent::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modalContent::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+}
+
+.modalContent::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.formControl {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: white;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.formControl::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.formControl:focus {
+  outline: none;
+  border-color: rgba(255, 136, 0, 0.5);
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 0 2px rgba(255, 136, 0, 0.2);
+}
+
+.formControl:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.modalContent label {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.modalContent textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.formRow {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.formRow .formGroup {
+  flex: 1;
+  min-width: 200px;
+}
+
+.tagInput, .checklistInput {
+  display: flex;
+  gap: 8px;
+}
+
+.tagInput input, .checklistInput input {
+  flex: 1;
+}
+
+.addButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 136, 0, 0.2);
+  color: #FF8800;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.addButton:hover {
+  background: rgba(255, 136, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+.tagsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 136, 0, 0.15);
+  color: #FF8800;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.removeTagButton, .removeItemButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 2px;
+  font-size: 0.8rem;
+}
+
+.removeTagButton:hover, .removeItemButton:hover {
+  color: #ff4d4d;
+}
+
+.checklistContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.checklistItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.checklistItem:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.checklistItem input[type="checkbox"] {
+  margin-right: 10px;
+  accent-color: #FF8800;
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+}
+
+.checklistItem label {
+  flex: 1;
+  margin: 0;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
+}
+
+.checklistItem input[type="checkbox"]:checked + label {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+.removeItemButton, .removeTagButton {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  font-size: 12px;
+  border-radius: 50%;
+}
+
+.removeItemButton:hover, .removeTagButton:hover {
+  color: #ff4d4d;
+  background-color: rgba(255, 77, 77, 0.1);
+}
+
+.actionButton {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  margin-left: 5px;
+}
+
+.editButton {
+  color: #FF8800;
+}
+
+.editButton:hover {
+  background-color: rgba(255, 136, 0, 0.1);
+  color: #FF8800;
+}
+
+.deleteButton {
+  color: #ff4d4d;
+}
+
+.deleteButton:hover {
+  background-color: rgba(255, 77, 77, 0.1);
+  color: #ff4d4d;
+}
+
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.checkboxContainer input[type="checkbox"] {
+  margin-right: 10px;
+  accent-color: #FF8800;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  padding: 16px 20px;
+  background: rgba(0, 0, 0, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cancelButton {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancelButton:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.saveButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #FF8800;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.saveButton:hover {
+  background-color: #e67a00;
+  transform: translateY(-1px);
+}
+
+.saveButton svg {
+  font-size: 14px;
+}
+
+/* Media queries pour la responsivité */
+@media (max-width: 768px) {
+  .modal {
+    width: 95%;
+    max-height: 85vh;
+  }
+  
+  .formRow {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .formRow .formGroup {
+    min-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .modalHeader h3 {
+    font-size: 1rem;
+  }
+  
+  .modalContent {
+    padding: 16px;
+    gap: 16px;
+  }
+  
+  .modalFooter {
+    padding: 12px 16px;
+  }
+  
+  .cancelButton, .saveButton {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+}

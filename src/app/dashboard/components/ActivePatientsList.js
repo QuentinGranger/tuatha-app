@@ -544,7 +544,7 @@ export default function ActivePatientsList() {
                               objectFit: 'cover',
                             }}
                             className={styles.image}
-                            unoptimized
+                            unoptimized="true"
                             onError={(e) => {
                               console.error('Error loading patient table avatar:', e);
                               e.target.src = '/img/patient/default-avatar.jpg';

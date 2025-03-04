@@ -4,6 +4,24 @@
   max-width: 100%;
   overflow-x: hidden;
   box-sizing: border-box;
+  padding: 0;
+  position: relative;
+  transition: opacity 0.3s ease;
+}
+
+.periodChange {
+  animation: fadeTransition 0.5s ease;
+}
+
+@keyframes fadeTransition {
+  0% {
+    opacity: 0.8;
+    transform: translateY(3px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .emptyState {
@@ -14,13 +32,65 @@
   font-size: 1.1rem;
   color: var(--color-text-light);
   font-style: italic;
+  background: rgba(30, 41, 59, 0.3);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.periodSelectorWrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.periodSelector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(30, 41, 59, 0.4);
+  backdrop-filter: blur(8px);
+  border-radius: 20px;
+  padding: 5px;
+  gap: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.periodButton {
+  background: transparent;
+  border: none;
+  border-radius: 16px;
+  padding: 6px 14px;
+  color: var(--color-text-light);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.periodButton:hover {
+  background: rgba(255, 136, 0, 0.1);
+  color: #FF8800;
+  transform: translateY(-1px);
+}
+
+.periodButton.active {
+  background: rgba(255, 136, 0, 0.2);
+  color: #FF8800;
+  box-shadow: 0 2px 6px rgba(255, 136, 0, 0.2);
 }
 
 .statsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 24px;
-  margin-bottom: 30px;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
   width: 100%;
   max-width: 100%;
   overflow-x: hidden;
@@ -30,21 +100,42 @@
   background: rgba(30, 41, 59, 0.4);
   backdrop-filter: blur(10px);
   border-radius: 16px;
-  padding: 20px;
+  padding: 15px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
   overflow-wrap: break-word;
   word-wrap: break-word;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.statsCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #FF8800, #FFB366);
+  opacity: 0.8;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+
+.statsCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 .cardHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   flex-wrap: wrap;
   gap: 8px;
 }
@@ -52,161 +143,292 @@
 .cardTitle {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 1.1rem;
+  gap: 8px;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--color-text);
 }
 
 .cardIcon {
-  color: var(--color-accent);
+  color: #FF8800;
+  stroke: #FF8800;
+  stroke-width: 2;
+  flex-shrink: 0;
 }
 
 .cardDate {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   color: var(--color-text-light);
+  opacity: 0.7;
 }
 
 .chartContainer {
-  height: 200px;
-  margin-top: 10px;
+  height: 180px;
+  margin: 8px 0 12px;
   width: 100%;
   max-width: 100%;
   overflow-x: hidden;
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 5px;
+  transition: all 0.3s ease;
+  position: relative;
 }
 
-.performanceTable {
+.chartContainer:hover {
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transform: translateY(-2px);
+}
+
+.statsSummary {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+  gap: 10px;
+}
+
+.statItem {
+  flex: 1;
+  text-align: center;
+  padding: 8px 6px;
+  background: rgba(15, 23, 42, 0.3);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.statItem:hover {
+  background: rgba(15, 23, 42, 0.5);
+  transform: translateY(-2px);
+}
+
+.statValue {
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 2px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+.statLabel {
+  font-size: 0.75rem;
+  color: var(--color-text-light);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.positiveChange {
+  color: #4ade80;
+  background: linear-gradient(90deg, #4ade80, #a7f3cf);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.negativeChange {
+  color: #ef4444;
+  background: linear-gradient(90deg, #ef4444, #f87171);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.changeIcon {
+  font-size: 0.7rem;
+  margin-right: 2px;
+  vertical-align: middle;
+}
+
+.sectionTitleContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 24px 0 16px;
+}
+
+.sectionTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  position: relative;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.sectionIcon {
+  color: #FF8800;
+  stroke: #FF8800;
+  flex-shrink: 0;
+}
+
+.comparisonGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
   width: 100%;
-  border-collapse: collapse;
-  margin-top: 15px;
-  overflow-x: auto;
-  display: block;
   max-width: 100%;
 }
 
-.performanceTable table {
-  width: 100%;
-  min-width: 100%;
+.comparisonCard {
+  padding: 14px;
+  background: rgba(30, 41, 59, 0.4);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.3s ease;
 }
 
-.performanceTable th {
-  text-align: left;
-  padding: 12px 15px;
-  background: rgba(15, 23, 42, 0.5);
+.comparisonCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.comparisonLabel {
+  font-size: 0.9rem;
+  margin-bottom: 12px;
   color: var(--color-text-light);
   font-weight: 500;
-  font-size: 0.9rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.performanceTable td {
-  padding: 12px 15px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  font-size: 0.95rem;
-}
-
-.performanceTable tr:last-child td {
-  border-bottom: none;
-}
-
-.performanceTrend {
+.comparisonProgress {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 10px;
+  margin-bottom: 8px;
 }
 
-.trendUp {
-  color: #10b981;
-}
-
-.trendDown {
-  color: #ef4444;
-}
-
-.trendFlat {
-  color: #f59e0b;
-}
-
-.barContainer {
+.progressBar {
+  flex: 1;
   height: 6px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 3px;
   overflow: hidden;
-  position: relative;
-  width: 100%;
 }
 
-.barFill {
+.progressFill {
   height: 100%;
-  background: linear-gradient(90deg, rgba(249, 115, 22, 0.7), rgba(249, 115, 22, 0.9));
+  background: linear-gradient(90deg, #FF8800, #FFB366);
   border-radius: 3px;
-  transition: width 0.3s ease;
+  transition: width 0.5s ease;
 }
 
-.barLabel {
-  font-size: 0.85rem;
-  color: var(--color-text-light);
+.comparisonValue {
+  font-weight: 600;
+  font-size: 1.1rem;
+  min-width: 45px;
+  text-align: right;
+  background: linear-gradient(90deg, #FF8800, #FFB366);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.comparisonChange {
   display: flex;
-  justify-content: space-between;
-  margin-top: 5px;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.8rem;
+  color: var(--color-text-light);
+  opacity: 0.8;
+}
+
+.trendIcon {
+  color: #FF8800;
+  stroke: #FF8800;
+  flex-shrink: 0;
 }
 
 /* Media queries pour la responsivité */
 @media (max-width: 1024px) {
   .statsGrid {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
   }
   
   .statsCard {
-    padding: 16px;
+    padding: 14px;
+  }
+  
+  .comparisonGrid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
 }
 
 @media (max-width: 768px) {
   .statsGrid {
-    grid-template-columns: 1fr;
-    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+  }
+  
+  .comparisonGrid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 14px;
   }
   
   .cardHeader {
-    margin-bottom: 15px;
-  }
-  
-  .cardTitle {
-    font-size: 1rem;
-  }
-  
-  .performanceTable th, .performanceTable td {
-    padding: 10px 12px;
-    font-size: 0.9rem;
-  }
-  
-  .chartContainer {
-    height: 180px;
-  }
-}
-
-@media (max-width: 480px) {
-  .statsCard {
-    padding: 12px;
-    border-radius: 12px;
+    margin-bottom: 12px;
   }
   
   .cardTitle {
     font-size: 0.95rem;
   }
   
-  .cardDate {
+  .chartContainer {
+    height: 160px;
+  }
+  
+  .statValue {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .periodSelector {
+    padding: 4px;
+    gap: 3px;
+  }
+  
+  .periodButton {
+    padding: 5px 10px;
     font-size: 0.8rem;
   }
   
-  .performanceTable th, .performanceTable td {
-    padding: 8px 10px;
-    font-size: 0.85rem;
+  .statsGrid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .comparisonGrid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .statsCard {
+    padding: 12px;
+    border-radius: 14px;
+  }
+  
+  .cardTitle {
+    font-size: 0.9rem;
+  }
+  
+  .cardDate {
+    font-size: 0.75rem;
   }
   
   .chartContainer {
-    height: 150px;
+    height: 140px;
   }
 }
