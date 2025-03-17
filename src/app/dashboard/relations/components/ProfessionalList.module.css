@@ -1,82 +1,110 @@
-/* Mises à jour des styles de texte pour assurer la visibilité */
+/* ProfessionalList.module.css - Style luxueux en glassmorphisme avec touches d'orange */
 
-.title {
-  font-size: 1.2rem;
-  font-weight: 600;
-  margin: 0 0 15px 0;
-  color: #fff;
-}
-
-.name {
-  color: #fff;
-  font-weight: 600;
-  margin: 0 0 5px 0;
-  font-size: 1rem;
-}
-
-.specialty {
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 0.85rem;
-  background-color: rgba(0, 0, 0, 0.2);
-  padding: 3px 8px;
-  border-radius: 4px;
-}
-
-.subSpecialty {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 0.85rem;
-  margin: 0;
-}
-
-.description {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 0.85rem;
-  margin-top: 10px;
-  line-height: 1.4;
+/* Variables pour réutilisation des couleurs */
+:root {
+  --primary-orange: rgba(255, 114, 28, 1);
+  --primary-orange-light: rgba(255, 114, 28, 0.5);
+  --primary-orange-fade: rgba(255, 114, 28, 0.2);
+  --glass-background: rgba(17, 25, 40, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --text-primary: rgba(255, 255, 255, 1);
+  --text-secondary: rgba(255, 255, 255, 0.8);
+  --text-tertiary: rgba(255, 255, 255, 0.6);
 }
 
 .container {
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 0;
+  padding: 20px;
   overflow: hidden;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--glass-background);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  position: relative;
 }
 
+/* Effet de reflet sur le conteneur principal */
+.container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, transparent 100%);
+  border-radius: 20px 20px 0 0;
+  pointer-events: none;
+}
+
+.title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0 0 20px 0;
+  color: var(--text-primary);
+  position: relative;
+  padding-bottom: 12px;
+  letter-spacing: 0.5px;
+}
+
+.title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary-orange), var(--primary-orange-fade));
+  border-radius: 3px;
+}
+
+/* Filtres et contrôles */
 .filterControls {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 15px;
-  gap: 10px;
+  margin-bottom: 20px;
+  gap: 15px;
+  flex-wrap: wrap;
 }
 
 .searchBox {
   flex: 1;
+  min-width: 200px;
+  position: relative;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-tertiary);
+  font-size: 0.9rem;
 }
 
 .searchInput {
   width: 100%;
-  padding: 10px 10px 10px 35px;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  color: #fff;
-  font-size: 0.9rem;
-  transition: all 0.2s ease;
+  padding: 12px 15px 12px 35px;
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .searchInput:focus {
   outline: none;
-  border-color: rgba(255, 114, 28, 0.5);
-  box-shadow: 0 0 0 2px rgba(255, 114, 28, 0.2);
+  border-color: var(--primary-orange-light);
+  box-shadow: 0 0 0 3px var(--primary-orange-fade), inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .searchInput::placeholder {
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--text-tertiary);
 }
 
 .filterOptions {
@@ -85,108 +113,286 @@
 }
 
 .filterSelect {
-  padding: 8px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
-  font-size: 0.9rem;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  color: #fff;
-  background-color: rgba(0, 0, 0, 0.2);
+  padding: 12px 30px 12px 15px;
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  font-size: 0.95rem;
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--text-primary);
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 1em;
 }
 
+.filterSelect:focus {
+  outline: none;
+  border-color: var(--primary-orange-light);
+  box-shadow: 0 0 0 2px var(--primary-orange-fade);
+}
+
+.filterSelect:hover {
+  border-color: var(--primary-orange-fade);
+}
+
+/* Liste des professionnels */
 .professionalsList {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 15px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
   overflow-y: auto;
   padding-right: 5px;
   flex: 1;
+  scrollbar-width: thin;
+  scrollbar-color: var(--text-tertiary) transparent;
 }
 
+.professionalsList::-webkit-scrollbar {
+  width: 6px;
+}
+
+.professionalsList::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.professionalsList::-webkit-scrollbar-thumb {
+  background-color: var(--text-tertiary);
+  border-radius: 10px;
+}
+
+.professionalsList::-webkit-scrollbar-thumb:hover {
+  background-color: var(--primary-orange-fade);
+}
+
+/* Carte professionnelle */
 .professionalCard {
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 15px;
-  transition: all 0.2s ease;
+  background: rgba(17, 25, 40, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  padding: 20px;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   cursor: pointer;
   display: flex;
   flex-direction: column;
   position: relative;
-  border-radius: 10px;
+  border-radius: 16px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.professionalCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+  pointer-events: none;
 }
 
 .professionalCard:hover {
-  transform: translateY(-2px);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 114, 28, 0.3);
 }
 
 .selected {
-  border: 1px solid rgba(255, 114, 28, 0.6);
+  border: 1px solid var(--primary-orange);
+  box-shadow: 0 8px 25px rgba(255, 114, 28, 0.2);
+}
+
+.selected::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--primary-orange), var(--primary-orange-fade));
+  border-radius: 16px 0 0 16px;
 }
 
 .cardHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 .statusIndicator {
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   margin-right: 8px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.statusIndicator::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: inherit;
+  filter: blur(4px);
+  opacity: 0.6;
+}
+
+.specialty {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 5px 10px;
+  border-radius: 8px;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.specialty svg {
+  font-size: 0.9rem;
+  margin-right: 2px;
+  color: var(--primary-orange-light);
+}
+
+.specialtyText {
+  display: inline-block;
 }
 
 .cardContent {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
 }
 
 .professionalImage {
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   overflow: hidden;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  border: 2px solid var(--glass-border);
+  position: relative;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  flex-shrink: 0;
+  background: linear-gradient(45deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2));
+}
+
+.avatarPlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(120deg, rgba(255, 114, 28, 0.2), rgba(255, 60, 0, 0.3));
+  color: white;
+  font-weight: 600;
+  font-size: 1.2rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .professionalImage img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.professionalCard:hover .professionalImage img {
+  transform: scale(1.1);
 }
 
 .professionalInfo {
   flex: 1;
+  min-width: 0;
+}
+
+.name {
+  color: var(--text-primary);
+  font-weight: 600;
+  margin: 0 0 5px 0;
+  font-size: 1.1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.subSpecialty {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.description {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-top: 15px;
+  line-height: 1.5;
+  position: relative;
+  max-height: 65px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  line-clamp: 3;
+}
+
+.description::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 60px;
+  height: 25px;
+  background: linear-gradient(90deg, transparent, rgba(17, 25, 40, 0.8));
 }
 
 .cardActions {
   display: flex;
   justify-content: flex-end;
-  gap: 5px;
-  margin-top: 15px;
+  gap: 8px;
+  margin-top: 20px;
 }
 
 .actionButton {
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.7);
-  border-radius: 4px;
-  padding: 5px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--glass-border);
+  color: var(--text-secondary);
+  border-radius: 10px;
+  padding: 8px 10px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
 }
 
 .actionButton:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #fff;
+  background-color: var(--primary-orange-fade);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  border-color: var(--primary-orange-light);
 }
 
 .icon {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
 }
 
 .emptyList {
@@ -194,9 +400,71 @@
   justify-content: center;
   align-items: center;
   height: 200px;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--text-tertiary);
   font-style: italic;
-  border: 1px dashed rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-  margin-top: 20px;
+  border: 1px dashed var(--glass-border);
+  border-radius: 16px;
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Media Queries pour responsivité */
+@media (max-width: 1200px) {
+  .professionalsList {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+}
+
+@media (max-width: 992px) {
+  .filterControls {
+    flex-direction: column;
+  }
+  
+  .filterOptions {
+    width: 100%;
+  }
+  
+  .filterSelect {
+    flex: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+    border-radius: 16px;
+  }
+  
+  .professionalsList {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 15px;
+  }
+  
+  .professionalImage {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .name {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .title {
+    font-size: 1.2rem;
+  }
+  
+  .professionalsList {
+    grid-template-columns: 1fr;
+  }
+  
+  .professionalCard {
+    padding: 15px;
+  }
+  
+  .cardActions {
+    margin-top: 15px;
+  }
 }

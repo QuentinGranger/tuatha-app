@@ -57,7 +57,7 @@ const CommunicationPanel = ({ selectedProfessional }) => {
     }
   ]);
   
-  // Données pour le forum collaboratif
+  // États pour le forum collaboratif
   const [forumTopics, setForumTopics] = useState([
     {
       id: 1,
@@ -72,7 +72,13 @@ const CommunicationPanel = ({ selectedProfessional }) => {
       lastActivity: new Date(2025, 2, 15),
       type: 'consultation',
       isPublic: true,
-      tags: ['post-op', 'rééducation', 'orthopédie']
+      tags: ['post-op', 'rééducation', 'orthopédie'],
+      messages: [
+        { id: 1, authorId: 'pro-1', authorName: 'Dr. Tony', text: "J'ai revu le patient aujourd'hui. La cicatrisation est bonne mais il signale des douleurs persistantes lors de la flexion complète.", timestamp: new Date(2025, 2, 13, 10, 30) },
+        { id: 2, authorId: 'pro-2', authorName: 'Dr. Smith', text: "Est-ce qu'il effectue correctement les exercices de rééducation? J'ai remarqué qu'il a tendance à forcer sur l'articulation.", timestamp: new Date(2025, 2, 13, 14, 15) },
+        { id: 3, authorId: 'pro-3', authorName: 'Dr. Leroy', text: "Je lui ai prescrit des anti-inflammatoires et recommandé d'alterner chaud et froid sur la zone. Qu'en pensez-vous?", timestamp: new Date(2025, 2, 14, 9, 0) },
+        { id: 4, authorId: 'current-user', authorName: 'Vous', text: "D'après mon évaluation, je pense que nous devrions diminuer l'intensité des exercices pendant une semaine et se concentrer davantage sur la mobilité que sur le renforcement.", timestamp: new Date(2025, 2, 15, 11, 45) }
+      ]
     },
     {
       id: 2,
@@ -86,9 +92,18 @@ const CommunicationPanel = ({ selectedProfessional }) => {
       lastActivity: new Date(2025, 2, 16),
       type: 'discussion',
       isPublic: true,
-      tags: ['nutrition', 'rééducation', 'coordination']
+      tags: ['nutrition', 'rééducation', 'coordination'],
+      messages: [
+        { id: 1, authorId: 'pro-1', authorName: 'Dr. Tony', text: "Le patient devrait augmenter son apport en protéines pour favoriser la récupération musculaire.", timestamp: new Date(2025, 2, 15, 10, 0) },
+        { id: 2, authorId: 'pro-4', authorName: 'Dr. Zeno', text: "Je lui ai préparé un planning nutritionnel adapté. Je recommande également une supplémentation en oméga-3 pour réduire l'inflammation.", timestamp: new Date(2025, 2, 15, 14, 30) },
+        { id: 3, authorId: 'current-user', authorName: 'Vous', text: "Excellent plan. J'ajouterais qu'il serait bien de synchroniser les apports en protéines avec les séances d'exercices - idéalement dans l'heure qui suit l'effort.", timestamp: new Date(2025, 2, 16, 9, 15) }
+      ]
     }
   ]);
+  
+  // État pour le forum sélectionné et l'affichage de la vue détaillée
+  const [selectedForum, setSelectedForum] = useState(null);
+  const [forumMessageInput, setForumMessageInput] = useState('');
   
   const handleSendMessage = () => {
     if (!messageInput.trim()) return;
@@ -146,7 +161,8 @@ const CommunicationPanel = ({ selectedProfessional }) => {
       lastActivity: new Date(),
       type: forumType,
       isPublic: isPublic,
-      tags: []
+      tags: [],
+      messages: []
     };
     
     setForumTopics([...forumTopics, newForum]);
@@ -157,6 +173,46 @@ const CommunicationPanel = ({ selectedProfessional }) => {
     setForumType('discussion');
     setIsPublic(true);
     setShowCreateForumModal(false);
+  };
+  
+  // Fonction pour envoyer un message dans le forum sélectionné
+  const handleSendForumMessage = () => {
+    if (!forumMessageInput.trim() || !selectedForum) return;
+    
+    const newMessage = {
+      id: selectedForum.messages.length + 1,
+      authorId: 'current-user',
+      authorName: 'Vous',
+      text: forumMessageInput,
+      timestamp: new Date()
+    };
+    
+    // Mettre à jour le forum avec le nouveau message
+    const updatedForums = forumTopics.map(forum => {
+      if (forum.id === selectedForum.id) {
+        const updatedForum = {
+          ...forum,
+          messages: [...forum.messages, newMessage],
+          lastActivity: new Date()
+        };
+        setSelectedForum(updatedForum); // Mettre à jour le forum sélectionné
+        return updatedForum;
+      }
+      return forum;
+    });
+    
+    setForumTopics(updatedForums);
+    setForumMessageInput('');
+  };
+  
+  // Fonction pour sélectionner un forum
+  const handleSelectForum = (forum) => {
+    setSelectedForum(forum);
+  };
+  
+  // Fonction pour revenir à la liste des forums
+  const handleBackToForumList = () => {
+    setSelectedForum(null);
   };
   
   // Fonction pour grouper les messages par expéditeur
@@ -380,6 +436,91 @@ const CommunicationPanel = ({ selectedProfessional }) => {
                 Démarrez une discussion collaborative avec ce professionnel et d'autres intervenants pour ce patient.
               </p>
             </div>
+          ) : selectedForum ? (
+            // Vue détaillée d'un forum
+            <div className={styles.forumDetailContainer}>
+              <button 
+                className={styles.backButton}
+                onClick={handleBackToForumList}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                Retour aux discussions
+              </button>
+              
+              <div className={styles.forumDetailHeader}>
+                <h3 className={styles.forumDetailTitle}>
+                  {selectedForum.title}
+                  <span className={styles.tag}>{selectedForum.type === 'consultation' ? 'Consultation' : 'Discussion'}</span>
+                </h3>
+                <p className={styles.forumDetailDescription}>{selectedForum.description}</p>
+                
+                <div className={styles.forumDetailMeta}>
+                  <div className={styles.forumDetailParticipants}>
+                    <span className={styles.forumDetailMetaLabel}>Participants:</span>
+                    <div className={styles.participantAvatars}>
+                      {selectedForum.participants.map((participant) => (
+                        <div key={participant.id} className={styles.participantAvatar} title={participant.name}>
+                          <img 
+                            src={participant.photo}
+                            alt={participant.name}
+                            onError={(e) => {
+                              e.target.src = '/img/default-avatar.jpg';
+                            }}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                    <button className={styles.addParticipantButton}>+</button>
+                  </div>
+                </div>
+              </div>
+              
+              <div className={styles.forumMessages}>
+                {selectedForum.messages.length === 0 ? (
+                  <div className={styles.emptyState}>
+                    <div className={styles.emptyStateIcon}>💬</div>
+                    <h3 className={styles.emptyStateTitle}>Aucun message</h3>
+                    <p className={styles.emptyStateText}>
+                      Soyez le premier à écrire dans cette discussion
+                    </p>
+                  </div>
+                ) : (
+                  selectedForum.messages.map((message) => (
+                    <div key={message.id} className={`${styles.forumMessage} ${message.authorId === 'current-user' ? styles.forumMessageRight : styles.forumMessageLeft}`}>
+                      <div className={styles.forumMessageHeader}>
+                        <span className={styles.forumMessageAuthor}>{message.authorName}</span>
+                        <span className={styles.forumMessageTime}>{formatTime(message.timestamp)}</span>
+                      </div>
+                      <div className={styles.forumMessageContent}>
+                        {message.text}
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+              
+              <div className={styles.forumInputSection}>
+                <input
+                  type="text"
+                  className={styles.textInput}
+                  placeholder="Écrivez un message..."
+                  value={forumMessageInput}
+                  onChange={(e) => setForumMessageInput(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && handleSendForumMessage()}
+                />
+                <button 
+                  className={styles.actionButton}
+                  onClick={handleSendForumMessage}
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22 2L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
           ) : (
             <div className={styles.forumContainer}>
               <div className={styles.forumSection}>
@@ -391,7 +532,11 @@ const CommunicationPanel = ({ selectedProfessional }) => {
                 </h3>
                 
                 {forumTopics.map(topic => (
-                  <div key={topic.id} className={styles.forumCard}>
+                  <div 
+                    key={topic.id} 
+                    className={styles.forumCard}
+                    onClick={() => handleSelectForum(topic)}
+                  >
                     <h4 className={styles.forumCardTitle}>
                       {topic.title}
                       <span className={styles.tag}>{topic.type === 'consultation' ? 'Consultation' : 'Discussion'}</span>

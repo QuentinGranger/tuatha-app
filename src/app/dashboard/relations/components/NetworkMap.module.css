@@ -2,25 +2,32 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 20px;
-  background: rgba(17, 25, 40, 0.3);
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  padding: 25px;
+  background: rgba(17, 25, 40, 0.75);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
   overflow: visible;
+  transition: all 0.3s ease;
+}
+
+.networkMap:hover {
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 114, 28, 0.3);
 }
 
 .title {
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   font-weight: 600;
-  margin: 0 0 20px 0;
-  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 25px 0;
+  color: rgba(255, 255, 255, 0.95);
   text-align: center;
   letter-spacing: 0.5px;
   position: relative;
   padding-bottom: 15px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .title:after {
@@ -29,38 +36,39 @@
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 80px;
+  width: 100px;
   height: 3px;
-  background: linear-gradient(90deg, rgba(255, 114, 28, 0.2), rgba(255, 114, 28, 0.8), rgba(255, 114, 28, 0.2));
+  background: linear-gradient(90deg, rgba(255, 114, 28, 0.1), rgba(255, 114, 28, 0.9), rgba(255, 114, 28, 0.1));
   border-radius: 3px;
+  box-shadow: 0 2px 6px rgba(255, 114, 28, 0.2);
 }
 
 .canvasContainer {
   width: 100%;
   position: relative;
   height: 450px;
-  border-radius: 12px;
+  border-radius: 16px;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-  overflow: visible;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
   transition: all 0.3s ease;
-  background: rgba(0, 0, 0, 0.15);
+  background: rgba(0, 0, 0, 0.25);
   display: block;
 }
 
 .canvasContainer:hover {
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.15);
-  border: 1px solid rgba(255, 114, 28, 0.2);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 114, 28, 0.3);
 }
 
 .canvas {
   display: block;
   width: 100%;
   height: 100%;
-  border-radius: 12px;
-  background: radial-gradient(circle at center, rgba(255, 114, 28, 0.05) 0%, rgba(0, 0, 0, 0.05) 70%);
+  border-radius: 16px;
+  background: radial-gradient(circle at center, rgba(255, 114, 28, 0.08) 0%, rgba(0, 0, 0, 0.1) 70%);
   transition: all 0.3s ease;
   cursor: pointer;
   position: relative;
@@ -70,98 +78,168 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 12px;
   margin-top: 25px;
   padding: 15px;
-  border-radius: 12px;
-  background: rgba(0, 0, 0, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .legendItem {
   display: flex;
   align-items: center;
-  padding: 5px 10px;
-  border-radius: 6px;
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.9);
-  transition: all 0.2s ease;
+  padding: 8px 15px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.95);
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .legendItem:hover {
-  background: rgba(0, 0, 0, 0.3);
-  transform: translateY(-2px);
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.5);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+  border-color: rgba(255, 114, 28, 0.3);
 }
 
-.legendColor {
-  width: 16px;
-  height: 16px;
+.colorSquare {
+  width: 18px;
+  height: 18px;
   border-radius: 4px;
-  margin-right: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.tooltip {
-  position: absolute;
-  padding: 8px 12px;
-  background: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  border-radius: 6px;
-  font-size: 14px;
-  z-index: 1000;
-  pointer-events: none;
-  max-width: 250px;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  white-space: nowrap;
-}
-
-.tooltip.visible {
-  opacity: 1;
-}
-
-.nodeCircle {
-  cursor: pointer;
+  margin-right: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2), inset 0 0 4px rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
 }
 
-.nodeCircle:hover {
+.legendItem:hover .colorSquare {
   transform: scale(1.1);
+  box-shadow: 0 0 12px rgba(255, 114, 28, 0.3), inset 0 0 6px rgba(255, 255, 255, 0.4);
 }
 
-.nodeName {
-  font-size: 13px;
-  fill: #fff;
-  text-anchor: middle;
-  pointer-events: none;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+.mapHelp {
+  text-align: center;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 15px;
+  font-style: italic;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
 }
 
-.nodeImage {
-  width: 40px;
-  height: 40px;
-  object-fit: cover;
-  clip-path: circle(50%);
-  border: 2px solid white;
+.mapHelp:hover {
+  color: rgba(255, 255, 255, 0.9);
 }
 
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 350px;
+  padding: 30px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+.emptyState p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1rem;
+  text-align: center;
+  margin-top: 25px;
+  max-width: 300px;
+}
+
+.pulseAnimation {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pulseAnimation svg {
+  width: 60px;
+  height: 60px;
+  z-index: 2;
+  position: relative;
+  fill: rgba(255, 114, 28, 0.8);
+  filter: drop-shadow(0 0 8px rgba(255, 114, 28, 0.4));
+  animation: pulse 2s infinite;
+}
+
+.pulseAnimation:before,
+.pulseAnimation:after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: rgba(255, 114, 28, 0.2);
+  animation: pulse 2s infinite;
+}
+
+.pulseAnimation:after {
+  animation-delay: 0.5s;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.6);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Responsive styles */
 @media (max-width: 768px) {
+  .networkMap {
+    padding: 20px;
+  }
+  
+  .canvasContainer {
+    height: 400px;
+  }
+  
+  .legend {
+    padding: 12px;
+    gap: 8px;
+  }
+  
+  .legendItem {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+  
+  .colorSquare {
+    width: 15px;
+    height: 15px;
+    margin-right: 6px;
+  }
+}
+
+@media (max-width: 480px) {
   .networkMap {
     padding: 15px;
   }
   
   .title {
-    font-size: 1.2rem;
-    padding-bottom: 10px;
+    font-size: 1.3rem;
     margin-bottom: 15px;
   }
   
@@ -170,15 +248,18 @@
   }
   
   .legend {
-    padding: 10px;
-    margin-top: 15px;
-    flex-direction: column;
-    align-items: center;
+    gap: 6px;
   }
   
   .legendItem {
-    width: 100%;
-    justify-content: center;
+    padding: 5px 8px;
+    font-size: 0.75rem;
+  }
+  
+  .colorSquare {
+    width: 12px;
+    height: 12px;
+    margin-right: 5px;
   }
 }
 
@@ -381,31 +462,6 @@
   to {
     stroke-dashoffset: 0;
   }
-}
-
-.emptyState {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 400px;
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 12px;
-  border: 1px dashed rgba(255, 255, 255, 0.1);
-}
-
-.emptyState p {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 1.1rem;
-  margin-top: 15px;
-}
-
-.mapHelp {
-  text-align: center;
-  margin-top: 12px;
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.6);
-  font-style: italic;
 }
 
 .doctorColor {

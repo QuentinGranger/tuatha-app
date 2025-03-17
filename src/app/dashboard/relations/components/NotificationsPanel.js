@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   FaBell, FaCheckCircle, FaFilter, FaTrashAlt, 
   FaInfoCircle, FaExclamationTriangle, FaCalendarAlt,
   FaUserMd, FaHospital, FaPrescriptionBottleAlt,
-  FaFileMedical, FaStethoscope, FaHeartbeat
+  FaFileMedical, FaStethoscope, FaHeartbeat,
+  FaRegBell, FaSearch, FaClock, FaSlidersH
 } from 'react-icons/fa';
 import styles from './NotificationsPanel.module.css';
 
@@ -158,11 +159,28 @@ const NotificationsPanel = ({ patient, professionals }) => {
   const [notifications, setNotifications] = useState([]);
   const [filter, setFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const searchInputRef = useRef(null);
   
   useEffect(() => {
     // Chargement des notifications (mock)
     setNotifications(generateMockNotifications());
   }, []);
+
+  // Effet pour animer les notifications entrantes
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const cards = document.querySelectorAll(`.${styles.notificationCard}`);
+      cards.forEach((card, index) => {
+        setTimeout(() => {
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        }, index * 100);
+      });
+    }, 300);
+    
+    return () => clearTimeout(timer);
+  }, [notifications, filter, searchTerm]);
   
   const formatRelativeTime = (timestamp) => {
     const now = new Date();
@@ -247,11 +265,19 @@ const NotificationsPanel = ({ patient, professionals }) => {
   
   const filteredNotifications = getFilteredNotifications();
   const unreadCount = notifications.filter(notif => !notif.read).length;
+
+  const focusSearch = () => {
+    if (searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  };
   
   if (!patient) {
     return (
       <div className={styles.emptyState}>
-        <FaBell size={40} className={styles.emptyStateIcon} />
+        <div className={styles.emptyStateIcon}>
+          <FaRegBell />
+        </div>
         <p>Veuillez sélectionner un patient pour voir ses notifications et alertes</p>
       </div>
     );
@@ -268,12 +294,15 @@ const NotificationsPanel = ({ patient, professionals }) => {
           )}
         </div>
         
-        <div className={styles.search}>
+        <div className={`${styles.search} ${isSearchFocused ? styles.focused : ''}`}>
           <input
+            ref={searchInputRef}
             type="text"
             placeholder="Rechercher..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            onFocus={() => setIsSearchFocused(true)}
+            onBlur={() => setIsSearchFocused(false)}
             className={styles.searchInput}
           />
         </div>
@@ -301,7 +330,7 @@ const NotificationsPanel = ({ patient, professionals }) => {
             disabled={unreadCount === 0}
           >
             <FaCheckCircle className={styles.buttonIcon} />
-            Tout marquer comme lu
+            <span>Tout marquer comme lu</span>
           </button>
           <button 
             className={`${styles.actionButton} ${styles.dangerButton}`} 
@@ -309,7 +338,7 @@ const NotificationsPanel = ({ patient, professionals }) => {
             disabled={notifications.length === 0}
           >
             <FaTrashAlt className={styles.buttonIcon} />
-            Tout effacer
+            <span>Tout effacer</span>
           </button>
         </div>
       </div>
@@ -317,17 +346,25 @@ const NotificationsPanel = ({ patient, professionals }) => {
       <div className={styles.notificationList}>
         {filteredNotifications.length === 0 ? (
           <div className={styles.emptyNotifications}>
-            <FaBell size={32} />
+            <div className={styles.emptyStateIcon}>
+              <FaSearch />
+            </div>
             <p>Aucune notification ne correspond à vos critères</p>
           </div>
         ) : (
-          filteredNotifications.map(notification => {
+          filteredNotifications.map((notification, index) => {
             const typeInfo = getNotificationTypeInfo(notification.type);
             return (
               <div 
                 key={notification.id} 
                 className={`${styles.notificationCard} ${notification.read ? styles.read : styles.unread}`}
                 onClick={() => markAsRead(notification.id)}
+                style={{ 
+                  opacity: 0, 
+                  transform: 'translateY(20px)',
+                  transition: 'all 0.3s ease',
+                  transitionDelay: `${index * 0.05}s`
+                }}
               >
                 <div className={styles.notificationHeader}>
                   <div className={styles.notificationTypeIcon} style={{ color: typeInfo.color }}>
@@ -336,7 +373,9 @@ const NotificationsPanel = ({ patient, professionals }) => {
                   <div className={styles.notificationInfo}>
                     <h3 className={styles.notificationTitle}>{notification.title}</h3>
                     {notification.professional && (
-                      <p className={styles.notificationSource}>{notification.professional.name}</p>
+                      <p className={styles.notificationSource}>
+                        {notification.professional.name}
+                      </p>
                     )}
                   </div>
                   <div className={styles.notificationActions}>
@@ -358,10 +397,11 @@ const NotificationsPanel = ({ patient, professionals }) => {
                 </div>
                 
                 <div className={styles.notificationFooter}>
-                  <span className={styles.notificationType} style={{ color: typeInfo.color }}>
+                  <span className={styles.notificationType} style={{ backgroundColor: `${typeInfo.color}20`, color: typeInfo.color, borderColor: `${typeInfo.color}30` }}>
                     {typeInfo.label}
                   </span>
                   <span className={styles.notificationTime} title={formatFullDate(notification.timestamp)}>
+                    <FaClock style={{ marginRight: '5px', fontSize: '0.8rem', opacity: '0.7' }} />
                     {formatRelativeTime(notification.timestamp)}
                   </span>
                 </div>

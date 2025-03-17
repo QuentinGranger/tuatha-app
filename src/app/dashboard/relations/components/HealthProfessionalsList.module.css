@@ -1,0 +1,476 @@
+/* HealthProfessionalsList.module.css - Style luxueux en glassmorphisme avec des touches d'orange */
+
+/* Conteneur principal */
+.professionalsListContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 500px;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  padding: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+/* En-tête de la liste */
+.listHeader {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(135deg, rgba(255, 114, 28, 0.15), rgba(0, 0, 0, 0.2));
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Titre de la liste */
+.listTitle {
+  margin: 0 0 10px 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+}
+
+/* Onglets de filtrage */
+.filterTabs {
+  display: flex;
+  gap: 5px;
+  overflow-x: auto;
+  padding-bottom: 5px;
+  scrollbar-width: thin;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.filterTabs::-webkit-scrollbar {
+  height: 3px;
+}
+
+.filterTabs::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 114, 28, 0.3);
+  border-radius: 3px;
+}
+
+.filterTab {
+  padding: 8px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 6px 6px 0 0;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  position: relative;
+}
+
+.filterTab:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.activeFilter {
+  color: rgba(255, 114, 28, 1);
+  font-weight: 500;
+}
+
+.statusDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+/* Barre de recherche */
+.searchBox {
+  position: relative;
+  margin-top: 10px;
+}
+
+.searchInput {
+  width: 100%;
+  height: 40px;
+  padding: 0 15px 0 40px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 0.9rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.searchInput:focus {
+  border-color: rgba(255, 114, 28, 0.5);
+  box-shadow: 0 0 0 2px rgba(255, 114, 28, 0.1);
+}
+
+.searchInput::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.searchIcon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.6);
+  pointer-events: none;
+}
+
+/* Liste de professionnels */
+.professionalsList {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.professionalsList::-webkit-scrollbar {
+  width: 6px;
+}
+
+.professionalsList::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+}
+
+.professionalsList::-webkit-scrollbar-thumb {
+  background: rgba(255, 114, 28, 0.3);
+  border-radius: 3px;
+}
+
+/* Carte de professionnel */
+.professionalCard {
+  display: flex;
+  gap: 15px;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.professionalCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, rgba(255, 114, 28, 0) 0%, rgba(255, 114, 28, 0.05) 100%);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.professionalCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  border-color: rgba(255, 114, 28, 0.2);
+}
+
+.professionalCard:hover::before {
+  opacity: 1;
+}
+
+/* Styles pour les cartes sélectionnées */
+.selectedPro {
+  background: rgba(255, 114, 28, 0.15) !important;
+  border: 1px solid rgba(255, 114, 28, 0.3) !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 114, 28, 0.2) !important;
+}
+
+/* Styles des cartes par statut */
+.statusActive {
+  border-left: 3px solid #34A853;
+}
+
+.statusPending {
+  border-left: 3px solid #FBBC05;
+}
+
+.statusHistory {
+  border-left: 3px solid #9E9E9E;
+  opacity: 0.8;
+}
+
+/* Avatar du professionnel */
+.proAvatar {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid;
+  position: relative;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+  background: linear-gradient(45deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4));
+}
+
+.professionalCard:hover .proAvatar {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(255, 114, 28, 0.2);
+}
+
+.imageWrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* Contenu de la carte */
+.proContent {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 0; 
+  gap: 10px;
+}
+
+.proInfo {
+  flex: 1;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  min-width: 0;
+}
+
+.proName {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 8px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.01em;
+  transition: all 0.2s ease;
+  max-width: 100%;
+}
+
+.professionalCard:hover .proName {
+  color: rgba(255, 114, 28, 0.9);
+}
+
+/* Détails du professionnel */
+.proDetails {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.proSpecialty {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.specialtyIcon {
+  font-size: 0.8rem;
+}
+
+.lastContact {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-style: italic;
+}
+
+/* Boutons d'action */
+.proActions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.actionButton {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 2;
+}
+
+.actionButton:hover {
+  background: rgba(255, 114, 28, 0.3);
+  border-color: rgba(255, 114, 28, 0.5);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Indicateur de statut */
+.proStatus {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  position: absolute;
+  bottom: -1px;
+  right: -1px;
+  border: 2px solid rgba(17, 25, 40, 0.9);
+  transition: all 0.3s ease;
+}
+
+.statusDotActive {
+  background-color: #34A853;
+  box-shadow: 0 0 8px rgba(52, 168, 83, 0.6);
+}
+
+.statusDotPending {
+  background-color: #FBBC05;
+  box-shadow: 0 0 8px rgba(251, 188, 5, 0.6);
+}
+
+.statusDotHistory {
+  background-color: #9E9E9E;
+  box-shadow: 0 0 8px rgba(158, 158, 158, 0.4);
+}
+
+/* État vide */
+.emptyProfessionals {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 30px;
+  font-size: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.emptyProfessionals p {
+  margin-top: 5px;
+  font-weight: 500;
+}
+
+/* Media queries pour la responsive */
+@media (max-width: 768px) {
+  .listHeader {
+    padding: 1rem;
+  }
+  
+  .professionalsList {
+    padding: 10px;
+  }
+  
+  .professionalCard {
+    padding: 12px;
+  }
+  
+  .proAvatar {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .proName {
+    font-size: 0.9rem;
+  }
+  
+  .proSpecialty, .lastContact {
+    font-size: 0.8rem;
+  }
+  
+  .actionButton {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .filterTabs {
+    justify-content: flex-start;
+    width: 100%;
+    overflow-x: auto;
+  }
+  
+  .filterTab {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+  
+  .professionalCard {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+  }
+  
+  .proAvatar {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .proContent {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .proInfo {
+    text-align: center;
+    width: 100%;
+  }
+  
+  .proDetails {
+    justify-content: center;
+  }
+  
+  .proActions {
+    margin-top: 8px;
+    width: 100%;
+    justify-content: center;
+  }
+}
