@@ -855,124 +855,176 @@ button.tabButton[class*="active-tab-button"] {
 .messagePanel {
   display: flex;
   flex-direction: column;
-  height: 500px;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  height: 100%;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(10, 10, 20, 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 20px;
-  border-radius: 10px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
 }
 
 .messagesHeader {
   display: flex;
   align-items: center;
-  padding: 1rem;
+  padding: 16px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .messagesBody {
   flex: 1;
-  overflow-y: auto;
-  padding: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  overflow-y: auto;
+  padding: 16px;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.messageRow {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.messageRowSent {
+  align-items: flex-end;
+}
+
+.messageRowReceived {
+  align-items: flex-start;
 }
 
 .message {
+  max-width: 80%;
+  margin: 2px 0;
+  position: relative;
   display: flex;
   flex-direction: column;
-  margin-bottom: 1rem;
-  max-width: 80%;
-  position: relative;
 }
 
-.messageSender {
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.7);
-  margin-bottom: 0.25rem;
+.messageInfo {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 4px;
 }
 
 .messageContent {
-  padding: 10px 15px;
-  border-radius: 12px;
+  padding: 10px 14px;
+  border-radius: 16px;
+  color: #fff;
   position: relative;
+  overflow-wrap: break-word;
   word-break: break-word;
-  color: white;
-}
-
-.messageTime {
-  font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.6);
-  margin-top: 0.25rem;
-  align-self: flex-end;
+  white-space: pre-wrap;
+  line-height: 1.4;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .messageSent {
   align-self: flex-end;
-  margin-left: auto;
-}
-
-.messageSent .messageContent {
-  border-bottom-right-radius: 2px;
-  background-color: rgba(255, 114, 28, 0.15);
-  border: 1px solid rgba(255, 114, 28, 0.2);
 }
 
 .messageReceived {
   align-self: flex-start;
-  margin-right: auto;
+}
+
+.messageSent .messageContent {
+  background: linear-gradient(135deg, rgba(255, 114, 28, 0.3), rgba(255, 114, 28, 0.15));
+  border: 1px solid rgba(255, 114, 28, 0.2);
+  border-bottom-right-radius: 4px;
 }
 
 .messageReceived .messageContent {
-  border-bottom-left-radius: 2px;
-  background-color: rgba(0, 0, 0, 0.25);
+  background: linear-gradient(135deg, rgba(50, 50, 70, 0.6), rgba(40, 40, 60, 0.4));
   border: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom-left-radius: 4px;
+}
+
+.messageTime {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 4px;
+  align-self: flex-end;
 }
 
 .messageInput {
   display: flex;
-  padding: 0.75rem;
+  align-items: center;
+  padding: 12px 16px;
+  background: rgba(0, 0, 0, 0.2);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  gap: 0.75rem;
+  position: relative;
+  z-index: 2;
 }
 
 .messageInput input {
   flex: 1;
-  padding: 0.75rem 1rem;
-  border-radius: 24px;
+  background: rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  background-color: transparent;
-  color: white;
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-}
-
-.messageInput input:focus {
+  color: #fff;
+  border-radius: 24px;
+  padding: 10px 16px;
   outline: none;
-  border-color: rgba(255, 114, 28, 0.4);
-  box-shadow: 0 0 0 1px rgba(255, 114, 28, 0.2);
-}
-
-.sendButton {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: none;
-  background-color: rgba(255, 114, 28, 0.8);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
+  font-size: 14px;
   transition: all 0.2s ease;
 }
 
+.messageInput input:focus {
+  border-color: rgba(255, 114, 28, 0.4);
+  box-shadow: 0 0 0 2px rgba(255, 114, 28, 0.1);
+}
+
+.messageInput input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.sendButton {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 114, 28, 0.8);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
 .sendButton:hover {
-  background-color: rgba(255, 114, 28, 1);
+  background: rgba(255, 114, 28, 1);
   transform: scale(1.05);
-  box-shadow: 0 0 8px rgba(255, 114, 28, 0.5);
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+  padding: 32px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.emptyStateIcon {
+  font-size: 32px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(255, 114, 28, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  box-shadow: 0 0 30px rgba(255, 114, 28, 0.2);
 }
 
 .dataGrid {
@@ -1057,11 +1109,14 @@ button.tabButton[class*="active-tab-button"] {
 }
 
 .textPrimary {
-  color: #fff;
+  color: white;
+  margin: 0.5rem 0;
 }
 
 .textSecondary {
   color: rgba(255, 255, 255, 0.7);
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
 }
 
 .textAccent {
@@ -1798,25 +1853,44 @@ button.tabButton[class*="active-tab-button"] {
 
 /* Layout de la page relations avec sidebar pour les professionnels */
 .relationsLayout {
-  display: flex;
+  display: grid;
+  grid-template-columns: 300px 1fr;
   gap: 20px;
-  height: calc(100vh - 240px);
-  overflow: hidden;
+  margin-top: 20px;
+  height: calc(100% - 200px);
+  overflow: visible;
 }
 
 .sidebarColumn {
-  width: 320px;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+  height: 100%;
+  overflow-y: auto;
 }
 
 .mainColumn {
-  flex: 1;
+  height: 100%;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.contentPanel {
+  height: 100%;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  width: 100%;
+}
+
+.tabContent {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 0;
+  width: 100%;
+}
+
+.fullWidthPanel {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  overflow-y: auto;
 }
 
 .professionalsSidebar {
@@ -1915,4 +1989,27 @@ button.tabButton[class*="active-tab-button"] {
     width: 32px;
     height: 32px;
   }
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  height: 100%;
+}
+
+.emptyStateIcon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: rgba(255, 114, 28, 0.1);
+  box-shadow: 0 0 30px rgba(255, 114, 28, 0.2);
 }

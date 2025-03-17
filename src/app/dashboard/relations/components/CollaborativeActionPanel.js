@@ -1,24 +1,39 @@
-'use client';
-
-import { useState } from 'react';
-import styles from '../page.module.css';
-import { FaPlusCircle, FaClipboardList, FaBell } from 'react-icons/fa';
+import React, { useState, useEffect } from 'react';
+import { FaClipboardList, FaBell, FaPlusCircle, FaUserMd, FaCalendarAlt, FaTag, FaUser } from 'react-icons/fa';
+import styles from './CollaborativeActionPanel.module.css';
 
 const CollaborativeActionPanel = ({ selectedProfessional, patient }) => {
+  console.log('CollaborativeActionPanel: selectedProfessional reçu =', selectedProfessional);
+  
+  // Log à chaque changement de selectedProfessional
+  useEffect(() => {
+    console.log('selectedProfessional a changé:', selectedProfessional);
+  }, [selectedProfessional]);
+  
   // Vérifier si un professionnel est sélectionné
-  if (!selectedProfessional) {
+  if (!selectedProfessional || !selectedProfessional.user) {
+    console.log('Pas de professionnel sélectionné ou pas de user:', selectedProfessional);
     return (
-      <div className="text-center py-5 bg-glass rounded-lg" style={{ padding: '3rem' }}>
-        <FaClipboardList size={40} style={{ marginBottom: '1rem', opacity: 0.6, color: 'white' }} />
-        <p className="text-light">Sélectionnez un professionnel pour voir les plans d'action collaboratifs</p>
+      <div className={styles.panel}>
+        <div className={styles.welcomePanel}>
+          <div className={styles.welcomeIcon}>
+            <FaUserMd />
+          </div>
+          <h3 className="text-white">Sélectionnez un professionnel</h3>
+          <p className={styles.welcomeMessage}>
+            Choisissez un professionnel pour visualiser les actions collaboratives et les notifications associées.
+          </p>
+        </div>
       </div>
     );
   }
 
   // Récupérer les informations du professionnel
-  const professionalUser = selectedProfessional.user || {};
-  const professionalName = `${professionalUser.firstName || ''} ${professionalUser.lastName || ''}`.trim() || 'Professionnel';
+  const professionalUser = selectedProfessional.user;
+  const professionalName = `${professionalUser.firstName} ${professionalUser.lastName}`;
   const professionalSpecialty = selectedProfessional.specialty || '';
+  console.log('Nom du professionnel:', professionalName);
+  console.log('Spécialité:', professionalSpecialty);
 
   const [activeTab, setActiveTab] = useState('tasks');
   
@@ -126,182 +141,140 @@ const CollaborativeActionPanel = ({ selectedProfessional, patient }) => {
   };
   
   return (
-    <div className="bg-glass p-4 rounded-lg">
+    <div className={styles.panel}>
       <div className={styles.tabs}>
         <button 
-          className={`${styles.tab} ${activeTab === 'tasks' ? styles.activeTab : ''} text-white`}
+          className={`${styles.tab} ${activeTab === 'tasks' ? styles.activeTab : ''}`}
           onClick={() => setActiveTab('tasks')}
         >
-          <FaClipboardList style={{ marginRight: '8px' }} />
+          <FaClipboardList />
           Actions & Tâches
         </button>
         <button 
-          className={`${styles.tab} ${activeTab === 'notifications' ? styles.activeTab : ''} text-white`}
+          className={`${styles.tab} ${activeTab === 'notifications' ? styles.activeTab : ''}`}
           onClick={() => setActiveTab('notifications')}
         >
-          <FaBell style={{ marginRight: '8px' }} />
+          <FaBell />
           Notifications & Alertes
         </button>
       </div>
       
       {activeTab === 'tasks' && (
-        <div style={{ padding: '1rem 0 0 0' }}>
-          <div style={{ 
-            display: 'flex', 
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginBottom: '1rem'
-          }}>
-            <h3 className="text-white" style={{ margin: 0 }}>
-              Tâches collaboratives avec {professionalName}
+        <>
+          <div className={styles.sectionHeader}>
+            <h3 className={styles.sectionTitle}>
+              Tâches collaboratives avec <span>{professionalName}</span>
             </h3>
-            <button className="btn-accent" style={{
-              padding: '0.5rem 1rem',
-              background: 'rgba(255, 114, 28, 0.7)',
-              border: 'none',
-              borderRadius: '6px',
-              color: 'white',
-              fontSize: '0.85rem',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem'
-            }}>
+            <button className={styles.actionButton}>
               <FaPlusCircle size={14} />
               Nouvelle tâche
             </button>
           </div>
           
-          <div>
+          <div className={styles.content}>
             {tasks.map(task => (
               <div 
                 key={task.id}
-                style={{
-                  background: 'rgba(30, 40, 55, 0.4)',
-                  borderRadius: '8px',
-                  padding: '1rem',
-                  marginBottom: '1rem',
-                  border: '1px solid rgba(255, 255, 255, 0.1)'
-                }}
+                className={styles.taskCard}
               >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.5rem' }}>
-                  <h4 style={{ margin: 0, fontSize: '1.1rem', color: 'white' }}>{task.title}</h4>
+                <div className={styles.taskHeader}>
+                  <h4 className={styles.taskTitle}>{task.title}</h4>
                   <div 
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      minWidth: '90px',
-                      borderRadius: '4px',
-                      padding: '0.25rem 0.5rem',
-                      backgroundColor: `${getStatusColor(task.status)}20`,
-                      border: `1px solid ${getStatusColor(task.status)}`,
-                      color: getStatusColor(task.status),
-                      fontSize: '0.75rem',
-                      fontWeight: '600'
-                    }}
+                    className={`
+                      ${styles.taskStatus} 
+                      ${task.status === 'PENDING' ? styles.statusPending : 
+                        task.status === 'IN_PROGRESS' ? styles.statusInProgress : 
+                        styles.statusCompleted}
+                    `}
                   >
                     {getStatusLabel(task.status)}
                   </div>
                 </div>
                 
-                <p style={{ margin: '0.5rem 0 1rem 0', fontSize: '0.9rem', color: 'rgba(255, 255, 255, 0.8)' }}>
-                  {task.description}
-                </p>
-                
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.7)' }}>
-                  <div>
-                    <span style={{ fontWeight: '600' }}>Attribué par:</span> {task.assignedBy}
-                  </div>
-                  <div>
-                    <span style={{ fontWeight: '600' }}>Pour:</span> {task.assignedTo}
-                  </div>
-                  <div>
-                    <span style={{ fontWeight: '600' }}>Échéance:</span> {task.dueDate}
-                  </div>
-                  <div>
-                    <span style={{ fontWeight: '600' }}>Priorité:</span> {getPriorityLabel(task.priority)}
+                <div className={styles.taskBody}>
+                  <p className={styles.taskDescription}>
+                    {task.description}
+                  </p>
+                  
+                  <div className={styles.taskMeta}>
+                    <div className={styles.taskMetaItem}>
+                      <FaUser size={12} />
+                      <span className={styles.taskMetaLabel}>Attribué par:</span> {task.assignedBy}
+                    </div>
+                    <div className={styles.taskMetaItem}>
+                      <FaUserMd size={12} />
+                      <span className={styles.taskMetaLabel}>Pour:</span> {task.assignedTo}
+                    </div>
+                    <div className={styles.taskMetaItem}>
+                      <FaCalendarAlt size={12} />
+                      <span className={styles.taskMetaLabel}>Échéance:</span> {task.dueDate}
+                    </div>
+                    <div className={styles.taskMetaItem}>
+                      <FaTag size={12} />
+                      <span className={styles.taskMetaLabel}>Priorité:</span> 
+                      <span 
+                        className={`
+                          ${task.priority === 'HIGH' ? styles.highPriority : 
+                            task.priority === 'MEDIUM' ? styles.mediumPriority : 
+                            styles.lowPriority}
+                        `}
+                      >
+                        {getPriorityLabel(task.priority)}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
             ))}
+            
+            {tasks.length === 0 && (
+              <div className={styles.emptyState}>
+                <p>Aucune tâche collaborative avec ce professionnel pour le moment.</p>
+              </div>
+            )}
           </div>
-        </div>
+        </>
       )}
       
       {activeTab === 'notifications' && (
-        <div style={{ padding: '1rem 0 0 0' }}>
-          <div style={{ 
-            display: 'flex', 
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginBottom: '1rem'
-          }}>
-            <h3 className="text-white" style={{ margin: 0 }}>
-              Notifications liées à {professionalName}
+        <>
+          <div className={styles.sectionHeader}>
+            <h3 className={styles.sectionTitle}>
+              Notifications liées à <span>{professionalName}</span>
             </h3>
           </div>
           
-          <div>
+          <div className={styles.content}>
             {notifications.map(notification => (
               <div
                 key={notification.id}
-                style={{
-                  background: notification.read ? 'rgba(30, 40, 55, 0.3)' : 'rgba(30, 40, 55, 0.5)',
-                  padding: '0.75rem',
-                  borderRadius: '8px',
-                  marginBottom: '0.75rem',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  opacity: notification.read ? 0.7 : 1,
-                  position: 'relative',
-                  overflow: 'hidden'
-                }}
+                className={`
+                  ${styles.notificationCard}
+                  ${!notification.read ? styles.notificationUnread : ''}
+                `}
               >
-                {!notification.read && (
-                  <div style={{
-                    position: 'absolute',
-                    top: '0.75rem',
-                    left: '0',
-                    width: '4px',
-                    height: '70%',
-                    backgroundColor: 'rgba(255, 114, 28, 0.8)',
-                    borderRadius: '0 2px 2px 0'
-                  }}></div>
-                )}
-                
-                <div style={{ paddingLeft: notification.read ? '0' : '0.75rem' }}>
-                  <h4 className="text-white" style={{ 
-                    margin: '0 0 0.5rem 0',
-                    fontSize: '0.95rem',
-                    fontWeight: notification.read ? 400 : 600
-                  }}>
+                <div className={styles.notificationContent}>
+                  <h4 className={styles.notificationTitle}>
                     {notification.title}
                   </h4>
-                  <p className="text-light" style={{ 
-                    margin: '0',
-                    fontSize: '0.85rem'
-                  }}>
+                  <p className={styles.notificationBody}>
                     {notification.description}
                   </p>
                 </div>
                 
-                <div style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'flex-end'
-                }}>
-                  <span className="text-muted" style={{ 
-                    fontSize: '0.75rem'
-                  }}>
-                    {formatRelativeTime(notification.timestamp)}
-                  </span>
+                <div className={styles.notificationTime}>
+                  {formatRelativeTime(notification.timestamp)}
                 </div>
               </div>
             ))}
+            
+            {notifications.length === 0 && (
+              <div className={styles.emptyState}>
+                <p>Aucune notification liée à ce professionnel pour le moment.</p>
+              </div>
+            )}
           </div>
-        </div>
+        </>
       )}
     </div>
   );

@@ -171,7 +171,17 @@ export default function HealthProfessionalsList({ professionals, selectedProfess
               <div 
                 key={pro.id}
                 className={`${styles.professionalCard} ${selectedProfessionalId === pro.id ? styles.selectedPro : ''} ${styles[`status-${proStatus}`] || ''}`}
-                onClick={() => onProfessionalSelect(pro.id)}
+                onClick={() => {
+                  console.log('Professionnel cliqué, ID:', pro.id);
+                  console.log('selectedProfessionalId actuel:', selectedProfessionalId);
+                  console.log('Classe appliquée:', selectedProfessionalId === pro.id ? 'selectedPro' : 'non sélectionné');
+                  onProfessionalSelect(pro.id);
+                }}
+                style={selectedProfessionalId === pro.id ? { 
+                  border: '2px solid #FF7210',
+                  boxShadow: '0 0 15px rgba(255, 114, 16, 0.4)',
+                  transform: 'translateY(-2px)'
+                } : {}}
               >
                 <div className={styles.proAvatar} style={{ 
                   borderColor: specialtyInfo.color,

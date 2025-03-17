@@ -1,0 +1,731 @@
+/* CommunicationPanel.module.css - Style luxueux en glassmorphisme avec des touches d'orange */
+
+/* Conteneur principal */
+.panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 500px;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+/* En-tête avec les informations du professionnel */
+.panelHeader {
+  display: flex;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  background: linear-gradient(135deg, rgba(255, 114, 28, 0.15), rgba(0, 0, 0, 0.2));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid rgba(255, 114, 28, 0.5);
+  box-shadow: 0 0 15px rgba(255, 114, 28, 0.25);
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.userInfo {
+  margin-left: 1rem;
+}
+
+.userName {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white;
+}
+
+.userSpecialty {
+  margin: 0;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Navigation par onglets */
+.tabs {
+  display: flex;
+  padding: 0.75rem 1.25rem;
+  gap: 0.5rem;
+  overflow-x: auto;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+@media (max-width: 768px) {
+  .tabs {
+    padding: 0.5rem;
+    gap: 0.25rem;
+  }
+}
+
+.tabButton {
+  padding: 0.75rem 1.25rem;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .tabButton {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+  }
+}
+
+.tabButton:hover {
+  background-color: rgba(255, 114, 28, 0.1);
+  transform: translateY(-1px);
+}
+
+.tabButtonActive {
+  background-color: rgba(255, 114, 28, 0.15);
+  color: rgba(255, 114, 28, 1);
+  border: 1px solid rgba(255, 114, 28, 0.3);
+  box-shadow: 0 4px 15px rgba(255, 114, 28, 0.15);
+}
+
+/* Corps des messages/notes */
+.panelBody {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+}
+
+@media (max-width: 768px) {
+  .panelBody {
+    padding: 0.75rem;
+  }
+}
+
+/* Section de rédaction des messages */
+.inputSection {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .inputSection {
+    flex-direction: column;
+    padding: 0.75rem;
+  }
+}
+
+.textInput {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: rgba(0, 0, 0, 0.15);
+  color: white;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  resize: none;
+}
+
+.textInput:focus {
+  outline: none;
+  border-color: rgba(255, 114, 28, 0.4);
+  box-shadow: 0 0 0 2px rgba(255, 114, 28, 0.15);
+}
+
+/* Bulle de message */
+.message {
+  display: flex;
+  flex-direction: column;
+  max-width: 80%;
+  position: relative;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.messageRight {
+  align-self: flex-end;
+  margin-left: auto;
+}
+
+.messageLeft {
+  align-self: flex-start;
+  margin-right: auto;
+}
+
+.messageSender {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 0.25rem;
+}
+
+.messageContent {
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  position: relative;
+  word-break: break-word;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.messageRight .messageContent {
+  border-bottom-right-radius: 4px;
+  background-color: rgba(255, 114, 28, 0.15);
+  color: white;
+  border: 1px solid rgba(255, 114, 28, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.messageLeft .messageContent {
+  border-bottom-left-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.25);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.messageTime {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 0.25rem;
+  align-self: flex-end;
+}
+
+/* Bouton d'action */
+.actionButton {
+  padding: 0.75rem 1.25rem;
+  background-color: rgba(255, 114, 28, 0.15);
+  color: rgba(255, 114, 28, 1);
+  border: 1px solid rgba(255, 114, 28, 0.3);
+  border-radius: 8px;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(255, 114, 28, 0.15);
+  transition: all 0.3s ease;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.actionButton:hover {
+  background-color: rgba(255, 114, 28, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 114, 28, 0.2);
+}
+
+.actionButton:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .actionButton {
+    width: 100%;
+    padding: 0.75rem;
+    margin-top: 0.5rem;
+  }
+}
+
+/* Section pour les notes */
+.noteForm {
+  margin-bottom: 1.5rem;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.checkbox {
+  margin-right: 0.5rem;
+  cursor: pointer;
+}
+
+.checkboxLabel {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+}
+
+/* Timeline pour les notes */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding-left: 1rem;
+  margin-top: 1rem;
+}
+
+.timelineItem {
+  position: relative;
+  padding-left: 1.5rem;
+  border-left: 2px solid rgba(255, 114, 28, 0.5);
+  padding-bottom: 1.5rem;
+}
+
+.timelineItem:last-child {
+  border-left: 2px solid transparent;
+}
+
+.timelineDot {
+  position: absolute;
+  left: -8px;
+  top: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: rgba(255, 114, 28, 0.8);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 10px rgba(255, 114, 28, 0.4);
+}
+
+.timelineDate {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0 0 0.25rem 0;
+}
+
+.timelineTitle {
+  font-size: 1rem;
+  color: white;
+  margin: 0 0 0.5rem 0;
+}
+
+.timelineText {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Placeholder et états vides */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
+  padding: 2rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.emptyStateIcon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: rgba(255, 114, 28, 0.3);
+}
+
+.emptyStateTitle {
+  font-size: 1.2rem;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.emptyStateText {
+  font-size: 0.9rem;
+  max-width: 80%;
+  line-height: 1.5;
+}
+
+/* Relations card */
+.relationCard {
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
+}
+
+.relationCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.relationCardTitle {
+  margin: 0 0 0.5rem 0;
+  color: white;
+  font-size: 1.1rem;
+}
+
+.relationCardDetails {
+  font-size: 0.85rem;
+  margin: 0 0 0.75rem 0;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Styles pour l'état chargement et sélection de professionnel */
+.loadingState,
+.selectPrompt {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  text-align: center;
+  padding: 2rem;
+}
+
+.iconContainer {
+  font-size: 2.5rem;
+  color: rgba(255, 114, 28, 0.6);
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: rgba(255, 114, 28, 0.1);
+  box-shadow: 0 0 30px rgba(255, 114, 28, 0.2);
+}
+
+.promptTitle {
+  color: white;
+  font-size: 1.2rem;
+  margin-bottom: 0.75rem;
+}
+
+.promptMessage {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  max-width: 80%;
+  line-height: 1.5;
+}
+
+/* Styles pour le forum collaboratif */
+.forumContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: auto;
+}
+
+.forumSection {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  margin-bottom: 16px;
+  padding: 16px;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.forumSectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-light);
+}
+
+.forumCard {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.forumCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.forumCardTitle {
+  font-size: 15px;
+  font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--color-primary);
+}
+
+.tag {
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 12px;
+  background-color: rgba(var(--color-primary-rgb), 0.1);
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+.forumCardDescription {
+  font-size: 13px;
+  margin-bottom: 16px;
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+.forumCardMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.forumCardParticipants {
+  display: flex;
+  align-items: center;
+}
+
+.participantAvatars {
+  display: flex;
+  margin-right: 8px;
+}
+
+.participantAvatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: -8px;
+  border: 2px solid var(--color-background);
+  position: relative;
+  transition: transform 0.2s ease;
+}
+
+.participantAvatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.participantAvatar:hover {
+  transform: scale(1.2);
+  z-index: 10;
+  box-shadow: 0 0 0 2px var(--color-primary);
+}
+
+.forumCardTimestamp {
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+}
+
+.createForumCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(var(--color-primary-rgb), 0.05);
+  border: 1px dashed rgba(var(--color-primary-rgb), 0.3);
+  border-radius: 12px;
+  padding: 32px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  height: 250px;
+}
+
+.createForumCard:hover {
+  background: rgba(var(--color-primary-rgb), 0.08);
+  border-color: rgba(var(--color-primary-rgb), 0.5);
+}
+
+.createForumIcon {
+  font-size: 32px;
+  margin-bottom: 16px;
+}
+
+.createForumTitle {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--color-primary);
+}
+
+.createForumText {
+  font-size: 14px;
+  color: var(--color-text);
+  max-width: 300px;
+  line-height: 1.5;
+}
+
+/* Modal pour création de forum */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.modal {
+  background: var(--color-background);
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  padding: 24px;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modalCloseButton {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.modalCloseButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--color-text);
+}
+
+.modalHeader {
+  margin-bottom: 24px;
+}
+
+.modalTitle {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  color: var(--color-text-light);
+}
+
+.modalSubtitle {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.formGroup {
+  margin-bottom: 16px;
+}
+
+.formLabel {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: var(--color-text-light);
+}
+
+.formInput {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--color-text);
+  font-size: 14px;
+  transition: border-color 0.2s;
+}
+
+.formInput:focus {
+  border-color: var(--color-primary);
+  outline: none;
+}
+
+.formTextarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.formSelect {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='rgba(255, 255, 255, 0.5)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.cancelButton {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--color-text);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cancelButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.submitButton {
+  background: var(--color-primary);
+  border: none;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.submitButton:hover {
+  background: var(--color-primary-dark);
+}

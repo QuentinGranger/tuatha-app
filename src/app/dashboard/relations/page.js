@@ -123,9 +123,28 @@ export default function Relations() {
 
   // Fonction pour sélectionner un professionnel
   const handleSelectProfessional = (professionalId) => {
+    console.log('handleSelectProfessional appelé avec ID:', professionalId);
+    // Vérifier que l'ID n'est pas déjà sélectionné pour éviter des re-rendus inutiles
+    if (selectedProfessional?.id === professionalId) {
+      console.log('Ce professionnel est déjà sélectionné');
+      return;
+    }
+    
     const professional = professionals.find(pro => pro.id === professionalId);
+    console.log('Professionnel trouvé:', professional);
+    
     if (professional) {
-      setSelectedProfessional(professional);
+      // Forcer la mise à jour de l'état pour garantir un re-rendu
+      setSelectedProfessional(null); // D'abord vider l'état
+      
+      // Utiliser setTimeout pour s'assurer que le changement d'état est bien appliqué
+      setTimeout(() => {
+        setSelectedProfessional(professional);
+        console.log('selectedProfessional défini à:', professional);
+      }, 50);
+    } else {
+      console.error('Professionnel non trouvé avec l\'ID:', professionalId);
+      console.log('Liste des professionnels disponibles:', professionals);
     }
   };
 
@@ -229,20 +248,28 @@ export default function Relations() {
                 )}
                 
                 {activeTab === 'communication' && (
-                  <CommunicationPanel 
-                    patient={selectedPatient}
-                    professionals={professionals}
-                    selectedProfessional={selectedProfessional}
-                    onSelectProfessional={handleSelectProfessional}
-                  />
+                  <div className={styles.fullWidthPanel}>
+                    <CommunicationPanel 
+                      patient={selectedPatient}
+                      professionals={professionals}
+                      selectedProfessional={selectedProfessional}
+                      onSelectProfessional={handleSelectProfessional}
+                    />
+                  </div>
                 )}
                 
                 {activeTab === 'collaboration' && (
-                  <CollaborativeActionPanel 
-                    patient={selectedPatient}
-                    professionals={professionals}
-                    selectedProfessional={selectedProfessional}
-                  />
+                  <div>
+                    {console.log('Onglet collaboration actif, selectedProfessional:', selectedProfessional)}
+                    
+                    {/* S'assurer que le composant est monté à chaque changement de professionnel */}
+                    <CollaborativeActionPanel 
+                      patient={selectedPatient}
+                      professionals={professionals}
+                      selectedProfessional={selectedProfessional}
+                      key={`collaborative-panel-${selectedProfessional?.id || 'none'}`}
+                    />
+                  </div>
                 )}
                 
                 {activeTab === 'datasharing' && (

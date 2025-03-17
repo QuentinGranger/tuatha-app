@@ -56,7 +56,7 @@ const ProfessionalList = ({ professionals, selectedProfessional, onSelectProfess
           <div 
             key={professional.id}
             className={`${styles.professionalCard} ${selectedProfessional?.id === professional.id ? styles.selected : ''} bg-glass`}
-            onClick={() => onSelectProfessional(professional)}
+            onClick={() => onSelectProfessional(professional.id)}
           >
             <div className={styles.cardHeader}>
               <div 
