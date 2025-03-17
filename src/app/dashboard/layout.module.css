@@ -1,6 +1,7 @@
 .layout {
   min-height: 100vh;
   display: flex;
+  position: relative;
 }
 
 .mainContent {
@@ -8,9 +9,13 @@
   margin-left: 300px;
   min-height: 100vh;
   background: transparent;
+  position: relative;
+  z-index: 1;
 }
 
 .content {
   padding: 2rem;
   margin-top: 70px;
+  position: relative;
+  z-index: 1;
 }

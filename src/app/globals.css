@@ -43,6 +43,24 @@ body {
   box-sizing: border-box;
 }
 
+/* Support pour le dropdown des notifications qui doit être visible au-dessus de tout */
+body.notifications-open::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 15000;
+  pointer-events: none;
+}
+
+/* Assurer que le dropdown soit toujours visible */
+.notificationsDropdown {
+  isolation: isolate;
+}
+
 *, *:before, *:after {
   box-sizing: inherit;
 }

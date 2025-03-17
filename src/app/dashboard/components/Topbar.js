@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import styles from './Topbar.module.css';
 import { MdSearch, MdNotifications, MdOutlineClose, MdCheckCircle, MdLogout, MdSettings, MdPerson, MdCalendarToday } from 'react-icons/md';
 import Image from 'next/image';
+import { createPortal } from 'react-dom';
 
 const getImageUrl = (url) => {
   if (!url) return '/img/professionel/default-avatar.jpg';
@@ -79,8 +80,15 @@ export default function Topbar() {
   const [notifications, setNotifications] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+  const [notifDropdownPosition, setNotifDropdownPosition] = useState({ top: 0, right: 0 });
+  const [mounted, setMounted] = useState(false);
   const notificationsRef = useRef(null);
   const profileRef = useRef(null);
+  const notificationButtonRef = useRef(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const fetchHealthProfessional = async () => {
@@ -108,17 +116,27 @@ export default function Topbar() {
 
   useEffect(() => {
     function handleClickOutside(event) {
-      if (notificationsRef.current && !notificationsRef.current.contains(event.target)) {
+      if (notificationsRef.current && !notificationsRef.current.contains(event.target) &&
+          notificationButtonRef.current && !notificationButtonRef.current.contains(event.target)) {
         setShowNotifications(false);
       }
       if (profileRef.current && !profileRef.current.contains(event.target)) {
         setShowProfileDropdown(false);
       }
     }
+    
+    function handleEscapeKey(event) {
+      if (event.key === 'Escape') {
+        setShowNotifications(false);
+        setShowProfileDropdown(false);
+      }
+    }
 
     document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleEscapeKey);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleEscapeKey);
     };
   }, []);
 
@@ -127,13 +145,34 @@ export default function Topbar() {
   };
 
   const handleNotificationClick = () => {
+    if (notificationButtonRef.current) {
+      const rect = notificationButtonRef.current.getBoundingClientRect();
+      setNotifDropdownPosition({
+        top: rect.bottom + 12,
+        right: window.innerWidth - rect.right,
+      });
+    }
     setShowNotifications(!showNotifications);
     setShowProfileDropdown(false);
+    
+    // Ajout d'un élément au body pour contourner tout problème de conteneur
+    if (!showNotifications) {
+      document.body.classList.remove('notifications-open');
+    } else {
+      document.body.classList.add('notifications-open');
+    }
   };
 
   const handleProfileClick = () => {
     setShowProfileDropdown(!showProfileDropdown);
     setShowNotifications(false);
+    
+    // Ajouter la classe au body pour le dropdown du profil
+    if (!showProfileDropdown) {
+      document.body.classList.add('profile-dropdown-open');
+    } else {
+      document.body.classList.remove('profile-dropdown-open');
+    }
   };
 
   const markAsRead = (notificationId) => {
@@ -192,6 +231,7 @@ export default function Topbar() {
           <button 
             className={styles.notificationButton}
             onClick={handleNotificationClick}
+            ref={notificationButtonRef}
           >
             <MdNotifications className={styles.notificationIcon} />
             {notifications.filter(n => !n.read).length > 0 && (
@@ -201,8 +241,16 @@ export default function Topbar() {
             )}
           </button>
 
-          {showNotifications && (
-            <div className={styles.notificationsDropdown}>
+          {/* Utilisation d'un vrai portail React pour le dropdown des notifications */}
+          {showNotifications && mounted && createPortal(
+            <div 
+              ref={notificationsRef}
+              className={styles.notificationsDropdown} 
+              style={{ 
+                top: `${notifDropdownPosition.top}px`, 
+                right: `${notifDropdownPosition.right}px`,
+              }}
+            >
               <div className={styles.notificationsHeader}>
                 <h3>Notifications</h3>
                 {notifications.filter(n => !n.read).length > 0 && (
@@ -243,7 +291,8 @@ export default function Topbar() {
                   </div>
                 ))}
               </div>
-            </div>
+            </div>,
+            document.body
           )}
         </div>
 
@@ -274,8 +323,17 @@ export default function Topbar() {
                 />
               </div>
 
-              {showProfileDropdown && (
-                <div className={styles.profileDropdown}>
+              {showProfileDropdown && mounted && createPortal(
+                <div 
+                  ref={profileRef}
+                  className={styles.profileDropdown}
+                  style={{
+                    position: 'fixed',
+                    top: `${window.scrollY + 80}px`,
+                    right: '20px',
+                    zIndex: 20000
+                  }}
+                >
                   <div className={styles.profileHeader}>
                     <div className={styles.profileImageLarge}>
                       <Image
@@ -307,7 +365,8 @@ export default function Topbar() {
                       <span>Déconnexion</span>
                     </button>
                   </div>
-                </div>
+                </div>,
+                document.body
               )}
             </>
           )}

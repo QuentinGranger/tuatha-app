@@ -10,11 +10,12 @@
   top: 0;
   right: 0;
   left: 300px;
-  z-index: 100;
+  z-index: 90;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 
     0 4px 24px -1px rgba(0, 0, 0, 0.1),
-    0 0 1px 0 rgba(0, 0, 0, 0.05);
+    0 0 1px 0 rgba(0, 0, 0, 0.05),
+    inset 0 1px 2px rgba(255, 255, 255, 0.05);
 }
 
 .topbar::before {
@@ -155,11 +156,13 @@
 }
 
 .notificationContainer {
-  position: relative;
+  position: static;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 1rem;
+  z-index: 1000;
+  overflow: visible;
 }
 
 .lastNotification {
@@ -353,20 +356,19 @@
 }
 
 .profileDropdown {
-  position: absolute;
-  top: calc(100% + 1rem);
-  right: 0;
-  width: 300px;
-  background: rgba(20, 20, 20, 0.95);
-  backdrop-filter: blur(10px);
-  border-radius: 12px;
+  width: 320px;
+  background: rgba(20, 20, 20, 0.85);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 
-    0 10px 30px -5px rgba(0, 0, 0, 0.3),
+    0 10px 30px -5px rgba(0, 0, 0, 0.5),
     0 0 1px rgba(255, 255, 255, 0.1);
   overflow: hidden;
-  z-index: 1000;
-  animation: slideIn 0.2s ease;
+  position: fixed;
+  z-index: 20000;
+  animation: dropdownFadeIn 0.2s ease;
+  transform: translateZ(0);
 }
 
 @keyframes slideIn {
@@ -499,7 +501,7 @@
 }
 
 .notificationButton {
-  background: none;
+  background: transparent;
   border: none;
   padding: 0;
   cursor: pointer;
@@ -507,22 +509,40 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  overflow: visible;
 }
 
 .notificationsDropdown {
-  position: absolute;
-  top: calc(100% + 1rem);
-  right: -1rem;
+  position: fixed;
+  z-index: 20000;
   width: 380px;
-  background: rgba(255, 255, 255, 0.08);
+  max-width: 90vw;
+  background: rgba(20, 20, 20, 0.85);
   backdrop-filter: blur(20px);
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 
-    0 10px 30px -5px rgba(0, 0, 0, 0.3),
+    0 10px 30px -5px rgba(0, 0, 0, 0.5),
     0 0 1px rgba(255, 255, 255, 0.1);
-  overflow: hidden;
-  z-index: 1000;
+  overflow: visible;
+  max-height: 80vh;
+  animation: dropdownFadeIn 0.2s ease;
+  transform: translateZ(0);
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .notificationsDropdown::before {
