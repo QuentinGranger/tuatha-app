@@ -19,6 +19,9 @@ export default function CreateProgram() {
 
       // Vérifier que les suppléments sont un tableau
       const supplements = Array.isArray(formData.supplements) ? formData.supplements : [];
+      
+      // Vérifier que les repas sont un tableau
+      const meals = Array.isArray(formData.meals) ? formData.meals : [];
 
       const requestData = {
         title: formData.title,
@@ -26,14 +29,16 @@ export default function CreateProgram() {
         startDate: formData.startDate,
         endDate: formData.endDate,
         patientId: formData.patientId,
-        healthProfessionalId: formData.healthProfessionalId,
+        nutritionistId: formData.nutritionistId || formData.healthProfessionalId,
         status: formData.status || 'DRAFT',
         calories: formData.calories,
         proteins: formData.proteins,
         carbs: formData.carbs,
         fats: formData.fats,
         restrictions: formData.restrictions,
-        objectives: formData.objectives
+        objectives: formData.objectives,
+        dietType: formData.dietType || 'BALANCED',
+        dietGoal: formData.dietGoal || 'MAINTENANCE'
       };
 
       // Ajouter les suppléments seulement s'il y en a
@@ -43,6 +48,20 @@ export default function CreateProgram() {
           dosage: supplement.dosage,
           frequency: supplement.frequency,
           notes: supplement.notes
+        }));
+      }
+      
+      // Ajouter les repas seulement s'il y en a
+      if (meals.length > 0) {
+        requestData.meals = meals.map(meal => ({
+          id: meal.id,
+          name: meal.name,
+          calories: meal.calories,
+          protein: meal.protein,
+          carbohydrates: meal.carbohydrates,
+          fat: meal.fat,
+          timeOfDay: meal.timeOfDay,
+          notes: meal.notes
         }));
       }
 

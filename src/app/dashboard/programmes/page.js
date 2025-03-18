@@ -8,9 +8,9 @@ export default function ProgramsPage() {
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-        <h1 className={styles.title}>Programmes</h1>
+        <h1 className={styles.title}>Plans Nutritionnels</h1>
         <p className={styles.subtitle}>
-          Gérez vos programmes personnalisés et suivez les progrès de vos patients
+          Créez et gérez des plans nutritionnels personnalisés pour optimiser la santé de vos patients
         </p>
       </header>
       <ProgramTabs />

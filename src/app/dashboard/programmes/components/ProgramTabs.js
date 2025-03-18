@@ -39,19 +39,19 @@ export default function ProgramTabs() {
           className={`${styles.tab} ${activeTab === TABS.LIST ? styles.active : ''}`}
           onClick={() => handleTabChange(TABS.LIST)}
         >
-          Liste des régimes
+          Mes Plans Nutritionnels
         </button>
         <button
           className={`${styles.tab} ${activeTab === TABS.CREATE ? styles.active : ''}`}
           onClick={() => handleTabChange(TABS.CREATE)}
         >
-          Créer un plan alimentaire
+          Créer un Plan Nutritionnel
         </button>
         <button
           className={`${styles.tab} ${activeTab === TABS.ASSIGN ? styles.active : ''}`}
           onClick={() => handleTabChange(TABS.ASSIGN)}
         >
-          Assigner un régime
+          Assigner un Plan
         </button>
       </div>
       <div className={styles.tabContent}>{renderTabContent()}</div>

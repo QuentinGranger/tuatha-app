@@ -205,50 +205,51 @@ export default function ProgramList() {
 
               <div className={styles.programDetails}>
                 <div className={styles.detailSection}>
-                  <h4>Période</h4>
-                  <p>Début: {formatDate(program.startDate)}</p>
-                  <p>Fin: {formatDate(program.endDate)}</p>
+                  <h4>Régime alimentaire</h4>
+                  <p>Type : {program.dietType}</p>
+                  <p>Objectif : {program.dietGoal}</p>
                 </div>
 
                 <div className={styles.detailSection}>
-                  <h4>Patient</h4>
-                  <p>{program.patient.user.firstName} {program.patient.user.lastName}</p>
-                  {program.patient.sport && <p>Sport: {program.patient.sport}</p>}
-                  {program.patient.injury && <p>Blessure: {program.patient.injury}</p>}
+                  <h4>Informations sur le patient</h4>
+                  <p>Nom : {program.patient?.user?.firstName || 'N/A'} {program.patient?.user?.lastName || 'N/A'}</p>
+                  <p>Âge : {program.patient?.age || 'N/A'}</p>
+                  <p>Poids : {program.patient?.weight || 'N/A'} kg</p>
+                  <p>Taille : {program.patient?.height || 'N/A'} cm</p>
                 </div>
 
                 <div className={styles.detailSection}>
-                  <h4>Professionnel de santé</h4>
-                  <p>{program.healthProfessional.user.firstName} {program.healthProfessional.user.lastName}</p>
-                  <p>Spécialité: {program.healthProfessional.specialty}</p>
+                  <h4>Informations sur la nutritionniste</h4>
+                  <p>Nom : {(program.nutritionist?.user?.firstName || program.healthProfessional?.user?.firstName || 'N/A')} {(program.nutritionist?.user?.lastName || program.healthProfessional?.user?.lastName || 'N/A')}</p>
+                  <p>Spécialité : {program.nutritionist?.specialty || program.healthProfessional?.specialty || 'N/A'}</p>
                 </div>
 
-                {program.supplements && program.supplements.length > 0 && (
+                {program.meals && program.meals.length > 0 && (
                   <div className={styles.detailSection}>
-                    <h4>Suppléments ({program.supplements.length})</h4>
-                    <ul className={styles.supplementsList}>
-                      {program.supplements.map((supplement) => (
-                        <li key={supplement.id}>
-                          {supplement.name}
-                          {supplement.dosage && ` - ${supplement.dosage}`}
-                          {supplement.frequency && ` - ${supplement.frequency}`}
+                    <h4>Repas ({program.meals.length})</h4>
+                    <ul className={styles.mealsList}>
+                      {program.meals.map((meal) => (
+                        <li key={meal.id || Math.random()}>
+                          {meal.name || 'Repas sans nom'}
+                          {meal.calories && ` - ${meal.calories} calories`}
+                          {meal.protein && ` - ${meal.protein} grammes de protéines`}
+                          {meal.carbohydrates && ` - ${meal.carbohydrates} grammes de glucides`}
+                          {meal.fat && ` - ${meal.fat} grammes de lipides`}
                         </li>
                       ))}
                     </ul>
                   </div>
                 )}
 
-                {program.exercises && program.exercises.length > 0 && (
+                {program.supplements && program.supplements.length > 0 && (
                   <div className={styles.detailSection}>
-                    <h4>Exercices ({program.exercises.length})</h4>
-                    <ul className={styles.exercisesList}>
-                      {program.exercises.map((programExercise) => (
-                        <li key={programExercise.id}>
-                          {programExercise.exercise.name}
-                          {programExercise.sets > 0 && ` - ${programExercise.sets} séries`}
-                          {programExercise.reps > 0 && ` x ${programExercise.reps} répétitions`}
-                          {programExercise.duration > 0 && ` - ${programExercise.duration} minutes`}
-                          {programExercise.notes && <div className={styles.exerciseNotes}>{programExercise.notes}</div>}
+                    <h4>Suppléments ({program.supplements.length})</h4>
+                    <ul className={styles.supplementsList}>
+                      {program.supplements.map((supplement) => (
+                        <li key={supplement.id || Math.random()}>
+                          {supplement.name || 'Supplément sans nom'}
+                          {supplement.dosage && ` - ${supplement.dosage}`}
+                          {supplement.frequency && ` - ${supplement.frequency}`}
                         </li>
                       ))}
                     </ul>

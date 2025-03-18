@@ -4,7 +4,7 @@ import { useState } from 'react';
 import styles from './FormComponents.module.css';
 import FoodSelector from './FoodSelector';
 import SupplementsForm from './SupplementsForm';
-import { FiCalendar, FiEdit3, FiList, FiPackage, FiActivity } from 'react-icons/fi';
+import { FiCalendar, FiEdit3, FiList, FiPackage, FiActivity, FiTarget } from 'react-icons/fi';
 
 export default function NutritionPlanForm({ onSubmit, initialData }) {
   const [formData, setFormData] = useState({
@@ -20,6 +20,8 @@ export default function NutritionPlanForm({ onSubmit, initialData }) {
     fats: initialData?.fats || '',
     restrictions: initialData?.restrictions || '',
     objectives: initialData?.objectives || '',
+    dietType: initialData?.dietType || 'BALANCED',
+    dietGoal: initialData?.dietGoal || 'MAINTENANCE',
   });
 
   const handleInputChange = (e) => {
@@ -71,7 +73,9 @@ export default function NutritionPlanForm({ onSubmit, initialData }) {
         carbs: formData.carbs,
         fats: formData.fats,
         restrictions: formData.restrictions,
-        objectives: formData.objectives
+        objectives: formData.objectives,
+        dietType: formData.dietType,
+        dietGoal: formData.dietGoal
       };
 
       if (Array.isArray(formData.supplements) && formData.supplements.length > 0) {
@@ -155,6 +159,54 @@ export default function NutritionPlanForm({ onSubmit, initialData }) {
               value={formData.endDate}
               onChange={handleInputChange}
             />
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.formSection}>
+        <h3>
+          <FiTarget size={20} />
+          Type de régime et objectif
+        </h3>
+        <div className={styles.formGrid}>
+          <div className={styles.formField}>
+            <label htmlFor="dietType">Type de régime</label>
+            <select
+              id="dietType"
+              name="dietType"
+              value={formData.dietType}
+              onChange={handleInputChange}
+            >
+              <option value="BALANCED">Équilibré</option>
+              <option value="LOW_CARB">Faible en glucides</option>
+              <option value="KETO">Cétogène</option>
+              <option value="VEGETARIAN">Végétarien</option>
+              <option value="VEGAN">Végan</option>
+              <option value="PALEO">Paléo</option>
+              <option value="MEDITERRANEAN">Méditerranéen</option>
+              <option value="GLUTEN_FREE">Sans gluten</option>
+              <option value="DAIRY_FREE">Sans produits laitiers</option>
+              <option value="CUSTOM">Personnalisé</option>
+            </select>
+          </div>
+
+          <div className={styles.formField}>
+            <label htmlFor="dietGoal">Objectif du régime</label>
+            <select
+              id="dietGoal"
+              name="dietGoal"
+              value={formData.dietGoal}
+              onChange={handleInputChange}
+            >
+              <option value="WEIGHT_LOSS">Perte de poids</option>
+              <option value="MAINTENANCE">Maintien du poids</option>
+              <option value="WEIGHT_GAIN">Prise de poids</option>
+              <option value="MUSCLE_BUILDING">Construction musculaire</option>
+              <option value="HEALTH_IMPROVEMENT">Amélioration de la santé</option>
+              <option value="DISEASE_PREVENTION">Prévention des maladies</option>
+              <option value="RECOVERY">Récupération</option>
+              <option value="CUSTOM">Personnalisé</option>
+            </select>
           </div>
         </div>
       </div>
