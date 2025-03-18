@@ -735,3 +735,507 @@
     opacity: 1;
   }
 }
+
+/* Nouvelle barre de filtres */
+.notificationFilters {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 1.2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.filterGroup {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.filterButton {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filterButton.active {
+  background: rgba(255, 114, 28, 0.15);
+  border-color: rgba(255, 114, 28, 0.3);
+  color: #FF721C;
+}
+
+.filterButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.filterButton.active:hover {
+  background: rgba(255, 114, 28, 0.2);
+}
+
+.sortDropdown {
+  position: relative;
+}
+
+.sortSelect {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  appearance: none;
+  padding-right: 2rem;
+  transition: all 0.2s ease;
+}
+
+.sortSelect:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.sortSelect:focus {
+  outline: none;
+  border-color: rgba(255, 114, 28, 0.5);
+  box-shadow: 0 0 0 2px rgba(255, 114, 28, 0.2);
+}
+
+.sortDropdown::after {
+  content: '▼';
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.5);
+  position: absolute;
+  right: 0.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* Styles des notifications améliorés */
+.notificationItem {
+  padding: 1rem;
+  margin: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+  cursor: pointer;
+}
+
+.notificationItem.expanded {
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.notificationItem.snoozed {
+  opacity: 0.6;
+  transform: translateX(100%);
+  animation: slideOutRight 0.3s forwards;
+}
+
+@keyframes slideOutRight {
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+    height: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+}
+
+.notificationHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.notificationHeaderInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.notificationTypeIcon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.urgentIcon, .appointmentIcon, .documentIcon {
+  font-size: 1.2rem;
+}
+
+.notificationHeader h4 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.notificationMessage {
+  margin: 0.5rem 0;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.priorityBadge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  background: rgba(255, 59, 48, 0.15);
+  color: rgb(255, 76, 65);
+  border-radius: 4px;
+  font-size: 0.75rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid rgba(255, 59, 48, 0.3);
+}
+
+.markReadButton {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  padding: 0.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.markReadButton:hover {
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Panneau d'actions avancées */
+.expandedActions {
+  margin-top: 0.8rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.actionButton {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: all 0.2s ease;
+}
+
+.actionButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.actionIcon {
+  font-size: 1rem;
+}
+
+.deleteAction {
+  margin-left: auto;
+  color: rgba(255, 76, 65, 0.9);
+}
+
+.deleteAction:hover {
+  background: rgba(255, 59, 48, 0.1);
+  border-color: rgba(255, 59, 48, 0.3);
+}
+
+/* État vide des notifications */
+.emptyNotifications {
+  padding: 2rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.emptyIcon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  opacity: 0.6;
+}
+
+/* Styles des différentes priorités */
+.high {
+  border-left: 3px solid rgb(255, 76, 65);
+}
+
+.medium {
+  border-left: 3px solid rgb(255, 149, 0);
+}
+
+.low {
+  border-left: 3px solid rgb(52, 199, 89);
+}
+
+/* Barre d'outils des notifications */
+.notificationToolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.8rem 1.2rem;
+  background: rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.notificationViews,
+.notificationSettings {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.notificationToolbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 0.8rem 1.2rem;
+}
+
+.viewButton,
+.settingButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  width: 32px;
+  height: 32px;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.viewButton:hover,
+.settingButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.viewButton.active,
+.settingButton.active {
+  background: rgba(255, 114, 28, 0.15);
+  border-color: rgba(255, 114, 28, 0.3);
+  color: #FF721C;
+}
+
+/* Animation de rotation pour l'icône de rafraîchissement */
+.spinning {
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.refreshInfo {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 0.5rem;
+  text-align: right;
+  width: 100%;
+}
+
+/* Styles pour la notification épinglée */
+.pinned {
+  background: rgba(255, 114, 28, 0.05);
+  border-left: 3px solid #FF721C;
+}
+
+.pinButton {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  padding: 0;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s ease;
+}
+
+.pinButton:hover {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.pinButton .pinned {
+  color: #FF721C;
+}
+
+/* Styles pour la vue groupée */
+.notificationGroup {
+  margin-bottom: 1rem;
+  padding: 0 1.2rem;
+}
+
+.groupHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 0.5rem;
+}
+
+.groupTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+}
+
+.groupCount {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.2rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.groupedItem {
+  padding: 0.8rem;
+  margin-bottom: 0.5rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 6px;
+  border-left: none;
+  transition: all 0.2s ease;
+}
+
+.groupedItem:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Styles pour la vue chronologique */
+.timelineView {
+  padding: 1rem;
+}
+
+.timelineDates {
+  display: flex;
+  align-items: center;
+  margin: 1.5rem 0 1rem;
+}
+
+.timelineDate {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+  background: #162133;
+  padding: 0.3rem 0.8rem;
+  border-radius: 12px;
+  z-index: 1;
+}
+
+.timelineLine {
+  flex-grow: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin-left: 0.5rem;
+}
+
+.timelineItem {
+  display: flex;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.timelineTime {
+  width: 80px;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-align: right;
+  padding-right: 1.2rem;
+  padding-top: 0.2rem;
+}
+
+.timelineContent {
+  flex-grow: 1;
+  position: relative;
+}
+
+.timelineDot {
+  position: absolute;
+  left: -6px;
+  top: 8px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #FF721C;
+  border: 2px solid #162133;
+  z-index: 1;
+}
+
+.timelineCard {
+  margin-left: 1.2rem;
+  padding: 0.8rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.timelineCard:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-2px);
+}
+
+.timelineCard h4 {
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.timelineCard p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Badge de priorité */
+.priorityBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.5rem;
+  padding: 0.2rem 0.5rem;
+  background: rgba(255, 71, 87, 0.1);
+  border-radius: 4px;
+  font-size: 0.7rem;
+  color: #ff4757;
+}
+
+.actionIcon {
+  margin-right: 0.4rem;
+}
+
+/* Icônes dans l'interface */
+.notificationActions {
+  display: flex;
+  gap: 0.5rem;
+}

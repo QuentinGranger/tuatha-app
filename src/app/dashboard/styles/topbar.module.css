@@ -1,0 +1,299 @@
+.topbar {
+  height: 70px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 300px;
+  z-index: 90;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 4px 24px -1px rgba(0, 0, 0, 0.1),
+    0 0 1px 0 rgba(0, 0, 0, 0.05),
+    inset 0 1px 2px rgba(255, 255, 255, 0.05);
+}
+
+.searchContainer {
+  flex: 1;
+  max-width: 600px;
+  position: relative;
+  margin-right: 20px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 20px;
+}
+
+.searchInput {
+  width: 100%;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 0 12px 0 40px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.searchInput::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.searchInput:focus {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.05);
+}
+
+.rightSection {
+  display: flex;
+  align-items: center;
+}
+
+.notificationContainer {
+  position: relative;
+  margin-right: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.lastNotification {
+  margin-right: 10px;
+}
+
+.lastNotificationTime {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.notificationButton {
+  background: transparent;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.notificationButton:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.notificationIcon {
+  font-size: 24px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.notificationBadge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #f97316;
+  color: white;
+  font-size: 11px;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  font-weight: bold;
+  border: 2px solid rgba(30, 30, 30, 1);
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+}
+
+.userDetails {
+  margin-right: 15px;
+  text-align: right;
+}
+
+.userName {
+  display: block;
+  font-weight: 600;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 3px;
+}
+
+.userSpecialities {
+  display: flex;
+  flex-direction: column;
+}
+
+.userRole {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 1px;
+}
+
+.userSubRole {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.userAvatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.userAvatar:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: scale(1.05);
+}
+
+.userAvatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Dropdown du profil */
+.profileDropdown {
+  background-color: rgba(33, 33, 33, 0.95);
+  border-radius: 15px;
+  width: 280px;
+  box-shadow: 
+    0 10px 30px -5px rgba(0, 0, 0, 0.3),
+    0 0 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  z-index: 9999;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.profileHeader {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.profileImageLarge {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  margin-right: 15px;
+}
+
+.profileInfo {
+  flex: 1;
+}
+
+.profileInfo h3 {
+  margin: 0 0 5px;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.profileInfo p {
+  margin: 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.profileActions {
+  padding: 10px;
+}
+
+.profileAction {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 15px;
+  background: none;
+  border: none;
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.profileAction:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.profileAction svg {
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.logoutAction {
+  margin-top: 5px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0;
+  padding-top: 15px;
+  color: #ef4444;
+}
+
+.logoutAction svg {
+  color: #ef4444;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .topbar {
+    left: 0;
+    padding: 0 1rem;
+  }
+  
+  .userDetails {
+    display: none;
+  }
+  
+  .searchContainer {
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .searchContainer {
+    max-width: 200px;
+  }
+}
+
+@media (max-width: 576px) {
+  .searchContainer {
+    max-width: 150px;
+  }
+  
+  .lastNotification {
+    display: none;
+  }
+}
+
+@media (max-width: 380px) {
+  .searchContainer {
+    display: none;
+  }
+}

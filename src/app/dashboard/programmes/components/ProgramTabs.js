@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import styles from '../programmes.module.css';
-import CreateProgram from './CreateProgram';
+import CreateNutritionProgram from './CreateNutritionProgram';
 import ProgramList from './ProgramList';
 import AssignProgram from './AssignProgram';
 
@@ -22,7 +22,7 @@ export default function ProgramTabs() {
   const renderTabContent = () => {
     switch (activeTab) {
       case TABS.CREATE:
-        return <CreateProgram onSuccess={() => handleTabChange(TABS.LIST)} />;
+        return <CreateNutritionProgram onSuccess={() => handleTabChange(TABS.LIST)} />;
       case TABS.LIST:
         return <ProgramList />;
       case TABS.ASSIGN:
@@ -39,19 +39,19 @@ export default function ProgramTabs() {
           className={`${styles.tab} ${activeTab === TABS.LIST ? styles.active : ''}`}
           onClick={() => handleTabChange(TABS.LIST)}
         >
-          Liste des programmes
+          Liste des régimes
         </button>
         <button
           className={`${styles.tab} ${activeTab === TABS.CREATE ? styles.active : ''}`}
           onClick={() => handleTabChange(TABS.CREATE)}
         >
-          Créer un programme
+          Créer un plan alimentaire
         </button>
         <button
           className={`${styles.tab} ${activeTab === TABS.ASSIGN ? styles.active : ''}`}
           onClick={() => handleTabChange(TABS.ASSIGN)}
         >
-          Assigner un programme
+          Assigner un régime
         </button>
       </div>
       <div className={styles.tabContent}>{renderTabContent()}</div>

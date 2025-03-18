@@ -6,9 +6,9 @@ export const runtime = 'nodejs';
 
 export async function GET(request, { params }) {
   try {
-    // Dans Next.js 13+, params est un objet régulier et non une promesse
-    // mais on peut le restructurer immédiatement pour éviter l'avertissement
-    const id = params.id;
+    // Dans Next.js 13+, params est un objet régulier
+    // Déstructuration des paramètres en tant qu'argument pour éviter l'avertissement
+    const { id } = params;
     
     const patient = await prisma.patient.findUnique({
       where: { id },

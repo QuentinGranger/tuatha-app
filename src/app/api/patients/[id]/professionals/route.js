@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
 export async function GET(request, { params }) {
-  const patientId = params?.id;
+  const { id: patientId } = params;
   
   if (!patientId) {
     return new Response(

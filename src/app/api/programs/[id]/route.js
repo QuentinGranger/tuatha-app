@@ -3,9 +3,11 @@ import prisma from '@/lib/prisma';
 
 export async function GET(request, { params }) {
   try {
+    const { id } = params;
+    
     const program = await prisma.program.findUnique({
       where: { 
-        id: await params.id 
+        id 
       },
       include: {
         patient: {
@@ -63,12 +65,12 @@ export async function GET(request, { params }) {
 
 export async function DELETE(request, { params }) {
   try {
-    const programId = await params.id;
-    console.log('Tentative de suppression du programme:', programId);
+    const { id } = params;
+    console.log('Tentative de suppression du programme:', id);
 
     // Vérifier si le programme existe
     const program = await prisma.program.findUnique({
-      where: { id: programId },
+      where: { id },
       include: {
         exercises: true,
         mealTimes: true,
@@ -77,7 +79,7 @@ export async function DELETE(request, { params }) {
     });
 
     if (!program) {
-      console.log('Programme non trouvé:', programId);
+      console.log('Programme non trouvé:', id);
       return new Response(
         JSON.stringify({ error: 'Programme non trouvé' }), 
         { 
@@ -87,14 +89,14 @@ export async function DELETE(request, { params }) {
       );
     }
 
-    console.log('Programme trouvé avec ID:', programId);
+    console.log('Programme trouvé avec ID:', id);
 
     // Supprimer toutes les relations dans une transaction
     await prisma.$transaction(async (tx) => {
       // 1. Supprimer les exercices du programme
       await tx.programExercise.deleteMany({
         where: {
-          programId: programId
+          programId: id
         }
       });
 
@@ -107,7 +109,7 @@ export async function DELETE(request, { params }) {
       // 4. Enfin, supprimer le programme
       await tx.program.delete({
         where: {
-          id: programId
+          id
         }
       });
     });

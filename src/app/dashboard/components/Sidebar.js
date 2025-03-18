@@ -1,25 +1,32 @@
 'use client';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import styles from './Sidebar.module.css';
+
+// Imports d'icônes les plus utilisées directement pour éviter les retards au chargement
 import { 
   MdDashboard, 
-  MdSportsGymnastics,
+  MdRestaurant, 
   MdQueryStats,
   MdGroup,
   MdBusinessCenter,
   MdMessage,
   MdPayments,
   MdAccountCircle,
-  MdLogout
+  MdAssignment,
+  MdInsights
 } from 'react-icons/md';
+
+// Import dynamique des icônes moins fréquemment utilisées
+const MdLogout = dynamic(() => import('react-icons/md').then(mod => mod.MdLogout));
 
 const menuItems = [
   { name: 'Tableau de Bord', path: '/dashboard', icon: MdDashboard },
-  { name: 'Programmes', path: '/dashboard/programmes', icon: MdSportsGymnastics },
-  { name: 'Indicateurs de Performance', path: '/dashboard/performance', icon: MdQueryStats },
-  { name: 'Dossiers Athlètes', path: '/dashboard/athletes', icon: MdGroup },
-  { name: 'Relation Interprofessionnelle', path: '/dashboard/relations', icon: MdBusinessCenter },
+  { name: 'Programmes', path: '/dashboard/programmes', icon: MdAssignment },
+  { name: 'Indicateurs de Performance', path: '/dashboard/performance', icon: MdInsights },
+  { name: 'Dossiers Patients', path: '/dashboard/athletes', icon: MdGroup },
+  { name: 'Réseau Professionnel', path: '/dashboard/relations', icon: MdBusinessCenter },
   { name: 'Messagerie', path: '/dashboard/messagerie', icon: MdMessage },
   { name: 'Facturation et Paiements', path: '/dashboard/facturation', icon: MdPayments },
 ];

@@ -4,6 +4,9 @@ import React, { useState, useEffect } from 'react';
 import styles from '../styles/invoiceList.module.css';
 import { FiPlus, FiDownload, FiEye, FiTrash2, FiEdit, FiCheckCircle, FiClock, FiAlertCircle, FiMail } from 'react-icons/fi';
 import InvoiceDetailModal from './InvoiceDetailModal';
+import EmailInvoiceModal from './EmailInvoiceModal';
+import { downloadInvoicePdf } from '../utils/pdfGenerator';
+import { sendInvoiceByEmail } from '../api';
 
 const InvoiceList = ({ 
   searchQuery, 
@@ -15,8 +18,8 @@ const InvoiceList = ({
 }) => {
   const [selectedInvoice, setSelectedInvoice] = useState(null);
   const [invoiceDetailOpen, setInvoiceDetailOpen] = useState(false);
-  
-  // Exemple de données de factures (normalement issues d'une API)
+  const [emailModalOpen, setEmailModalOpen] = useState(false);
+  const [selectedInvoiceForEmail, setSelectedInvoiceForEmail] = useState(null);
   const [invoices, setInvoices] = useState([
     {
       id: 'INV-2025-0042',
@@ -131,31 +134,38 @@ const InvoiceList = ({
       tax: 0
     }
   ]);
+  const [downloadMessage, setDownloadMessage] = useState('');
+  const [sendingEmails, setSendingEmails] = useState({});
 
-  // Effet pour ajouter une nouvelle facture lorsque c'est demandé
+  // Effet pour ajouter une nouvelle facture créée
   useEffect(() => {
     if (newInvoice) {
-      setInvoices(prevInvoices => {
-        const updatedInvoices = [newInvoice, ...prevInvoices];
-        if (onInvoicesLoaded) {
-          onInvoicesLoaded(updatedInvoices);
-        }
-        return updatedInvoices;
-      });
+      // Vérifier que la facture n'est pas déjà dans la liste
+      const exists = invoices.some(invoice => invoice.id === newInvoice.id);
+      if (!exists) {
+        // Ajouter la nouvelle facture au début de la liste
+        setInvoices(prevInvoices => [newInvoice, ...prevInvoices]);
+      }
     }
-  }, [newInvoice, onInvoicesLoaded]);
+  }, [newInvoice]);
 
-  // Partager les données des factures avec le composant parent lors du premier rendu
+  // Transmettre les factures au composant parent (page.js)
   useEffect(() => {
     if (onInvoicesLoaded) {
       onInvoicesLoaded(invoices);
     }
-  }, [onInvoicesLoaded]);
+  }, [invoices, onInvoicesLoaded]);
 
-  // Formater la date en format français
+  // Formatage des dates
   const formatDate = (dateString) => {
-    const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
-    return new Date(dateString).toLocaleDateString('fr-FR', options);
+    if (!dateString) return '';
+    
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat('fr-FR', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric'
+    }).format(date);
   };
 
   // Formatage des montants en euros
@@ -306,6 +316,31 @@ const InvoiceList = ({
     setInvoiceDetailOpen(false);
   };
 
+  // Fonction pour télécharger la facture en PDF
+  const handleDownloadInvoice = (e, invoice) => {
+    e.stopPropagation(); // Empêcher l'ouverture du modal détaillé
+    downloadInvoicePdf(invoice);
+    setDownloadMessage('Facture téléchargée avec succès !');
+    setTimeout(() => {
+      setDownloadMessage('');
+    }, 3000);
+  };
+
+  // Fonction pour envoyer la facture par email
+  const handleSendEmail = (e, invoice) => {
+    e.stopPropagation(); // Empêcher l'ouverture du modal détaillé
+    
+    // Ouvrir la modale d'envoi d'email
+    setSelectedInvoiceForEmail(invoice);
+    setEmailModalOpen(true);
+  };
+
+  // Callback quand l'email a été envoyé
+  const handleEmailSent = (updatedInvoice) => {
+    console.log('Email envoyé avec succès !', updatedInvoice);
+    // Vous pourriez ici mettre à jour l'état local si nécessaire
+  };
+
   return (
     <div className={styles.invoiceListContainer}>
       <div className={styles.listHeader}>
@@ -323,6 +358,12 @@ const InvoiceList = ({
           {invoicesToShow.length} facture{invoicesToShow.length > 1 ? 's' : ''}
         </div>
       </div>
+      
+      {downloadMessage && (
+        <div className={styles.downloadMessage}>
+          {downloadMessage}
+        </div>
+      )}
       
       {invoicesToShow.length > 0 ? (
         <div className={styles.tableWrapper}>
@@ -379,22 +420,25 @@ const InvoiceList = ({
                       </span>
                     </td>
                     <td>
-                      <div className={styles.actionButtons}>
+                      <div className={styles.actionButtons} onClick={(e) => e.stopPropagation()}>
                         <button 
                           className={styles.actionButton}
                           title="Voir le détail"
+                          onClick={() => openInvoiceDetail(invoice)}
                         >
                           <FiEye size={16} />
                         </button>
                         <button 
                           className={styles.actionButton}
                           title="Envoyer par email"
+                          onClick={(e) => handleSendEmail(e, invoice)}
                         >
                           <FiMail size={16} />
                         </button>
                         <button 
                           className={styles.actionButton}
                           title="Télécharger"
+                          onClick={(e) => handleDownloadInvoice(e, invoice)}
                         >
                           <FiDownload size={16} />
                         </button>
@@ -420,6 +464,22 @@ const InvoiceList = ({
           isOpen={invoiceDetailOpen}
           onClose={closeInvoiceDetail}
           onInvoiceUpdate={handleInvoiceUpdate}
+          onSendEmail={() => {
+            setSelectedInvoiceForEmail(selectedInvoice);
+            setEmailModalOpen(true);
+          }}
+        />
+      )}
+
+      {emailModalOpen && selectedInvoiceForEmail && (
+        <EmailInvoiceModal
+          invoice={selectedInvoiceForEmail}
+          isOpen={emailModalOpen}
+          onClose={() => {
+            setEmailModalOpen(false);
+            setSelectedInvoiceForEmail(null);
+          }}
+          onEmailSent={handleEmailSent}
         />
       )}
     </div>

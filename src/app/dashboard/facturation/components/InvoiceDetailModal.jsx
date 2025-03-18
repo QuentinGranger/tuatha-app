@@ -4,11 +4,17 @@ import { FiX, FiDownload, FiMail, FiShare2, FiCheckCircle, FiCreditCard, FiAlert
 import { FaBitcoin, FaPaypal, FaCcVisa } from 'react-icons/fa';
 import styles from '../styles/invoiceDetailModal.module.css';
 import Portal from '../../../../components/ui/Portal';
+import { downloadInvoicePdf } from '../utils/pdfGenerator';
+import { generateInvoiceLink } from '../api';
 
-const InvoiceDetailModal = ({ invoice: initialInvoice, isOpen, onClose, onInvoiceUpdate }) => {
+const InvoiceDetailModal = ({ invoice: initialInvoice, isOpen, onClose, onInvoiceUpdate, onSendEmail }) => {
   const modalRef = useRef(null);
   const [invoice, setInvoice] = useState(initialInvoice);
-  
+  const [showCopyNotification, setShowCopyNotification] = useState(false);
+  const [paymentProcessing, setPaymentProcessing] = useState(false);
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const [message, setMessage] = useState('');
+
   // Mise à jour du state local quand la prop invoice change
   useEffect(() => {
     setInvoice(initialInvoice);
@@ -60,12 +66,108 @@ const InvoiceDetailModal = ({ invoice: initialInvoice, isOpen, onClose, onInvoic
   
   // Marquer comme payée
   const markAsPaid = () => {
-    const updatedInvoice = { ...invoice, status: 'paid' };
-    setInvoice(updatedInvoice);
+    // Empêcher les clics multiples
+    if (paymentProcessing) return;
     
-    // Notification de mise à jour au parent (InvoiceList)
-    if (onInvoiceUpdate) {
-      onInvoiceUpdate(updatedInvoice);
+    // Afficher l'animation de traitement
+    setPaymentProcessing(true);
+    
+    // Simuler un temps de traitement (dans une vraie application, ce serait un appel API)
+    setTimeout(() => {
+      const updatedInvoice = { ...invoice, status: 'paid' };
+      setInvoice(updatedInvoice);
+      setPaymentProcessing(false);
+      setPaymentSuccess(true);
+      
+      // Notification de mise à jour au parent (InvoiceList)
+      if (onInvoiceUpdate) {
+        onInvoiceUpdate(updatedInvoice);
+      }
+      
+      // Réinitialiser l'état de succès après 3 secondes pour permettre de voir l'animation
+      setTimeout(() => {
+        setPaymentSuccess(false);
+      }, 3000);
+    }, 1500);
+  };
+  
+  // Télécharger la facture en PDF
+  const downloadPdf = () => {
+    const success = downloadInvoicePdf(invoice);
+    if (success) {
+      setMessage('Facture téléchargée avec succès.');
+      setTimeout(() => setMessage(''), 3000); // Masquer le message après 3 secondes
+    }
+  };
+  
+  // Envoyer la facture par email au patient
+  const sendByEmail = () => {
+    // Si une fonction de callback est fournie, l'appeler
+    if (onSendEmail) {
+      onSendEmail(invoice);
+    }
+  };
+  
+  // Partager le lien de la facture
+  const shareInvoiceLink = async () => {
+    // Générer un lien pour la facture
+    const invoiceLink = generateInvoiceLink(invoice);
+    
+    // Vérifier si l'API Web Share est disponible (navigateurs modernes)
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: `Facture #${invoice.invoiceNumber || invoice.id}`,
+          text: `Voici votre facture pour ${invoice.description || 'votre consultation'} d'un montant de ${formatAmount(invoice.total)}`,
+          url: invoiceLink,
+        });
+        
+        // L'API Web Share ne déclenche pas d'erreur en cas de succès mais ne renvoie pas de confirmation
+        setMessage('Facture partagée avec succès');
+        setTimeout(() => setMessage(''), 3000);
+      } catch (error) {
+        // L'utilisateur a annulé ou une erreur s'est produite
+        if (error.name !== 'AbortError') {
+          console.error('Erreur lors du partage :', error);
+          // Fallback sur le presse-papiers
+          await fallbackToCopyToClipboard(invoiceLink);
+        }
+      }
+    } else {
+      // Fallback pour les navigateurs qui ne supportent pas l'API Web Share
+      await fallbackToCopyToClipboard(invoiceLink);
+    }
+  };
+  
+  // Méthode de repli si l'API de partage n'est pas disponible
+  const fallbackToCopyToClipboard = async (link) => {
+    try {
+      await navigator.clipboard.writeText(link);
+      // Afficher une notification de succès
+      setShowCopyNotification(true);
+      setTimeout(() => setShowCopyNotification(false), 3000);
+    } catch (err) {
+      console.error('Impossible de copier le lien:', err);
+      
+      // Dernière tentative - créer un élément temporaire
+      try {
+        const textArea = document.createElement('textarea');
+        textArea.value = link;
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        const success = document.execCommand('copy');
+        document.body.removeChild(textArea);
+        
+        if (success) {
+          setShowCopyNotification(true);
+          setTimeout(() => setShowCopyNotification(false), 3000);
+        } else {
+          throw new Error('Échec de la copie');
+        }
+      } catch (finalError) {
+        alert('Impossible de copier le lien. Veuillez le sélectionner manuellement : ' + link);
+      }
     }
   };
   
@@ -226,31 +328,69 @@ const InvoiceDetailModal = ({ invoice: initialInvoice, isOpen, onClose, onInvoic
         
         {/* Actions */}
         <div className={styles.actions}>
-          <button className={styles.actionButton}>
+          <button 
+            className={styles.actionButton}
+            onClick={downloadPdf}
+          >
             <FiDownload size={16} />
             <span>Télécharger PDF</span>
           </button>
           
-          <button className={styles.actionButton}>
+          <button 
+            className={styles.actionButton}
+            onClick={sendByEmail}
+          >
             <FiMail size={16} />
             <span>Envoyer au patient</span>
           </button>
           
-          <button className={styles.actionButton}>
+          <button 
+            className={styles.actionButton}
+            onClick={shareInvoiceLink}
+          >
             <FiShare2 size={16} />
             <span>Partager le lien</span>
           </button>
           
           {invoice.status !== 'paid' && (
             <button 
-              className={`${styles.actionButton} ${styles.payButton}`}
+              className={`${styles.actionButton} ${styles.payButton} ${paymentProcessing ? styles.processing : ''} ${paymentSuccess ? styles.success : ''}`}
               onClick={markAsPaid}
+              disabled={paymentProcessing}
             >
-              <FiCheckCircle size={16} />
-              <span>Marquer comme payée</span>
+              {paymentProcessing ? (
+                <>
+                  <div className={styles.loadingSpinner}></div>
+                  <span>Traitement...</span>
+                </>
+              ) : paymentSuccess ? (
+                <>
+                  <FiCheckCircle size={16} />
+                  <span>Paiement confirmé !</span>
+                </>
+              ) : (
+                <>
+                  <FiCheckCircle size={16} />
+                  <span>Marquer comme payée</span>
+                </>
+              )}
             </button>
           )}
         </div>
+        
+        {/* Notification de copie réussie */}
+        {showCopyNotification && (
+          <div className={styles.copyNotification}>
+            Le lien a été copié dans le presse-papiers !
+          </div>
+        )}
+        
+        {/* Notification de téléchargement/partage réussi */}
+        {message && (
+          <div className={styles.downloadNotification}>
+            {message}
+          </div>
+        )}
       </div>
     </div>
   );
