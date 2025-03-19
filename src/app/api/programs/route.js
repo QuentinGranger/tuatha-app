@@ -98,12 +98,30 @@ export async function GET(request) {
 export async function POST(request) {
   try {
     const data = await request.json();
+    console.log('API Programs POST - Données reçues:', JSON.stringify(data, null, 2));
+
+    // Assigner healthProfessionalId depuis nutritionistId si present
+    if (data.nutritionistId && !data.healthProfessionalId) {
+      data.healthProfessionalId = data.nutritionistId;
+      console.log('API Programs POST - healthProfessionalId assigné depuis nutritionistId:', data.healthProfessionalId);
+    }
+
+    // Validation détaillée
+    const missingFields = [];
+    if (!data.title) missingFields.push('title');
+    if (!data.patientId) missingFields.push('patientId');
+    if (!data.healthProfessionalId) missingFields.push('healthProfessionalId');
+    if (!data.startDate) missingFields.push('startDate');
 
     // Validation des données requises
-    if (!data.title || !data.patientId || !data.healthProfessionalId || !data.startDate) {
-      return json(
-        { error: 'Missing required fields' },
-        { status: 400 }
+    if (missingFields.length > 0) {
+      console.log('API Programs POST - Champs manquants:', missingFields);
+      return new Response(
+        JSON.stringify({ error: `Missing required fields: ${missingFields.join(', ')}` }),
+        { 
+          status: 400,
+          headers: { 'Content-Type': 'application/json' }
+        }
       );
     }
 
@@ -149,12 +167,21 @@ export async function POST(request) {
       }
     });
 
-    return json(program);
+    return new Response(
+      JSON.stringify(program),
+      { 
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      }
+    );
   } catch (error) {
     console.error('Error creating program:', error);
-    return json(
-      { error: 'Failed to create program' },
-      { status: 500 }
+    return new Response(
+      JSON.stringify({ error: 'Failed to create program' }),
+      { 
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      }
     );
   }
 }
@@ -166,9 +193,12 @@ export async function PUT(request) {
     const id = searchParams.get('id');
     
     if (!id) {
-      return json(
-        { error: 'Program ID is required' },
-        { status: 400 }
+      return new Response(
+        JSON.stringify({ error: 'Program ID is required' }),
+        { 
+          status: 400,
+          headers: { 'Content-Type': 'application/json' }
+        }
       );
     }
 
@@ -180,9 +210,12 @@ export async function PUT(request) {
     });
 
     if (!existingProgram) {
-      return json(
-        { error: 'Program not found' },
-        { status: 404 }
+      return new Response(
+        JSON.stringify({ error: 'Program not found' }),
+        { 
+          status: 404,
+          headers: { 'Content-Type': 'application/json' }
+        }
       );
     }
 
@@ -229,12 +262,21 @@ export async function PUT(request) {
       }
     });
 
-    return json(program);
+    return new Response(
+      JSON.stringify(program),
+      { 
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      }
+    );
   } catch (error) {
     console.error('Error updating program:', error);
-    return json(
-      { error: 'Failed to update program' },
-      { status: 500 }
+    return new Response(
+      JSON.stringify({ error: 'Failed to update program' }),
+      { 
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      }
     );
   }
 }
@@ -246,9 +288,12 @@ export async function DELETE(request) {
     const id = searchParams.get('id');
     
     if (!id) {
-      return json(
-        { error: 'Program ID is required' },
-        { status: 400 }
+      return new Response(
+        JSON.stringify({ error: 'Program ID is required' }),
+        { 
+          status: 400,
+          headers: { 'Content-Type': 'application/json' }
+        }
       );
     }
 
@@ -263,9 +308,12 @@ export async function DELETE(request) {
     });
 
     if (!existingProgram) {
-      return json(
-        { error: 'Program not found' },
-        { status: 404 }
+      return new Response(
+        JSON.stringify({ error: 'Program not found' }),
+        { 
+          status: 404,
+          headers: { 'Content-Type': 'application/json' }
+        }
       );
     }
 
@@ -303,12 +351,21 @@ export async function DELETE(request) {
       });
     });
 
-    return json({ success: true });
+    return new Response(
+      JSON.stringify({ success: true }),
+      { 
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      }
+    );
   } catch (error) {
     console.error('Error deleting program:', error);
-    return json(
-      { error: 'Failed to delete program: ' + error.message },
-      { status: 500 }
+    return new Response(
+      JSON.stringify({ error: 'Failed to delete program: ' + error.message }),
+      { 
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      }
     );
   }
 }

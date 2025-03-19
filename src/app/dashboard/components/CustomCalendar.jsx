@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './BigCalendar.module.css';
 import { FaCalendarAlt, FaVideo, FaPhone, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { BsGrid1X2, BsCalendarWeek, BsCalendarDay, BsListUl } from 'react-icons/bs';
-import AppointmentModal from './AppointmentModal';
+import AppointmentModalPortal from './AppointmentModalPortal';
 
 // Utilitaires de date
 const formatDate = (date) => {
@@ -76,6 +76,10 @@ const CustomCalendar = ({ appointments = [], currentDate, onDateChange }) => {
     setSelectedAppointment(null);
   };
   
+  const onAppointmentUpdate = () => {
+    // Vous devez implémenter cette fonction pour gérer la mise à jour des rendez-vous
+  };
+
   // Filtre les rendez-vous pour la vue actuelle
   const getFilteredAppointments = () => {
     if (!appointments || appointments.length === 0) return [];
@@ -330,11 +334,12 @@ const CustomCalendar = ({ appointments = [], currentDate, onDateChange }) => {
       </div>
       {renderCalendarContent()}
       
-      {/* Modal d'affichage détaillé du rendez-vous */}
+      {/* Modal d'affichage détaillé d'un rendez-vous */}
       {selectedAppointment && (
-        <AppointmentModal 
-          appointment={selectedAppointment} 
+        <AppointmentModalPortal 
+          appointment={selectedAppointment}
           onClose={closeAppointmentModal} 
+          onUpdate={onAppointmentUpdate}
         />
       )}
     </div>

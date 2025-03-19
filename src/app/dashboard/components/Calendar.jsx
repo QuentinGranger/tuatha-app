@@ -3,7 +3,7 @@ import CustomCalendar from './CustomCalendar';
 import { MdOutlineNavigateNext, MdOutlineNavigateBefore } from 'react-icons/md';
 import { FaPlus } from 'react-icons/fa';
 import styles from './Calendar.module.css';
-import AppointmentModal from './AppointmentModal';
+import AppointmentModalPortal from './AppointmentModalPortal';
 
 const Calendar = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -330,7 +330,7 @@ const Calendar = () => {
 
       {/* Modal de création de rendez-vous */}
       {isCreatingAppointment && (
-        <AppointmentModal
+        <AppointmentModalPortal
           isCreateMode={true}
           onClose={handleCloseCreateModal}
           onCreate={handleCreateAppointment}

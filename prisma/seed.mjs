@@ -1,4 +1,5 @@
-import { PrismaClient, UserRole, ConsultationType, Disponibilite, ModeReglement, StatutConventionnement, NutritionalStatus, ProgressionStatus, Specialty, ContactMethod } from '@prisma/client';
+import pkg from '@prisma/client';
+const { PrismaClient, UserRole, ConsultationType, Disponibilite, ModeReglement, StatutConventionnement, NutritionalStatus, ProgressionStatus, Specialty, ContactMethod } = pkg;
 import { hash } from 'bcrypt';
 
 const prisma = new PrismaClient();
@@ -595,6 +596,102 @@ async function main() {
       update: supplement,
       create: supplement,
     });
+  }
+
+  // Récupérer tous les patients et professionnels de santé pour créer des relations
+  const allPatients = await prisma.patient.findMany();
+  const allProfessionals = await prisma.healthProfessional.findMany({
+    include: { user: true }
+  });
+
+  console.log('Création des relations entre patients et professionnels de santé...');
+
+  // Créer des relations PatientHealthProfessional pour simuler le partage de dossiers
+  const patientHealthProfessionalRelations = [];
+
+  // Associer Chopper (nutritionniste) à tous les patients
+  const chopperPro = allProfessionals.find(p => p.user.email === 'chopper.nutritionist@tuatha.app');
+  if (chopperPro) {
+    for (const patient of allPatients) {
+      patientHealthProfessionalRelations.push({
+        id: `php-chopper-${patient.id}`,
+        patientId: patient.id,
+        healthProfessionalId: chopperPro.id,
+        status: 'ACTIVE',
+        specialNotes: 'Suivi nutritionnel régulier',
+        lastConsultation: new Date('2025-02-15'),
+        nextConsultation: new Date('2025-03-25'),
+        updatedAt: new Date(),
+      });
+    }
+  }
+
+  // Associer Bruce Banner (diététicien) à certains patients
+  const bannerPro = allProfessionals.find(p => p.user.email === 'hulk.dietitian@tuatha.app');
+  if (bannerPro && allPatients.length >= 3) {
+    patientHealthProfessionalRelations.push({
+      id: `php-banner-${allPatients[0].id}`,
+      patientId: allPatients[0].id,
+      healthProfessionalId: bannerPro.id,
+      status: 'ACTIVE',
+      specialNotes: 'Programme diététique spécial',
+      lastConsultation: new Date('2025-02-10'),
+      nextConsultation: new Date('2025-03-20'),
+      updatedAt: new Date(),
+    });
+    patientHealthProfessionalRelations.push({
+      id: `php-banner-${allPatients[2].id}`,
+      patientId: allPatients[2].id,
+      healthProfessionalId: bannerPro.id,
+      status: 'ACTIVE',
+      specialNotes: 'Suivi mensuel',
+      lastConsultation: new Date('2025-02-05'),
+      nextConsultation: new Date('2025-03-15'),
+      updatedAt: new Date(),
+    });
+  }
+
+  // Associer Tsunade (diététicienne) à certains patients
+  const tsunadePro = allProfessionals.find(p => p.user.email === 'tsunade.dietitian@tuatha.app');
+  if (tsunadePro && allPatients.length >= 2) {
+    patientHealthProfessionalRelations.push({
+      id: `php-tsunade-${allPatients[1].id}`,
+      patientId: allPatients[1].id,
+      healthProfessionalId: tsunadePro.id,
+      status: 'ACTIVE',
+      specialNotes: 'Régime spécial récupération',
+      lastConsultation: new Date('2025-01-25'),
+      nextConsultation: new Date('2025-03-05'),
+      updatedAt: new Date(),
+    });
+  }
+
+  // Associer Sanji (nutritionniste) à certains patients
+  const sanjiPro = allProfessionals.find(p => p.user.email === 'sanji.nutritionist@tuatha.app');
+  if (sanjiPro && allPatients.length >= 4) {
+    patientHealthProfessionalRelations.push({
+      id: `php-sanji-${allPatients[3].id}`,
+      patientId: allPatients[3].id,
+      healthProfessionalId: sanjiPro.id,
+      status: 'ACTIVE',
+      specialNotes: 'Régime haute performance',
+      lastConsultation: new Date('2025-02-20'),
+      nextConsultation: new Date('2025-03-30'),
+      updatedAt: new Date(),
+    });
+  }
+
+  // Créer les relations dans la base de données
+  if (patientHealthProfessionalRelations.length > 0) {
+    try {
+      await prisma.patientHealthProfessional.createMany({
+        data: patientHealthProfessionalRelations,
+        skipDuplicates: true,
+      });
+      console.log(`${patientHealthProfessionalRelations.length} relations patient-professionnel créées avec succès.`);
+    } catch (error) {
+      console.error('Erreur lors de la création des relations patient-professionnel:', error);
+    }
   }
 
   console.log('Seeding finished');

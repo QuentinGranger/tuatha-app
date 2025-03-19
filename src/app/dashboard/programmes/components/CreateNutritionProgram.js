@@ -15,7 +15,16 @@ export default function CreateProgram() {
     setError(null);
 
     try {
-      console.log('Form data received:', formData);
+      console.log('CreateNutritionProgram - Form data received:', formData);
+
+      // Vérifier les champs requis
+      const requiredFields = ['title', 'patientId', 'healthProfessionalId', 'startDate'];
+      const missingFields = requiredFields.filter(field => !formData[field]);
+      
+      if (missingFields.length > 0) {
+        console.log('CreateNutritionProgram - Missing fields:', missingFields);
+        throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
+      }
 
       // Vérifier que les suppléments sont un tableau
       const supplements = Array.isArray(formData.supplements) ? formData.supplements : [];
@@ -29,6 +38,7 @@ export default function CreateProgram() {
         startDate: formData.startDate,
         endDate: formData.endDate,
         patientId: formData.patientId,
+        healthProfessionalId: formData.healthProfessionalId || formData.nutritionistId,
         nutritionistId: formData.nutritionistId || formData.healthProfessionalId,
         status: formData.status || 'DRAFT',
         calories: formData.calories,
@@ -65,7 +75,7 @@ export default function CreateProgram() {
         }));
       }
 
-      console.log('Request data:', requestData);
+      console.log('CreateNutritionProgram - Request data to send:', requestData);
 
       const response = await fetch('/api/programs', {
         method: 'POST',
@@ -81,14 +91,14 @@ export default function CreateProgram() {
       }
 
       const program = await response.json();
-      console.log('Program created:', program);
+      console.log('CreateNutritionProgram - Program created:', program);
       
       // Rediriger vers la page des programmes
       router.push('/dashboard/programmes');
       router.refresh();
       setStatus('success');
     } catch (error) {
-      console.error('Error:', error);
+      console.error('CreateNutritionProgram - Error:', error);
       setError(error.message);
       setStatus('error');
       throw new Error('Failed to create program: ' + error.message);
@@ -142,7 +152,11 @@ export default function CreateProgram() {
   return (
     <div className={styles.container}>
       <h2>Créer un nouveau plan nutritionnel</h2>
-      <NutritionPlanForm onSubmit={handleSubmit} />
+      <NutritionPlanForm 
+        onSubmit={handleSubmit} 
+        patientId="pat-001" 
+        healthProfessionalId="hp-001" 
+      />
     </div>
   );
 }

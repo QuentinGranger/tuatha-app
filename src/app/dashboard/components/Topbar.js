@@ -76,7 +76,7 @@ const generateNotificationsList = () => {
       id: 1,
       type: 'urgent',
       title: 'Annulation urgente',
-      message: 'Mme Sophie Laurent a annulé son rendez-vous de 15h30 pour cause de maladie',
+      message: 'Zelda a annulé son rendez-vous de 15h30 pour cause de maladie',
       timestamp: new Date(now.getTime() - 2 * 60000), // 2 minutes ago
       read: false,
       priority: 'high'
@@ -85,7 +85,7 @@ const generateNotificationsList = () => {
       id: 2,
       type: 'appointment',
       title: 'Nouveau rendez-vous',
-      message: 'M. Thomas Bernard souhaite un rendez-vous pour une rééducation du genou',
+      message: 'Master Chief souhaite un rendez-vous pour une rééducation du genou',
       timestamp: new Date(now.getTime() - 15 * 60000), // 15 minutes ago
       read: false,
       priority: 'medium'
@@ -94,7 +94,7 @@ const generateNotificationsList = () => {
       id: 3,
       type: 'document',
       title: 'Nouveau document médical',
-      message: 'Dr Martinez a partagé une ordonnance pour le patient Pierre Dubois',
+      message: 'Dr. Gordon Freeman a partagé une ordonnance pour le patient Kratos',
       timestamp: new Date(now.getTime() - 45 * 60000), // 45 minutes ago
       read: false,
       priority: 'medium'
@@ -103,7 +103,7 @@ const generateNotificationsList = () => {
       id: 4,
       type: 'reminder',
       title: 'Rappel de consultation',
-      message: 'Consultation de suivi avec Emma Martin demain à 10h00',
+      message: 'Consultation de suivi avec Lara Croft demain à 10h00',
       timestamp: new Date(now.getTime() - 60 * 60000), // 1 heure ago
       read: false,
       priority: 'low'
@@ -112,7 +112,7 @@ const generateNotificationsList = () => {
       id: 5,
       type: 'payment',
       title: 'Paiement reçu',
-      message: 'Paiement de 65€ reçu de Jean Dupont pour la séance du 05/02',
+      message: 'Paiement de 65€ reçu de Mario pour la séance du 05/02',
       timestamp: new Date(now.getTime() - 120 * 60000), // 2 heures ago
       read: true,
       priority: 'low'
@@ -189,7 +189,7 @@ export default function Topbar() {
       {
         id: '1',
         title: 'Consultation aujourd\'hui',
-        message: 'Rappel: Vous avez un rendez-vous avec Jean Dupont à 14h30.',
+        message: 'Rappel: Vous avez un rendez-vous avec Link à 14h30.',
         timestamp: new Date(Date.now() - 30 * 60000), // 30 minutes ago
         read: false,
         type: 'appointment',
@@ -198,7 +198,7 @@ export default function Topbar() {
       {
         id: '2',
         title: 'Nouveau document disponible',
-        message: 'Un nouveau rapport médical a été ajouté au dossier de Marie Martin.',
+        message: 'Un nouveau rapport médical a été ajouté au dossier de Ellie.',
         timestamp: new Date(Date.now() - 2 * 60 * 60000), // 2 hours ago
         read: false,
         type: 'document',
@@ -207,7 +207,7 @@ export default function Topbar() {
       {
         id: '3',
         title: 'Mise à jour système',
-        message: 'Une mise à jour du système est disponible. Veuillez redémarrer votre application.',
+        message: 'Une mise à jour du système est disponible. Agent 47 vous recommande de redémarrer votre application.',
         timestamp: new Date(Date.now() - 5 * 60 * 60000), // 5 hours ago
         read: true,
         type: 'system',
@@ -216,7 +216,7 @@ export default function Topbar() {
       {
         id: '4',
         title: 'Alerte médicament',
-        message: 'Attention: interaction médicamenteuse potentielle détectée pour le patient Pierre Durand.',
+        message: 'Attention: interaction médicamenteuse potentielle détectée pour le patient Cloud Strife.',
         timestamp: new Date(Date.now() - 10 * 60000), // 10 minutes ago
         read: false,
         type: 'urgent',
@@ -225,7 +225,7 @@ export default function Topbar() {
       {
         id: '5',
         title: 'Rappel de rendez-vous',
-        message: 'Le patient Luc Bernard a confirmé son rendez-vous pour demain à 9h15.',
+        message: 'Le patient Geralt de Rivia a confirmé son rendez-vous pour demain à 9h15.',
         timestamp: new Date(Date.now() - 1 * 60 * 60000), // 1 hour ago
         read: true,
         type: 'appointment',
@@ -392,7 +392,7 @@ export default function Topbar() {
     const newNotification = {
       id: `new-${Date.now()}`,
       title: 'Notification automatique',
-      message: 'Cette notification a été générée automatiquement lors du rafraîchissement.',
+      message: 'Alerte: Sonic the Hedgehog a besoin d\'un bilan de réévaluation.',
       timestamp: new Date(),
       read: false,
       type: Math.random() > 0.5 ? 'system' : 'document',

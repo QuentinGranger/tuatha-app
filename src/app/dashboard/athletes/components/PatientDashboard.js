@@ -11,6 +11,7 @@ import PerformanceStats from './PerformanceStats';
 import NotesRecommendations from './NotesRecommendations';
 import Documents from './Documents';
 import Appointments from './Appointments';
+import Billing from './Billing';
 import styles from './PatientDashboard.module.css';
 
 export default function PatientDashboard({ className }) {
@@ -81,6 +82,8 @@ export default function PatientDashboard({ className }) {
         return <Documents patient={selectedPatient} />;
       case 'appointments':
         return <Appointments patient={selectedPatient} />;
+      case 'billing':
+        return <Billing patient={selectedPatient} />;
       default:
         return <MedicalInfo patient={selectedPatient} />;
     }

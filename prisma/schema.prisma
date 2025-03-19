@@ -265,6 +265,71 @@ model PatientHealthProfessional {
   @@unique([patientId, healthProfessionalId])
 }
 
+model NutritionProgram {
+  id                   String         @id @default(cuid())
+  title                String
+  description          String?
+  status               ProgramStatus  @default(ACTIVE)
+  dietType             String?
+  dietGoal             String?
+  startDate            DateTime
+  endDate              DateTime?
+  createdAt            DateTime       @default(now())
+  updatedAt            DateTime       @updatedAt
+  healthProfessionalId String?
+  patientId            String?
+  
+  healthProfessional   HealthProfessional? @relation(fields: [healthProfessionalId], references: [id])
+  patient              Patient?            @relation(fields: [patientId], references: [id])
+  
+  meals                Meal[]
+  supplements          Supplement[]
+  shareLinks           ProgramShareLink[]
+}
+
+model Meal {
+  id                   String          @id @default(cuid())
+  name                 String
+  description          String?
+  calories             Int?
+  protein              Float?
+  carbohydrates        Float?
+  fat                  Float?
+  fiber                Float?
+  sodium               Float?
+  createdAt            DateTime        @default(now())
+  updatedAt            DateTime        @updatedAt
+  nutritionProgramId   String?
+  
+  nutritionProgram     NutritionProgram? @relation(fields: [nutritionProgramId], references: [id], onDelete: Cascade)
+}
+
+model Supplement {
+  id                   String          @id @default(cuid())
+  name                 String
+  description          String?
+  dosage               String?
+  frequency            String?
+  createdAt            DateTime        @default(now())
+  updatedAt            DateTime        @updatedAt
+  nutritionProgramId   String?
+  
+  nutritionProgram     NutritionProgram? @relation(fields: [nutritionProgramId], references: [id], onDelete: Cascade)
+}
+
+model ProgramShareLink {
+  id                  String           @id @default(cuid())
+  token               String           @unique
+  viewCount           Int              @default(0)
+  expiresAt           DateTime?
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @updatedAt
+  createdById         String
+  programId           String
+  
+  program             NutritionProgram @relation(fields: [programId], references: [id], onDelete: Cascade)
+}
+
 enum UserRole {
   ATHLETE
   MEDECIN
@@ -345,4 +410,10 @@ enum NutrientType {
   ZINC
   CALCIUM
   PROTEIN
+}
+
+enum ProgramStatus {
+  ACTIVE
+  INACTIVE
+  ARCHIVED
 }

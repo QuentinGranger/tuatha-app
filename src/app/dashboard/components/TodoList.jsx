@@ -36,10 +36,10 @@ const TodoList = () => {
   const [tasks, setTasks] = useState({
     'task-1': {
       id: 'task-1',
-      title: 'Plan Nutritionnel - Pierre',
+      title: 'Plan Nutritionnel - Ender',
       description: 'Préparer un plan alimentaire personnalisé pour un sportif de haut niveau en phase de prise de masse musculaire, avec optimisation des apports protéiques et énergétiques.',
       dueDate: '2025-03-10',
-      patient: 'Pierre Durand',
+      patient: 'Ender Wiggin',
       patientId: 'p001',
       tags: ['sportif', 'prise de masse', 'musculation'],
       checklist: [
@@ -55,10 +55,10 @@ const TodoList = () => {
     },
     'task-2': {
       id: 'task-2',
-      title: 'Analyse Bilan Sanguin - Sophie',
+      title: 'Analyse Bilan Sanguin - Katniss',
       description: 'Interpréter les résultats du bilan sanguin complet et ajuster le plan nutritionnel en fonction des carences identifiées, notamment en fer et vitamines B.',
       dueDate: '2025-03-05',
-      patient: 'Sophie Martin',
+      patient: 'Katniss Everdeen',
       patientId: 'p002',
       tags: ['bilan', 'anémie', 'carences'],
       checklist: [
@@ -73,10 +73,10 @@ const TodoList = () => {
     },
     'task-3': {
       id: 'task-3',
-      title: 'Suivi hebdo - Lucas',
+      title: 'Suivi hebdo - Paul',
       description: 'Appel de suivi hebdomadaire et ajustements du plan de perte de poids. Analyse des résultats de la semaine et discussion des difficultés rencontrées.',
       dueDate: '2025-03-04',
-      patient: 'Lucas Petit',
+      patient: 'Paul Atréides',
       patientId: 'p003',
       tags: ['suivi', 'perte de poids', 'hebdomadaire'],
       checklist: [
@@ -92,10 +92,10 @@ const TodoList = () => {
     },
     'task-4': {
       id: 'task-4',
-      title: 'Plan sans gluten - Camille',
+      title: 'Plan sans gluten - Honor',
       description: 'Adaptation complète du plan alimentaire pour intolérance au gluten sévère, incluant la recherche de sources cachées de gluten et alternatives nutritionnellement équivalentes.',
       dueDate: '2025-03-07',
-      patient: 'Camille Dubois',
+      patient: 'Honor Harrington',
       patientId: 'p004',
       tags: ['sans gluten', 'intolérance', 'maladie cœliaque'],
       checklist: [
@@ -111,10 +111,10 @@ const TodoList = () => {
     },
     'task-5': {
       id: 'task-5',
-      title: 'Prog. sportif - Thomas',
+      title: 'Prog. sportif - Takeshi',
       description: 'Plan nutritionnel spécifique pour préparation marathon, avec stratégies de charge glycogénique, hydratation pendant l\'effort et récupération post-course.',
       dueDate: '2025-03-12',
-      patient: 'Thomas Bernard',
+      patient: 'Takeshi Kovacs',
       patientId: 'p005',
       tags: ['sportif', 'endurance', 'marathon'],
       checklist: [
@@ -129,10 +129,10 @@ const TodoList = () => {
     },
     'task-6': {
       id: 'task-6',
-      title: 'Bilan mensuel - Marie',
+      title: 'Bilan mensuel - Ellen',
       description: 'Analyse complète des progrès mensuels et ajustements du plan pour patiente diabétique de type 2. Évaluation de l\'équilibre glycémique et modifications diététiques.',
       dueDate: '2025-03-01',
-      patient: 'Marie Leroy',
+      patient: 'Ellen Ripley',
       patientId: 'p006',
       tags: ['bilan', 'diabète', 'mensuel'],
       checklist: [
@@ -148,10 +148,10 @@ const TodoList = () => {
     },
     'task-7': {
       id: 'task-7',
-      title: 'Réaction allergique - Paul',
+      title: 'Réaction allergique - Winston',
       description: 'Ajustement urgent du plan suite à réaction allergique sévère. Identification de l\'allergène et refonte complète du régime avec élimination des risques.',
       dueDate: '2025-03-03',
-      patient: 'Paul Roux',
+      patient: 'Winston Smith',
       patientId: 'p007',
       tags: ['allergie', 'urgent', 'réaction'],
       checklist: [

@@ -697,392 +697,6 @@
 
 /* Custom Food Manager Styles */
 .customFoodManager {
-  margin-top: 2rem;
-  padding: 1.5rem;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.addButton {
-  width: 100%;
-  padding: 1rem;
-  background: linear-gradient(45deg, #FF721C, #FF8F1C);
-  border: none;
-  border-radius: 8px;
-  color: white;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-}
-
-.addButton:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 114, 28, 0.2);
-}
-
-.customFoodForm {
-  margin-top: 1.5rem;
-  padding: 1.5rem;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.customFoodForm h3 {
-  color: white;
-  font-size: 1.2rem;
-  margin-bottom: 1.5rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid rgba(255, 114, 28, 0.3);
-}
-
-.formGroup {
-  margin-bottom: 1.5rem;
-}
-
-.formGroup label {
-  display: block;
-  color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 0.5rem;
-  font-size: 0.9rem;
-}
-
-.formGroup input,
-.formGroup select,
-.formGroup textarea {
-  width: 100%;
-  padding: 0.75rem;
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  color: white;
-  font-size: 0.9rem;
-  transition: all 0.3s ease;
-}
-
-.formGroup input:focus,
-.formGroup select:focus,
-.formGroup textarea:focus {
-  outline: none;
-  border-color: #FF721C;
-  box-shadow: 0 0 0 2px rgba(255, 114, 28, 0.2);
-}
-
-.formGroup input::placeholder,
-.formGroup textarea::placeholder {
-  color: rgba(255, 255, 255, 0.4);
-}
-
-.formRow {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.error {
-  padding: 1rem;
-  margin-bottom: 1.5rem;
-  background: rgba(229, 62, 62, 0.1);
-  border: 1px solid rgba(229, 62, 62, 0.3);
-  border-radius: 8px;
-  color: rgb(229, 62, 62);
-  font-size: 0.9rem;
-}
-
-.formActions {
-  display: flex;
-  gap: 1rem;
-  margin-top: 2rem;
-}
-
-.submitButton,
-.cancelButton {
-  flex: 1;
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.submitButton {
-  background: linear-gradient(45deg, #FF721C, #FF8F1C);
-  color: white;
-}
-
-.submitButton:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 114, 28, 0.2);
-}
-
-.submitButton:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.cancelButton {
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.cancelButton:hover {
-  background: rgba(255, 255, 255, 0.15);
-}
-
-.cancelButton:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
-.customFoodList {
-  margin-top: 1.5rem;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1rem;
-}
-
-.customFoodItem {
-  padding: 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  transition: all 0.3s ease;
-}
-
-.customFoodItem:hover {
-  transform: translateY(-2px);
-  background: rgba(255, 114, 28, 0.1);
-  border-color: rgba(255, 114, 28, 0.3);
-}
-
-.customFoodContent h4 {
-  color: white;
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
-}
-
-.foodCategory {
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 0.8rem;
-  margin-bottom: 0.75rem;
-}
-
-.macros {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-.macros span {
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 0.85rem;
-  padding: 0.25rem 0.5rem;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
-}
-
-.description {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 0.85rem;
-  line-height: 1.4;
-  margin-bottom: 1rem;
-}
-
-.customFoodActions {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.editButton,
-.deleteButton {
-  flex: 1;
-  padding: 0.5rem;
-  border: none;
-  border-radius: 6px;
-  font-size: 0.85rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.25rem;
-}
-
-.editButton {
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-}
-
-.editButton:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.deleteButton {
-  background: rgba(229, 62, 62, 0.1);
-  color: rgb(229, 62, 62);
-}
-
-.deleteButton:hover {
-  background: rgba(229, 62, 62, 0.2);
-}
-
-/* Loading spinner */
-.loading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.loading:after {
-  content: '';
-  width: 1.5rem;
-  height: 1.5rem;
-  margin-left: 0.5rem;
-  border: 2px solid rgba(255, 114, 28, 0.3);
-  border-top-color: #FF721C;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.timeOfDaySelector {
-  display: flex;
-  gap: 1rem;
-  padding: 0.5rem;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
-}
-
-.timeButton {
-  flex: 1;
-  padding: 0.75rem 1rem;
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  background: rgba(0, 0, 0, 0.2);
-  color: white;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.timeButton:hover {
-  background: rgba(255, 255, 255, 0.1);
-  transform: translateY(-2px);
-}
-
-.timeButton.selected {
-  background: #FF721C;
-  border-color: #FF721C;
-  color: white;
-}
-
-.foodFilters {
-  display: flex;
-  gap: 1rem;
-}
-
-.searchInput,
-.categorySelect {
-  flex: 1;
-  padding: 0.75rem 1rem;
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  background: rgba(0, 0, 0, 0.2);
-  color: white;
-  font-size: 1rem;
-}
-
-.searchInput::placeholder {
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.searchInput:focus,
-.categorySelect:focus {
-  outline: none;
-  border-color: #FF721C;
-}
-
-.foodList {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1rem;
-  max-height: 400px;
-  overflow-y: auto;
-  padding: 0.5rem;
-}
-
-.foodItem {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  padding: 1rem;
-  background: rgba(0, 0, 0, 0.2);
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  color: white;
-  text-align: left;
-}
-
-.foodItem:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.1);
-  transform: translateY(-2px);
-}
-
-.foodItem.selected {
-  border-color: #FF721C;
-  background: rgba(255, 114, 28, 0.2);
-}
-
-.foodItem:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.foodName {
-  font-weight: 600;
-  font-size: 1.1rem;
-}
-
-.foodDetails {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.foodDetails span {
-  background: rgba(0, 0, 0, 0.2);
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-}
-
-/* Custom Food Manager Styles */
-.customFoodManager {
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -2382,7 +1996,10 @@
   color: rgba(255, 255, 255, 0.7);
   background: rgba(255, 114, 28, 0.15);
   padding: 0.25rem 0.75rem;
-  border-radius: 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .checkbox {
@@ -2567,4 +2184,787 @@
 .submitButton:hover {
   background: #ff8534;
   transform: translateY(-2px);
+}
+
+/* Styles pour la section Informations générales */
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.sectionHeader h3 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+}
+
+.infoCardWrapper {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+}
+
+/* Styles pour les cartes de repas */
+.mealSummary {
+  background: rgba(30, 30, 40, 0.6);
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.mealSummary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 100%;
+  opacity: 0.8;
+  transition: all 0.3s ease;
+}
+
+.mealSummary.breakfast::before {
+  background: #FF9F1C;
+}
+
+.mealSummary.lunch::before {
+  background: #FFD166;
+}
+
+.mealSummary.dinner::before {
+  background: #118AB2;
+}
+
+.mealSummary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.mealHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 1rem;
+}
+
+.mealHeader h4 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.mealItems {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.mealItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: rgba(20, 20, 30, 0.5);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.mealItem:hover {
+  background: rgba(40, 40, 50, 0.7);
+  transform: translateX(3px);
+  border-color: rgba(255, 114, 28, 0.15);
+}
+
+.mealItemName {
+  font-weight: 500;
+  color: white;
+  font-size: 0.95rem;
+}
+
+.emptyMeal {
+  padding: 2rem 1rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.4);
+  font-style: italic;
+  background: rgba(20, 20, 30, 0.3);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  margin-top: 1rem;
+}
+
+/* Total daily macros */
+.totalDailyMacros {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  padding: 1.25rem;
+  background: rgba(25, 25, 35, 0.8);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 114, 28, 0.15);
+}
+
+.totalDailyMacros h4 {
+  margin: 0;
+  font-size: 1.15rem;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.totalMacrosValues {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.totalMacrosValues span {
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  min-width: 100px;
+  text-align: center;
+}
+
+.totalMacrosValues span:nth-child(1) {
+  color: #FF721C;
+}
+
+.totalMacrosValues span:nth-child(2) {
+  color: #4DE2A3;
+}
+
+.totalMacrosValues span:nth-child(3) {
+  color: #FFD166;
+}
+
+@media (max-width: 1024px) {
+  .infoCardWrapper {
+    grid-template-columns: 1fr;
+  }
+}
+
+.infoCard {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.dateCardContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.dateCard {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  height: 100%;
+}
+
+.dateCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.dateCardHeader h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+}
+
+.primaryInput {
+  padding: 0.75rem 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: white;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.primaryInput:focus {
+  outline: none;
+  border-color: rgba(255, 114, 28, 0.5);
+  background: rgba(255, 114, 28, 0.05);
+  box-shadow: 0 0 0 4px rgba(255, 114, 28, 0.1);
+}
+
+.requiredField::after {
+  content: " *";
+  color: #FF721C;
+}
+
+.fieldHint {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.expandingTextarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: white;
+  font-size: 1rem;
+  resize: vertical;
+  transition: all 0.3s ease;
+  min-height: 120px;
+}
+
+.expandingTextarea:focus {
+  outline: none;
+  border-color: rgba(255, 114, 28, 0.5);
+  background: rgba(255, 114, 28, 0.05);
+  box-shadow: 0 0 0 4px rgba(255, 114, 28, 0.1);
+}
+
+.dateInput {
+  padding: 0.75rem 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: white;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.dateInput::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.dateInput:focus {
+  outline: none;
+  border-color: rgba(255, 114, 28, 0.5);
+  background: rgba(255, 114, 28, 0.05);
+  box-shadow: 0 0 0 4px rgba(255, 114, 28, 0.1);
+}
+
+/* Styles pour la section Type de régime et objectif */
+.dietTypeSection {
+  margin-top: 1.5rem;
+}
+
+.dietSectionTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: white;
+  margin: 0 0 1rem 0;
+  padding-left: 0.5rem;
+  border-left: 3px solid #FF721C;
+}
+
+.dietOptionsGrid,
+.dietGoalsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.dietOptionCard,
+.dietGoalCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.dietOptionCard:hover,
+.dietGoalCard:hover {
+  background: rgba(255, 114, 28, 0.1);
+  transform: translateY(-3px);
+  border-color: rgba(255, 114, 28, 0.3);
+}
+
+.selectedDietOption,
+.selectedDietGoal {
+  background: rgba(255, 114, 28, 0.15);
+  border: 1px solid rgba(255, 114, 28, 0.5);
+  box-shadow: 0 4px 12px rgba(255, 114, 28, 0.15);
+}
+
+.dietOptionIcon,
+.dietGoalIcon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: #FF721C;
+  background: rgba(255, 114, 28, 0.1);
+  border: 2px solid rgba(255, 114, 28, 0.3);
+  border-radius: 50%;
+  margin-bottom: 0.5rem;
+}
+
+.dietOptionLabel,
+.dietGoalLabel {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: white;
+}
+
+/* Styles pour la section Objectifs et restrictions */
+.nutritionGoalsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.goalCard {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.goalCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  border-color: rgba(255, 114, 28, 0.3);
+}
+
+.goalCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  background: rgba(0, 0, 0, 0.25);
+  border-bottom: 2px solid rgba(255, 114, 28, 0.2);
+}
+
+.goalCardHeader svg {
+  color: #FF721C;
+}
+
+.goalCardHeader h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+}
+
+.goalContent {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.goalDescription {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.95rem;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.goalTextarea {
+  width: 100%;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: white;
+  font-size: 0.95rem;
+  resize: vertical;
+  transition: all 0.3s ease;
+  min-height: 120px;
+}
+
+.goalTextarea:focus {
+  outline: none;
+  border-color: rgba(255, 114, 28, 0.5);
+  background: rgba(255, 114, 28, 0.05);
+  box-shadow: 0 0 0 4px rgba(255, 114, 28, 0.1);
+}
+
+.objectiveTags,
+.restrictionTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.objectiveTags span,
+.restrictionTags span {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 114, 28, 0.1);
+  border: 1px solid rgba(255, 114, 28, 0.3);
+  border-radius: 20px;
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.objectiveTags span:hover,
+.restrictionTags span:hover {
+  background: rgba(255, 114, 28, 0.25);
+  transform: translateY(-2px) scale(1.05);
+  border-color: rgba(255, 114, 28, 0.5);
+  box-shadow: 0 4px 8px rgba(255, 114, 28, 0.15);
+}
+
+.objectiveTags span:active,
+.restrictionTags span:active {
+  transform: translateY(0) scale(0.98);
+  background: rgba(255, 114, 28, 0.35);
+  transition: all 0.1s ease;
+}
+
+.mealsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.mealMacros {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+
+.mealItemMacros {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.mealMacros span,
+.mealItemMacros span {
+  font-size: 0.9rem;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  color: rgba(255, 255, 255, 0.9);
+  white-space: nowrap;
+}
+
+.mealMacros span:nth-child(1) {
+  color: #FF721C;
+}
+
+.mealMacros span:nth-child(2) {
+  color: #4DE2A3;
+}
+
+.mealMacros span:nth-child(3) {
+  color: #FFD166;
+}
+
+.mealItemActions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.removeButton {
+  background: rgba(255, 0, 0, 0.1);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.removeButton:hover {
+  background: rgba(255, 0, 0, 0.3);
+  color: white;
+  transform: scale(1.1);
+}
+
+.toggleSelectorButton {
+  margin-top: 1.5rem;
+  padding: 0.75rem 1.25rem;
+  background: rgba(255, 114, 28, 0.15);
+  border: 1px solid rgba(255, 114, 28, 0.3);
+  border-radius: 8px;
+  color: #FF721C;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.toggleSelectorButton:hover {
+  background: rgba(255, 114, 28, 0.25);
+  transform: translateY(-2px);
+}
+
+.searchInputWrapper {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.searchInputWrapper svg {
+  position: absolute;
+  left: 12px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.searchInput {
+  width: 100%;
+  padding-left: 40px;
+}
+
+.emptyResult {
+  grid-column: 1 / -1;
+  padding: 2rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  font-style: italic;
+}
+
+/* Responsive styles pour les résumés de repas */
+@media (min-width: 992px) {
+  .mealsContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  
+  .mealSummary {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .mealItems {
+    flex: 1;
+    overflow-y: auto;
+    max-height: 300px;
+  }
+}
+
+.mealSummary.breakfast .mealHeader h4 {
+  color: #FF9F1C;
+}
+
+.mealSummary.lunch .mealHeader h4 {
+  color: #FFD166;
+}
+
+.mealSummary.dinner .mealHeader h4 {
+  color: #118AB2;
+}
+
+/* Styles pour les besoins nutritionnels quotidiens */
+.nutritionNeedsContainer {
+  background: linear-gradient(to right, rgba(35, 35, 45, 0.7), rgba(30, 30, 40, 0.7));
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 114, 28, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.nutritionNeedsContainer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(to right, #FF721C, #FFD166);
+  opacity: 0.8;
+}
+
+.macroCardsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.macroCard {
+  background: rgba(25, 25, 35, 0.6);
+  border-radius: 10px;
+  padding: 1.25rem;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.macroCard:hover {
+  transform: translateY(-3px);
+  background: rgba(35, 35, 45, 0.7);
+  border-color: rgba(255, 114, 28, 0.15);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.macroCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.macroCardHeader h4 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: white;
+}
+
+.macroCardContent {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.macroIconContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 114, 28, 0.1);
+  border-radius: 50%;
+}
+
+.macroIcon {
+  color: #FF721C;
+}
+
+.macroInputContainer {
+  flex: 1;
+}
+
+.macroInputWrapper {
+  display: flex;
+  align-items: center;
+  background: rgba(20, 20, 30, 0.4);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  margin-bottom: 0.75rem;
+}
+
+.macroInput {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 0.75rem 1rem;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.macroInput:focus {
+  outline: none;
+}
+
+.macroUnit {
+  padding: 0 1rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+  background: rgba(0, 0, 0, 0.2);
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.macroDescription {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 0.75rem;
+}
+
+.macroPresets {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.macroPresets span {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.4rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.macroPresets span:hover {
+  background: rgba(255, 114, 28, 0.2);
+  color: white;
+}
+
+.sectionDescription {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
 }

@@ -1,7 +1,39 @@
 // Client Prisma mockée avec les données du fichier seed.mjs
 // Cette approche est temporaire pour contourner les problèmes de génération Prisma
 
-import { NutritionalStatus, ProgressionStatus, UserRole, Specialty } from '@prisma/client';
+// Manually define enums instead of importing from @prisma/client
+const NutritionalStatus = {
+  GOOD: 'GOOD',
+  AVERAGE: 'AVERAGE',
+  CRITICAL: 'CRITICAL'
+};
+
+const ProgressionStatus = {
+  IMPROVING: 'IMPROVING',
+  STAGNATING: 'STAGNATING',
+  DECLINING: 'DECLINING',
+  WORSENING: 'WORSENING'
+};
+
+const UserRole = {
+  ATHLETE: 'ATHLETE',
+  MEDECIN: 'MEDECIN',
+  ADMIN: 'ADMIN',
+  HEALTH_PROFESSIONAL: 'HEALTH_PROFESSIONAL',
+  PATIENT: 'PATIENT'
+};
+
+const Specialty = {
+  NUTRITIONIST: 'NUTRITIONIST',
+  PHYSIOTHERAPIST: 'PHYSIOTHERAPIST',
+  PSYCHOLOGIST: 'PSYCHOLOGIST',
+  DOCTOR: 'DOCTOR',
+  GENERAL: 'GENERAL',
+  RADIOLOGIST: 'RADIOLOGIST',
+  PEDIATRICIAN: 'PEDIATRICIAN',
+  PHYSICAL_TRAINER: 'PHYSICAL_TRAINER',
+  DIETITIAN: 'DIETITIAN'
+};
 
 // Mock data pour les patients basée sur seed.mjs
 const patients = [
@@ -420,6 +452,15 @@ const mockPrograms = [
   }
 ];
 
+// Ajouter la liste mockFoods pour les aliments
+const mockFoods = [
+  { id: 'food_1', name: "Poulet", category: "Protéines", calories: 165, proteins: 31, carbs: 0, fats: 3.6, description: "Viande maigre riche en protéines", isCustom: false },
+  { id: 'food_2', name: "Saumon", category: "Protéines", calories: 208, proteins: 22, carbs: 0, fats: 13, description: "Poisson gras riche en oméga-3", isCustom: false },
+  { id: 'food_3', name: "Quinoa", category: "Céréales", calories: 120, proteins: 4.4, carbs: 21.3, fats: 1.9, description: "Céréale complète riche en protéines végétales", isCustom: false },
+  { id: 'food_4', name: "Avocat", category: "Fruits", calories: 160, proteins: 2, carbs: 8.5, fats: 14.7, description: "Fruit riche en graisses saines", isCustom: false },
+  { id: 'food_5', name: "Épinards", category: "Légumes", calories: 23, proteins: 2.9, carbs: 3.6, fats: 0.4, description: "Légume vert riche en fer", isCustom: false }
+];
+
 // Mock client Prisma
 const prisma = {
   patient: {
@@ -469,11 +510,49 @@ const prisma = {
     }
   },
   food: {
-    findMany: async () => [],
-    create: async () => ({}),
-    update: async () => ({}),
-    delete: async () => ({}),
-    findUnique: async () => null
+    findMany: async () => {
+      console.log('Mock prisma.food.findMany called');
+      return [...mockFoods];
+    },
+    create: async (options) => {
+      console.log('Mock prisma.food.create called', options);
+      const newId = `food_${mockFoods.length + 1}_custom`;
+      const newFood = { 
+        id: newId, 
+        ...options.data,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+      mockFoods.push(newFood);
+      return newFood;
+    },
+    update: async (options) => {
+      console.log('Mock prisma.food.update called', options);
+      const index = mockFoods.findIndex(f => f.id === options.where.id);
+      if (index === -1) {
+        throw new Error('Food not found');
+      }
+      mockFoods[index] = { 
+        ...mockFoods[index], 
+        ...options.data,
+        updatedAt: new Date().toISOString()
+      };
+      return mockFoods[index];
+    },
+    delete: async (options) => {
+      console.log('Mock prisma.food.delete called', options);
+      const index = mockFoods.findIndex(f => f.id === options.where.id);
+      if (index === -1) {
+        throw new Error('Food not found');
+      }
+      const deletedFood = mockFoods[index];
+      mockFoods.splice(index, 1);
+      return deletedFood;
+    },
+    findUnique: async (options) => {
+      console.log('Mock prisma.food.findUnique called', options);
+      return mockFoods.find(f => f.id === options.where.id) || null;
+    }
   },
   supplement: {
     findMany: async () => {
@@ -497,6 +576,47 @@ const prisma = {
       }
       
       return filteredPrograms;
+    },
+    findFirst: async (options) => {
+      console.log('Mock prisma.program.findFirst called', options);
+      
+      // Filtrer si nécessaire
+      let filteredPrograms = [...mockPrograms];
+      
+      // Appliquer les filtres si présents dans options.where
+      if (options?.where) {
+        Object.entries(options.where).forEach(([key, value]) => {
+          filteredPrograms = filteredPrograms.filter(p => p[key] === value);
+        });
+      }
+      
+      // Si include est spécifié, ajouter les relations
+      if (options?.include) {
+        filteredPrograms = filteredPrograms.map(program => {
+          const enrichedProgram = { ...program };
+          
+          if (options.include.exercises) {
+            enrichedProgram.exercises = mockProgramExercises.filter(
+              ex => ex.programId === program.id
+            );
+          }
+          
+          if (options.include.supplements) {
+            enrichedProgram.supplements = program.supplements || []; // Correction ici
+          }
+          
+          if (options.include.healthProfessional) {
+            enrichedProgram.healthProfessional = healthProfessionals.find(
+              hp => hp.id === program.healthProfessionalId
+            );
+          }
+          
+          return enrichedProgram;
+        });
+      }
+      
+      // Retourner le premier résultat ou null si aucun résultat
+      return filteredPrograms.length > 0 ? filteredPrograms[0] : null;
     },
     findUnique: async (options) => {
       console.log('Mock prisma.program.findUnique called', options);
