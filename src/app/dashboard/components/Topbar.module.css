@@ -630,6 +630,7 @@
   transition: all 0.2s ease;
   border: 1px solid rgba(255, 255, 255, 0.08);
   position: relative;
+  cursor: pointer;
 }
 
 .notificationItem:hover {
@@ -1238,4 +1239,31 @@
 .notificationActions {
   display: flex;
   gap: 0.5rem;
+}
+
+@keyframes notificationPulse {
+  0% {
+    transform: scale(1);
+    color: white;
+  }
+  25% {
+    transform: scale(1.2);
+    color: #FF8800;
+  }
+  50% {
+    transform: scale(1);
+    color: white;
+  }
+  75% {
+    transform: scale(1.2);
+    color: #FF8800;
+  }
+  100% {
+    transform: scale(1);
+    color: white;
+  }
+}
+
+.notificationPulse {
+  animation: notificationPulse 0.8s ease-in-out;
 }

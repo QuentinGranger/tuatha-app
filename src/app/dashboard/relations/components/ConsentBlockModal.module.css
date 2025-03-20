@@ -1,0 +1,319 @@
+/* ConsentBlockModal.module.css */
+.modalOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  animation: fadeIn 0.3s ease-out;
+  border-radius: 16px;
+}
+
+.modalContainer {
+  background: rgba(23, 32, 50, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  width: 90%;
+  max-width: 600px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  color: #fff;
+  animation: slideIn 0.3s ease-out;
+}
+
+.modalHeader {
+  padding: 24px 32px;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(90deg, rgba(255, 136, 0, 0.8) 0%, rgba(255, 179, 102, 0.6) 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modalHeader h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+  margin-left: 15px;
+  color: white;
+  background: linear-gradient(90deg, #ffffff 0%, #f0f0f0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.warningIcon {
+  font-size: 28px;
+  color: white;
+}
+
+.modalContent {
+  padding: 24px 32px;
+}
+
+.patientInfo {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.patientAvatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto 16px;
+  border: 2px solid rgba(255, 136, 0, 0.6);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatarPlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(45deg, rgba(255, 136, 0, 0.6), rgba(255, 179, 102, 0.6));
+  color: white;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.patientName {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  background: linear-gradient(90deg, #ffffff 0%, #e6e6e6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.patientDetail {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 24px 0;
+}
+
+.messageBox {
+  background: rgba(231, 76, 60, 0.15);
+  border: 1px solid rgba(231, 76, 60, 0.3);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 24px;
+  text-align: center;
+  position: relative;
+  backdrop-filter: blur(5px);
+}
+
+.messageBox p {
+  margin: 8px 0;
+}
+
+.lockIcon {
+  font-size: 36px;
+  color: #e74c3c;
+  margin-bottom: 15px;
+}
+
+.infoBox {
+  background: rgba(41, 128, 185, 0.15);
+  border: 1px solid rgba(41, 128, 185, 0.3);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: flex-start;
+  backdrop-filter: blur(5px);
+}
+
+.shieldIcon {
+  font-size: 30px;
+  color: #3498db;
+  margin-right: 15px;
+  flex-shrink: 0;
+}
+
+.infoBox p {
+  margin: 6px 0;
+  font-size: 0.95rem;
+}
+
+.successHeader {
+  background: linear-gradient(90deg, rgba(76, 175, 80, 0.8) 0%, rgba(139, 195, 74, 0.6) 100%);
+}
+
+.successIcon {
+  font-size: 28px;
+  color: white;
+}
+
+.successMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.emailIcon {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.successTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #4CAF50;
+}
+
+.successSubtitle {
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 20px;
+}
+
+.declineHeader {
+  background: linear-gradient(90deg, rgba(244, 67, 54, 0.8) 0%, rgba(239, 108, 97, 0.6) 100%);
+}
+
+.declineTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #F44336;
+}
+
+.progressContainer {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+.progressBar {
+  height: 100%;
+  background: linear-gradient(90deg, #4CAF50, #8BC34A);
+  animation: progressAnimation 3s linear forwards;
+  width: 0%;
+}
+
+@keyframes progressAnimation {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 24px 32px;
+  background: rgba(17, 24, 39, 0.7);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.primaryButton {
+  background: linear-gradient(90deg, #FF8800 0%, #FFB366 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-left: 16px;
+  box-shadow: 0 4px 10px rgba(255, 136, 0, 0.3);
+}
+
+.primaryButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(255, 136, 0, 0.4);
+}
+
+.secondaryButton {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.secondaryButton:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .modalContainer {
+    width: 95%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  
+  .modalHeader {
+    padding: 20px 24px;
+  }
+  
+  .modalContent {
+    padding: 20px 24px;
+  }
+  
+  .modalActions {
+    padding: 20px 24px;
+    flex-direction: column;
+  }
+  
+  .primaryButton, .secondaryButton {
+    width: 100%;
+    margin: 8px 0;
+  }
+  
+  .primaryButton {
+    margin-left: 0;
+  }
+}

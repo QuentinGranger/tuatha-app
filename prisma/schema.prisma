@@ -61,6 +61,7 @@ model HealthProfessional {
   user                      User                        @relation(fields: [userId], references: [id])
   PatientHealthProfessional PatientHealthProfessional[]
   programs                  Program[]
+  nutritionPrograms         NutritionProgram[]          @relation("HealthProfessionalPrograms")
 }
 
 model Patient {
@@ -98,6 +99,7 @@ model Patient {
   PatientHealthProfessional PatientHealthProfessional[]
   patientPathologies        PatientPathology[]
   programs                  Program[]
+  nutritionPrograms         NutritionProgram[]          @relation("PatientPrograms")
 }
 
 model Pathology {
@@ -279,11 +281,11 @@ model NutritionProgram {
   healthProfessionalId String?
   patientId            String?
   
-  healthProfessional   HealthProfessional? @relation(fields: [healthProfessionalId], references: [id])
-  patient              Patient?            @relation(fields: [patientId], references: [id])
+  healthProfessional   HealthProfessional? @relation("HealthProfessionalPrograms", fields: [healthProfessionalId], references: [id])
+  patient              Patient?            @relation("PatientPrograms", fields: [patientId], references: [id])
   
   meals                Meal[]
-  supplements          Supplement[]
+  supplements          NutritionSupplement[]
   shareLinks           ProgramShareLink[]
 }
 
@@ -304,7 +306,7 @@ model Meal {
   nutritionProgram     NutritionProgram? @relation(fields: [nutritionProgramId], references: [id], onDelete: Cascade)
 }
 
-model Supplement {
+model NutritionSupplement {
   id                   String          @id @default(cuid())
   name                 String
   description          String?

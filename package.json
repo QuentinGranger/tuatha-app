@@ -2,6 +2,7 @@
   "name": "tuatha-dashboard",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "dev:fast": "NODE_OPTIONS='--max-old-space-size=4096' NEXT_TELEMETRY_DISABLED=1 next dev --turbo",
@@ -52,6 +53,5 @@
     "eslint-config-next": "15.1.6",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
-  },
-  "type": "module"
+  }
 }

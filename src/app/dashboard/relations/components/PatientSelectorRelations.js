@@ -6,7 +6,12 @@ import Image from 'next/image';
 import { FaChevronDown, FaChevronUp, FaSearch, FaCheck, FaUser, FaRunning } from 'react-icons/fa';
 import styles from './PatientSelectorRelations.module.css';
 
-export default function PatientSelectorRelations({ patients, selectedPatientId, onPatientChange }) {
+export default function PatientSelectorRelations({ 
+  patients, 
+  selectedPatientId, 
+  onPatientChange,
+  patientConsents = {} // Récupérer les données de consentement du parent
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [showAnimation, setShowAnimation] = useState(false);
@@ -23,7 +28,7 @@ export default function PatientSelectorRelations({ patients, selectedPatientId, 
   useEffect(() => {
     setIsMounted(true);
   }, []);
-  
+
   useEffect(() => {
     // Fermer le menu déroulant lorsqu'on clique ailleurs
     function handleClickOutside(event) {
@@ -169,6 +174,21 @@ export default function PatientSelectorRelations({ patients, selectedPatientId, 
                     <FaCheck />
                   </div>
                 )}
+                
+                <div className={styles.consentIndicator}>
+                  {patientConsents[patient.id] ? (
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M9 16.2L4.8 12L3.4 13.4L9 19L21 7L19.6 5.6L9 16.2Z" fill="currentColor"/>
+                    </svg>
+                  ) : (
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="currentColor"/>
+                    </svg>
+                  )}
+                  <span className={styles.consentText}>
+                    {patientConsents[patient.id] ? "Accordé" : "Non accordé"}
+                  </span>
+                </div>
               </div>
             ))
           ) : (
@@ -218,6 +238,23 @@ export default function PatientSelectorRelations({ patients, selectedPatientId, 
                 {selectedPatient.sport || 'Sport non spécifié'}
               </span>
             </div>
+            <div className={styles.selectedPatientConsent}>
+              {patientConsents[selectedPatientId] ? (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9 16.2L4.8 12L3.4 13.4L9 19L21 7L19.6 5.6L9 16.2Z" fill="currentColor"/>
+                </svg>
+              ) : (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="currentColor"/>
+                </svg>
+              )}
+              <span className={styles.consentText}>
+                {patientConsents[selectedPatientId] ? "Accordé" : "Non accordé"}
+              </span>
+            </div>
+            <div className={styles.dropdownIcon}>
+              {isOpen ? <FaChevronUp className={styles.chevronIcon} /> : <FaChevronDown className={styles.chevronIcon} />}
+            </div>
           </>
         ) : (
           <span className={styles.noPatientSelected}>
@@ -225,9 +262,6 @@ export default function PatientSelectorRelations({ patients, selectedPatientId, 
             Sélectionner un patient
           </span>
         )}
-        <div className={styles.dropdownIcon}>
-          {isOpen ? <FaChevronUp className={styles.chevronIcon} /> : <FaChevronDown className={styles.chevronIcon} />}
-        </div>
       </div>
       
       {renderDropdown()}

@@ -21,6 +21,12 @@
   --shadow-md: 0 6px 15px rgba(0, 0, 0, 0.15);
   --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.2);
   --shadow-xl: 0 15px 35px rgba(0, 0, 0, 0.3);
+  --consent-green: rgba(46, 204, 113, 1);
+  --consent-green-bg: rgba(46, 204, 113, 0.15);
+  --consent-green-border: rgba(46, 204, 113, 0.3);
+  --consent-red: rgba(231, 76, 60, 1);
+  --consent-red-bg: rgba(231, 76, 60, 0.15);
+  --consent-red-border: rgba(231, 76, 60, 0.3);
   --blur-intensity: 15px;
 }
 
@@ -412,6 +418,47 @@ div[style].patientDropdownMenu .selectedPatientItem {
   color: var(--text-tertiary);
   font-size: 0.95rem;
   font-style: italic;
+}
+
+/* Styles pour l'indicateur de consentement */
+.consentIndicator {
+  display: flex;
+  align-items: center;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 500;
+  margin-left: 6px;
+  transition: all 0.2s ease;
+  color: var(--consent-green);
+  background-color: var(--consent-green-bg);
+  border: 1px solid var(--consent-green-border);
+}
+
+.consentIndicator:has(path[d*="M19 6.41"]) {
+  color: var(--consent-red);
+  background-color: var(--consent-red-bg);
+  border-color: var(--consent-red-border);
+}
+
+.consentText {
+  margin-left: 4px;
+  white-space: nowrap;
+}
+
+.selectedPatientConsent {
+  margin-left: auto;
+  margin-right: 12px;
+}
+
+.selectedPatientConsent .consentIndicator {
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+.patientDropdownItem:hover .consentIndicator {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 /* Media Queries pour la réactivité */

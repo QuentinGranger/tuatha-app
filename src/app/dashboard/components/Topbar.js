@@ -159,6 +159,42 @@ export default function Topbar() {
     setMounted(true);
   }, []);
 
+  // Écouteur pour les événements de notification personnalisés
+  useEffect(() => {
+    const handleCustomNotification = (event) => {
+      const newNotification = event.detail;
+      console.log('Nouvelle notification reçue:', newNotification);
+      
+      // Ajouter la notification à l'état des notifications
+      setNotifications(prevNotifications => [
+        {
+          id: `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`, // ID unique
+          timestamp: new Date(),
+          read: false,
+          ...newNotification
+        },
+        ...prevNotifications
+      ]);
+      
+      // Afficher brièvement un indicateur visuel
+      const bellIcon = document.querySelector(`.${styles.notificationIcon}`);
+      if (bellIcon) {
+        bellIcon.classList.add(styles.notificationPulse);
+        setTimeout(() => {
+          bellIcon.classList.remove(styles.notificationPulse);
+        }, 2000);
+      }
+    };
+    
+    // Ajouter l'écouteur d'événements
+    window.addEventListener('tuatha-notification', handleCustomNotification);
+    
+    // Nettoyer l'écouteur d'événements
+    return () => {
+      window.removeEventListener('tuatha-notification', handleCustomNotification);
+    };
+  }, []);
+
   useEffect(() => {
     const fetchHealthProfessional = async () => {
       try {
