@@ -50,11 +50,13 @@ export default function Sidebar() {
   return (
     <nav className={styles.sidebar}>
       <div className={styles.logoContainer}>
-        <img
-          src="/img/Logotuathavide.png"
-          alt="Tuatha Logo"
-          className={styles.logo}
-        />
+        <Link href="/dashboard">
+          <img
+            src="/img/Logotuathavide.png"
+            alt="Tuatha Logo"
+            className={styles.logo}
+          />
+        </Link>
       </div>
       <ul className={styles.menu}>
         {menuItems.map((item) => (
