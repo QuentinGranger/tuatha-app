@@ -1,8 +1,15 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { IoMdAnalytics, IoMdArrowDropdown } from 'react-icons/io';
+import { MdTrendingUp, MdTrendingDown } from 'react-icons/md';
 import { athletes, athleteData, periodLabels } from '../test-data';
 import { WeightChart, HydrationChart, CaloriesChart, MacrosChart } from './PerformanceCharts';
+import styles from './performanceHeader.module.css';
+import tableStyles from './performanceTables.module.css';
+import PerformanceTable from './PerformanceTable';
+import PerformanceForm from './PerformanceForm';
+import DeleteConfirmation from './DeleteConfirmation';
 
 // Composant principal
 export default function PerformanceDashboard({ initialPatients = [] }) {
@@ -13,9 +20,111 @@ export default function PerformanceDashboard({ initialPatients = [] }) {
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Suppression des références pour les cartes KPI puisqu'elles sont maintenant autosizables
-  // const kpiChartRefs = useRef([]);
-  
+  // État pour les modales CRUD
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [selectedEntry, setSelectedEntry] = useState(null);
+  const [crudLoading, setCrudLoading] = useState(false);
+
+  // Données d'historique des performances (simulées pour la démo)
+  const [performanceHistory, setPerformanceHistory] = useState([
+    {
+      id: '1',
+      patientId: 'patient1',
+      date: '2025-03-26',
+      weight: 75.5,
+      hydration: 2.8,
+      calories: {
+        consumed: 2350,
+        burned: 2600
+      },
+      macros: {
+        proteins: 135,
+        carbs: 210,
+        fats: 70
+      },
+      sleep: {
+        duration: 7.2,
+        quality: 90,
+        deepPhase: 30
+      },
+      notes: "Excellente journée, bien hydraté et bon équilibre alimentaire."
+    },
+    {
+      id: '2',
+      patientId: 'patient1',
+      date: '2025-03-25',
+      weight: 75.8,
+      hydration: 2.5,
+      calories: {
+        consumed: 2500,
+        burned: 2200
+      },
+      macros: {
+        proteins: 120,
+        carbs: 230,
+        fats: 80
+      },
+      sleep: {
+        duration: 6.8,
+        quality: 85,
+        deepPhase: 25
+      },
+      notes: "Repas un peu trop riches en glucides, sommeil légèrement perturbé."
+    },
+    {
+      id: '3',
+      patientId: 'patient1',
+      date: '2025-03-24',
+      weight: 76.2,
+      hydration: 3.0,
+      calories: {
+        consumed: 2250,
+        burned: 2500
+      },
+      macros: {
+        proteins: 140,
+        carbs: 200,
+        fats: 65
+      },
+      sleep: {
+        duration: 7.5,
+        quality: 92,
+        deepPhase: 32
+      },
+      notes: "Excellente récupération, bonne hydratation et alimentation équilibrée."
+    },
+    {
+      id: '4',
+      patientId: 'patient1',
+      date: '2025-03-23',
+      weight: 76.5,
+      hydration: 2.2,
+      calories: {
+        consumed: 2400,
+        burned: 2100
+      },
+      macros: {
+        proteins: 110,
+        carbs: 240,
+        fats: 85
+      },
+      sleep: {
+        duration: 6.5,
+        quality: 78,
+        deepPhase: 22
+      },
+      notes: "Hydratation insuffisante, sommeil perturbé."
+    }
+  ]);
+
+  // Filtrer l'historique par patient sélectionné
+  const filteredHistory = performanceHistory.filter(entry => 
+    !selectedPatient || entry.patientId === selectedPatient.id
+  );
+
   // Effet pour charger les patients au montage du composant
   useEffect(() => {
     async function loadPatients() {
@@ -157,6 +266,109 @@ export default function PerformanceDashboard({ initialPatients = [] }) {
     setSelectedPeriod(period);
   };
 
+  // Fonction pour obtenir l'état global des performances
+  const getOverallStatus = () => {
+    const statuses = [
+      performanceData.weight?.status,
+      performanceData.hydration?.status,
+      performanceData.calories?.status,
+      performanceData.macros?.status,
+    ].filter(Boolean);
+    
+    if (statuses.includes('red')) return 'red';
+    if (statuses.includes('yellow')) return 'yellow';
+    return 'green';
+  };
+  
+  // Classes CSS pour les statuts
+  const getStatusClass = (status) => {
+    switch(status) {
+      case 'green': return tableStyles.green;
+      case 'yellow': return tableStyles.yellow;
+      case 'red': return tableStyles.red;
+      default: return '';
+    }
+  };
+
+  // Handlers pour les opérations CRUD
+  const handleAddEntry = () => {
+    setSelectedEntry(null);
+    setIsAddModalOpen(true);
+  };
+  
+  const handleViewEntry = (entry) => {
+    setSelectedEntry(entry);
+    setIsViewModalOpen(true);
+  };
+  
+  const handleEditEntry = (entry) => {
+    setSelectedEntry(entry);
+    setIsEditModalOpen(true);
+  };
+  
+  const handleDeleteEntry = (entry) => {
+    setSelectedEntry(entry);
+    setIsDeleteModalOpen(true);
+  };
+  
+  const handleSaveEntry = async (data) => {
+    setCrudLoading(true);
+    
+    try {
+      // Simuler un délai d'API
+      await new Promise(resolve => setTimeout(resolve, 800));
+      
+      if (data.id) {
+        // Mise à jour d'une entrée existante
+        setPerformanceHistory(prev => 
+          prev.map(entry => entry.id === data.id ? { ...data } : entry)
+        );
+      } else {
+        // Ajout d'une nouvelle entrée
+        const newEntry = {
+          ...data,
+          id: Date.now().toString(),
+          patientId: selectedPatient?.id || 'patient1'
+        };
+        setPerformanceHistory(prev => [newEntry, ...prev]);
+      }
+      
+      return true;
+    } catch (error) {
+      console.error('Erreur lors de l\'enregistrement des données:', error);
+      return false;
+    } finally {
+      setCrudLoading(false);
+    }
+  };
+  
+  const handleConfirmDelete = async () => {
+    if (!selectedEntry) return;
+    
+    setCrudLoading(true);
+    
+    try {
+      // Simuler un délai d'API
+      await new Promise(resolve => setTimeout(resolve, 800));
+      
+      setPerformanceHistory(prev => 
+        prev.filter(entry => entry.id !== selectedEntry.id)
+      );
+      
+      setIsDeleteModalOpen(false);
+    } catch (error) {
+      console.error('Erreur lors de la suppression des données:', error);
+    } finally {
+      setCrudLoading(false);
+    }
+  };
+  
+  // Formater la date pour l'affichage
+  const formatDisplayDate = (dateString) => {
+    const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+    return new Date(dateString).toLocaleDateString('fr-FR', options);
+  };
+
   // Si chargement en cours, afficher un message
   if (loading) {
     return (
@@ -237,285 +449,585 @@ export default function PerformanceDashboard({ initialPatients = [] }) {
     );
   }
 
-  // Obtenir le statut global basé sur les statuts des différents KPIs
-  const getOverallStatus = () => {
-    if (!performanceData) return 'yellow';
-    
-    const statuses = [
-      performanceData.weight?.status,
-      performanceData.hydration?.status,
-      performanceData.calories?.status,
-      performanceData.macros?.status,
-      performanceData.sleep?.status,
-      performanceData.medical?.status
-    ].filter(Boolean);
-    
-    if (statuses.includes('red')) return 'red';
-    if (statuses.includes('yellow')) return 'yellow';
-    return 'green';
-  };
-
-  const overallStatus = getOverallStatus();
-  const statusEmoji = {
-    green: '🟢',
-    yellow: '🟡',
-    red: '🔴'
-  };
-
   return (
-    <div className="performance-container">
-      {/* En-tête avec sélecteurs et information patient */}
-      <div className="glass-panel">
-        <div className="header-container">
-          <div className="patient-info">
-            <div className="athlete-selector">
+    <div className="performance-dashboard">
+      {/* Header premium amélioré */}
+      <div className={styles.performanceHeader}>
+        <div className={styles.headerTop}>
+          <div className={styles.titleContainer}>
+            <IoMdAnalytics className={styles.titleIcon} />
+            <h1 className={styles.title}>Indicateurs de Performance</h1>
+          </div>
+          
+          <div className={styles.statusContainer}>
+            <div className={`${styles.statusBadge} ${styles[getOverallStatus()]}`}></div>
+            <span className={styles.statusText}>
+              {getOverallStatus() === 'green' ? 'Excellent' : 
+               getOverallStatus() === 'yellow' ? 'À surveiller' : 'Attention requise'}
+            </span>
+          </div>
+        </div>
+        
+        <div className={styles.patientInfo}>
+          <div className={styles.selectContainer}>
+            <label htmlFor="athlete-select" className={styles.selectLabel}>Athlète:</label>
+            <div style={{ position: 'relative' }}>
               <select 
-                value={selectedPatient?.id} 
+                id="athlete-select"
                 onChange={(e) => handlePatientChange(e.target.value)}
+                value={selectedPatient.id}
+                className={styles.select}
               >
                 {Array.isArray(patients) && patients.map(patient => (
                   <option key={patient.id} value={patient.id}>
-                    {patient.name}
+                    {patient.name} - {patient.objective}
                   </option>
                 ))}
               </select>
-            </div>
-            <div className="athlete-status">
-              <span className={`status-indicator status-${overallStatus}`}></span>
-              <span className="status-text">
-                {statusEmoji[overallStatus]} {selectedPatient?.name || 'Athlète'} - {selectedPatient?.objective || 'Objectif non défini'}
-              </span>
+              <IoMdArrowDropdown className={styles.selectArrow} />
             </div>
           </div>
           
-          <div className="period-selector">
-            <div className="selector-label">Période:</div>
-            <div className="selector-buttons">
-              <button 
-                className={selectedPeriod === 'week' ? 'active' : ''} 
-                onClick={() => handlePeriodChange('week')}
-              >
-                Semaine
-              </button>
-              <button 
-                className={selectedPeriod === 'month' ? 'active' : ''} 
-                onClick={() => handlePeriodChange('month')}
-              >
-                Mois
-              </button>
-              <button 
-                className={selectedPeriod === 'quarter' ? 'active' : ''} 
-                onClick={() => handlePeriodChange('quarter')}
-              >
-                Trimestre
-              </button>
-            </div>
+          <div className={styles.periodSelect}>
+            <button 
+              className={`${styles.periodButton} ${selectedPeriod === 'week' ? styles.periodButtonActive : ''}`} 
+              onClick={() => handlePeriodChange('week')}
+            >
+              Semaine
+            </button>
+            <button 
+              className={`${styles.periodButton} ${selectedPeriod === 'month' ? styles.periodButtonActive : ''}`} 
+              onClick={() => handlePeriodChange('month')}
+            >
+              Mois
+            </button>
+            <button 
+              className={`${styles.periodButton} ${selectedPeriod === 'quarter' ? styles.periodButtonActive : ''}`} 
+              onClick={() => handlePeriodChange('quarter')}
+            >
+              Trimestre
+            </button>
           </div>
         </div>
       </div>
       
-      {/* Graphiques KPI principaux */}
-      <div className="glass-panel">
-        <h2>📊 Indicateurs de Performance</h2>
+      {/* Contenu principal */}
+      <div className="performance-main-content">
+        {/* Grille des indicateurs de performance */}
         <div className="kpi-grid">
-          {/* Poids et Composition */}
-          <div className="glass-panel kpi-chart">
-            <h3>
-              <span className={`status-indicator status-${performanceData.weight?.status}`}></span>
-              Poids & Masse Grasse 📉
-            </h3>
-            <div style={{ position: 'relative', height: '100%', display: 'flex', flexDirection: 'column' }}>
-              <div className="kpi-current-value">
-                <div className="kpi-value">{performanceData.weight?.current} kg</div>
-                <div className="kpi-target">Objectif: {performanceData.weight?.target} kg</div>
+          {/* Poids */}
+          <div className={tableStyles.kpiCard}>
+            <div className={tableStyles.cardHeader}>
+              <h3 className={tableStyles.cardTitle}>
+                <span className={`${tableStyles.statusIndicator} ${getStatusClass(performanceData.weight?.status)}`}></span>
+                Évolution du Poids <span className={tableStyles.cardIcon}>⚖️</span>
+              </h3>
+            </div>
+            <div className={tableStyles.cardContent}>
+              <div className={tableStyles.metricsRow}>
+                <div className={tableStyles.metricCard}>
+                  <span className={tableStyles.metricLabel}>Actuel</span>
+                  <span className={tableStyles.currValue}>{performanceData.weight?.current} kg</span>
+                </div>
+                <div className={tableStyles.metricCard}>
+                  <span className={tableStyles.metricLabel}>Objectif</span>
+                  <span className={tableStyles.targetValue}>{performanceData.weight?.target} kg</span>
+                </div>
+                <div className={tableStyles.metricCard}>
+                  <span className={tableStyles.metricLabel}>Différence</span>
+                  <div className={tableStyles.metricTrend}>
+                    {performanceData.weight?.current - performanceData.weight?.target > 0 ? 
+                      <MdTrendingUp className={tableStyles.trendDown} /> : 
+                      <MdTrendingDown className={tableStyles.trendUp} />
+                    }
+                    <span>{Math.abs(performanceData.weight?.current - performanceData.weight?.target).toFixed(1)} kg</span>
+                  </div>
+                </div>
               </div>
-              <div className="chart-container">
+              
+              <div className={tableStyles.progressContainer}>
+                <div 
+                  className={tableStyles.progressBar} 
+                  style={{ 
+                    width: `${Math.min(100, (performanceData.weight?.current / performanceData.weight?.target) * 100)}%`
+                  }}
+                ></div>
+              </div>
+              
+              <div className={tableStyles.chartContainer}>
                 <WeightChart 
                   data={performanceData.weight || {}} 
                   labels={periodLabels[selectedPeriod]} 
                 />
               </div>
-              <div className="kpi-note">{performanceData.weight?.notes}</div>
+              
+              {performanceData.weight?.notes && (
+                <div className={tableStyles.noteSection}>{performanceData.weight.notes}</div>
+              )}
             </div>
           </div>
           
           {/* Hydratation */}
-          <div className="glass-panel kpi-chart">
-            <h3>
-              <span className={`status-indicator status-${performanceData.hydration?.status}`}></span>
-              Hydratation 💧
-            </h3>
-            <div style={{ position: 'relative', height: '100%', display: 'flex', flexDirection: 'column' }}>
-              <div className="kpi-current-value">
-                <div className="kpi-value">{performanceData.hydration?.current} L</div>
-                <div className="kpi-target">Objectif: {performanceData.hydration?.target} L</div>
+          <div className={tableStyles.kpiCard}>
+            <div className={tableStyles.cardHeader}>
+              <h3 className={tableStyles.cardTitle}>
+                <span className={`${tableStyles.statusIndicator} ${getStatusClass(performanceData.hydration?.status)}`}></span>
+                Hydratation <span className={tableStyles.cardIcon}>💧</span>
+              </h3>
+            </div>
+            <div className={tableStyles.cardContent}>
+              <div className={tableStyles.metricsRow}>
+                <div className={tableStyles.metricCard}>
+                  <span className={tableStyles.metricLabel}>Consommé</span>
+                  <span className={tableStyles.currValue}>{performanceData.hydration?.current} L</span>
+                </div>
+                <div className={tableStyles.metricCard}>
+                  <span className={tableStyles.metricLabel}>Objectif</span>
+                  <span className={tableStyles.targetValue}>{performanceData.hydration?.target} L</span>
+                </div>
+                <div className={tableStyles.metricCard}>
+                  <span className={tableStyles.metricLabel}>Progression</span>
+                  <span className={tableStyles.targetValue}>
+                    {Math.round((performanceData.hydration?.current / performanceData.hydration?.target) * 100)}%
+                  </span>
+                </div>
               </div>
-              <div className="chart-container">
+              
+              <div className={tableStyles.progressContainer}>
+                <div 
+                  className={tableStyles.progressBar} 
+                  style={{ 
+                    width: `${Math.min(100, (performanceData.hydration?.current / performanceData.hydration?.target) * 100)}%`
+                  }}
+                ></div>
+              </div>
+              
+              <div className={tableStyles.chartContainer}>
                 <HydrationChart 
                   data={performanceData.hydration || {}} 
                   labels={periodLabels[selectedPeriod]} 
                 />
               </div>
-              <div className="kpi-note">{performanceData.hydration?.notes}</div>
+              
+              {performanceData.hydration?.notes && (
+                <div className={tableStyles.noteSection}>{performanceData.hydration.notes}</div>
+              )}
             </div>
           </div>
           
           {/* Calories */}
-          <div className="glass-panel kpi-chart">
-            <h3>
-              <span className={`status-indicator status-${performanceData.calories?.status}`}></span>
-              Apport vs Dépense Calorique 🔥
-            </h3>
-            <div style={{ position: 'relative', height: '100%', display: 'flex', flexDirection: 'column' }}>
-              <div className="kpi-current-value">
-                <div className="kpi-value">{performanceData.calories?.current} kcal</div>
-                <div className="kpi-target">Objectif: {performanceData.calories?.target} kcal</div>
-                <div className="kpi-burn">Dépense: {performanceData.calories?.burn} kcal</div>
+          <div className={tableStyles.kpiCard}>
+            <div className={tableStyles.cardHeader}>
+              <h3 className={tableStyles.cardTitle}>
+                <span className={`${tableStyles.statusIndicator} ${getStatusClass(performanceData.calories?.status)}`}></span>
+                Apport vs Dépense Calorique <span className={tableStyles.cardIcon}>🔥</span>
+              </h3>
+            </div>
+            <div className={tableStyles.cardContent}>
+              <div className={tableStyles.metricsRow}>
+                <div className={tableStyles.metricCard}>
+                  <span className={tableStyles.metricLabel}>Consommation</span>
+                  <span className={tableStyles.currValue}>{performanceData.calories?.current} kcal</span>
+                </div>
+                <div className={tableStyles.metricCard}>
+                  <span className={tableStyles.metricLabel}>Objectif</span>
+                  <span className={tableStyles.targetValue}>{performanceData.calories?.target} kcal</span>
+                </div>
+                <div className={tableStyles.metricCard}>
+                  <span className={tableStyles.metricLabel}>Dépense</span>
+                  <span className={tableStyles.targetValue}>{performanceData.calories?.burn} kcal</span>
+                </div>
               </div>
-              <div className="chart-container">
+              
+              <div className={tableStyles.chartContainer}>
                 <CaloriesChart 
                   data={performanceData.calories || {}} 
                   labels={periodLabels[selectedPeriod]} 
                 />
               </div>
-              <div className="kpi-note">{performanceData.calories?.notes}</div>
+              
+              {performanceData.calories?.notes && (
+                <div className={tableStyles.noteSection}>{performanceData.calories.notes}</div>
+              )}
             </div>
           </div>
           
           {/* Macronutriments */}
-          <div className="glass-panel kpi-chart">
-            <h3>
-              <span className={`status-indicator status-${performanceData.macros?.status}`}></span>
-              Macronutriments 🍗🥦🥑
-            </h3>
-            <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-              <div className="macros-details">
-                {/* Vérifier que items existe et est un tableau avant d'appeler map */}
-                {Array.isArray(performanceData.macros?.items) && performanceData.macros.items.map((item, index) => (
-                  <div key={index} className="macro-item">
-                    <div className="macro-label">{item.label}</div>
-                    <div className="macro-value">{item.current}g</div>
-                    <div className="macro-target">Objectif: {item.target}g</div>
-                  </div>
-                ))}
-              </div>
+          <div className={tableStyles.kpiCard}>
+            <div className={tableStyles.cardHeader}>
+              <h3 className={tableStyles.cardTitle}>
+                <span className={`${tableStyles.statusIndicator} ${getStatusClass(performanceData.macros?.status)}`}></span>
+                Macronutriments <span className={tableStyles.cardIcon}>🍗🥦🥑</span>
+              </h3>
+            </div>
+            <div className={tableStyles.cardContent}>
+              {Array.isArray(performanceData.macros?.items) && (
+                <div className={tableStyles.dataTable}>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Nutriment</th>
+                        <th>Actuel</th>
+                        <th>Objectif</th>
+                        <th>Progression</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {performanceData.macros.items.map((item, index) => (
+                        <tr key={index}>
+                          <td>{item.label}</td>
+                          <td><span className={tableStyles.metricValue}>{item.current}g</span></td>
+                          <td>{item.target}g</td>
+                          <td>
+                            <div className={tableStyles.progressContainer} style={{ width: '60px', marginBottom: 0 }}>
+                              <div 
+                                className={tableStyles.progressBar} 
+                                style={{ 
+                                  width: `${Math.min(100, (item.current / item.target) * 100)}%`
+                                }}
+                              ></div>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
               
-              <div className="chart-container macros-chart">
+              <div className={tableStyles.chartContainer}>
                 <MacrosChart 
                   data={performanceData.macros || {}} 
                   labels={periodLabels[selectedPeriod]} 
                 />
               </div>
               
-              <div className="kpi-note">{performanceData.macros?.notes}</div>
+              {performanceData.macros?.notes && (
+                <div className={tableStyles.noteSection}>{performanceData.macros.notes}</div>
+              )}
             </div>
           </div>
           
           {/* Sommeil & Récupération */}
           {performanceData.sleep && (
-            <div className="glass-panel kpi-chart">
-              <h3>
-                <span className={`status-indicator status-${performanceData.sleep?.status}`}></span>
-                Sommeil & Récupération 😴
-              </h3>
-              <div style={{ position: 'relative', height: '100%', display: 'flex', flexDirection: 'column' }}>
-                <div className="kpi-current-value">
-                  <div className="kpi-value">{performanceData.sleep?.current}h</div>
-                  <div className="kpi-target">Objectif: {performanceData.sleep?.target}h</div>
-                </div>
-                <div className="kpi-chart-placeholder">
-                  <div className="chart-container">
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', color: 'var(--color-text-light)' }}>
-                      Graphique en cours de développement
-                    </div>
+            <div className={tableStyles.kpiCard}>
+              <div className={tableStyles.cardHeader}>
+                <h3 className={tableStyles.cardTitle}>
+                  <span className={`${tableStyles.statusIndicator} ${getStatusClass(performanceData.sleep?.status)}`}></span>
+                  Sommeil & Récupération <span className={tableStyles.cardIcon}>😴</span>
+                </h3>
+              </div>
+              <div className={tableStyles.cardContent}>
+                <div className={tableStyles.metricsRow}>
+                  <div className={tableStyles.metricCard}>
+                    <span className={tableStyles.metricLabel}>Durée</span>
+                    <span className={tableStyles.currValue}>{performanceData.sleep?.current}h</span>
+                  </div>
+                  <div className={tableStyles.metricCard}>
+                    <span className={tableStyles.metricLabel}>Objectif</span>
+                    <span className={tableStyles.targetValue}>{performanceData.sleep?.target}h</span>
+                  </div>
+                  <div className={tableStyles.metricCard}>
+                    <span className={tableStyles.metricLabel}>Qualité</span>
+                    <span className={tableStyles.targetValue}>
+                      {performanceData.sleep?.quality || '85%'}
+                    </span>
                   </div>
                 </div>
-                <div className="kpi-note">{performanceData.sleep?.notes}</div>
+                
+                <div className={tableStyles.dataTable}>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>Durée</th>
+                        <th>Phases profondes</th>
+                        <th>Qualité</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>26/03/2025</td>
+                        <td>
+                          <div className={tableStyles.dataCell}>
+                            <span className={tableStyles.metricValue}>7.2h</span>
+                          </div>
+                        </td>
+                        <td>2.1h</td>
+                        <td>
+                          <div className={tableStyles.progressContainer} style={{ width: '60px', marginBottom: 0 }}>
+                            <div className={tableStyles.progressBar} style={{ width: '90%' }}></div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>25/03/2025</td>
+                        <td>
+                          <div className={tableStyles.dataCell}>
+                            <span className={tableStyles.metricValue}>6.8h</span>
+                          </div>
+                        </td>
+                        <td>1.9h</td>
+                        <td>
+                          <div className={tableStyles.progressContainer} style={{ width: '60px', marginBottom: 0 }}>
+                            <div className={tableStyles.progressBar} style={{ width: '85%' }}></div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>24/03/2025</td>
+                        <td>
+                          <div className={tableStyles.dataCell}>
+                            <span className={tableStyles.metricValue}>7.5h</span>
+                          </div>
+                        </td>
+                        <td>2.3h</td>
+                        <td>
+                          <div className={tableStyles.progressContainer} style={{ width: '60px', marginBottom: 0 }}>
+                            <div className={tableStyles.progressBar} style={{ width: '92%' }}></div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>23/03/2025</td>
+                        <td>
+                          <div className={tableStyles.dataCell}>
+                            <span className={tableStyles.metricValue}>6.5h</span>
+                          </div>
+                        </td>
+                        <td>1.8h</td>
+                        <td>
+                          <div className={tableStyles.progressContainer} style={{ width: '60px', marginBottom: 0 }}>
+                            <div className={tableStyles.progressBar} style={{ width: '78%' }}></div>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                
+                <div className={tableStyles.metricsRow} style={{ marginTop: '16px' }}>
+                  <div className={tableStyles.metricCard}>
+                    <span className={tableStyles.metricLabel}>Sommeil léger</span>
+                    <span className={tableStyles.targetValue}>45%</span>
+                  </div>
+                  <div className={tableStyles.metricCard}>
+                    <span className={tableStyles.metricLabel}>Sommeil profond</span>
+                    <span className={tableStyles.targetValue}>30%</span>
+                  </div>
+                  <div className={tableStyles.metricCard}>
+                    <span className={tableStyles.metricLabel}>Phase REM</span>
+                    <span className={tableStyles.targetValue}>25%</span>
+                  </div>
+                </div>
+                
+                {performanceData.sleep?.notes && (
+                  <div className={tableStyles.noteSection}>{performanceData.sleep.notes}</div>
+                )}
               </div>
             </div>
           )}
           
           {/* Indicateurs Médicaux */}
           {performanceData.medical && (
-            <div className="glass-panel kpi-chart">
-              <h3>
-                <span className={`status-indicator status-${performanceData.medical?.status}`}></span>
-                Indicateurs Médicaux 🩸
-              </h3>
-              <div style={{ position: 'relative', height: '100%', display: 'flex', flexDirection: 'column' }}>
-                <div className="medical-grid">
+            <div className={tableStyles.kpiCard}>
+              <div className={tableStyles.cardHeader}>
+                <h3 className={tableStyles.cardTitle}>
+                  <span className={`${tableStyles.statusIndicator} ${getStatusClass(performanceData.medical?.status)}`}></span>
+                  Indicateurs Médicaux <span className={tableStyles.cardIcon}>🩸</span>
+                </h3>
+              </div>
+              <div className={tableStyles.cardContent}>
+                <div className={tableStyles.medicalGrid}>
                   {Array.isArray(performanceData.medical?.datasets) && performanceData.medical.datasets.map((dataset, index) => {
                     const lastIndex = dataset.data.length - 1;
                     const lastValue = dataset.data[lastIndex];
-                    const isNormal = dataset.normal.includes('-') 
-                      ? (lastValue >= +dataset.normal.split('-')[0] && lastValue <= +dataset.normal.split('-')[1])
-                      : dataset.normal.includes('>') 
-                        ? lastValue >= +dataset.normal.replace('>', '').trim()
-                        : lastValue <= +dataset.normal.replace('<', '').trim();
+                    
+                    // Déterminer si la valeur est dans la plage normale
+                    let statusClass = tableStyles.normal;
+                    let isNormal = true;
+                    
+                    if (dataset.normal.includes('-')) {
+                      const [min, max] = dataset.normal.split('-').map(v => +v);
+                      isNormal = lastValue >= min && lastValue <= max;
+                    } else if (dataset.normal.includes('>')) {
+                      const threshold = +dataset.normal.replace('>', '');
+                      isNormal = lastValue > threshold;
+                    } else if (dataset.normal.includes('<')) {
+                      const threshold = +dataset.normal.replace('<', '');
+                      isNormal = lastValue < threshold;
+                    }
+                    
+                    if (!isNormal) {
+                      statusClass = Math.abs(dataset.data[lastIndex-1] - lastValue) > dataset.criticalThreshold 
+                        ? tableStyles.alert
+                        : tableStyles.warning;
+                    }
                     
                     return (
-                      <div key={index} className={`medical-item ${isNormal ? 'normal' : 'abnormal'}`}>
-                        <div className="medical-label">{dataset.label}</div>
-                        <div className="medical-value">{lastValue}</div>
-                        <div className="medical-normal">{dataset.normal}</div>
+                      <div key={index} className={tableStyles.medicalItem}>
+                        <span className={tableStyles.medicalLabel}>{dataset.label}</span>
+                        <div>
+                          <span className={`${tableStyles.medicalValue} ${statusClass}`}>
+                            {lastValue}
+                          </span>
+                          <span className={tableStyles.medicalUnit}> {dataset.unit}</span>
+                        </div>
+                        <span className={tableStyles.medicalRange}>
+                          Normal: {dataset.normal} {dataset.unit}
+                        </span>
                       </div>
                     );
                   })}
                 </div>
                 
-                <div className="kpi-note">{performanceData.medical?.notes}</div>
+                {performanceData.medical?.notes && (
+                  <div className={tableStyles.noteSection}>{performanceData.medical.notes}</div>
+                )}
               </div>
             </div>
           )}
-        </div>
-      </div>
-      
-      {/* Tendances Hebdomadaires */}
-      {Array.isArray(performanceData.trends) && performanceData.trends.length > 0 && (
-        <div className="glass-panel">
-          <h2>📅 Évolution & Tendances</h2>
-          <div className="trends-container">
-            {performanceData.trends.map((trend, index) => (
-              <div key={index} className="trend-card">
-                <h4>{trend.name}</h4>
-                <div className="trend-value">{trend.value} <span className="trend-change">{trend.change}</span></div>
-                <div className="trend-progress">
-                  <div 
-                    className="trend-progress-bar" 
-                    style={{ 
-                      width: `${trend.progress}%`,
-                      backgroundColor: 
-                        trend.progress >= 90 ? 'var(--color-success)' : 
-                        trend.progress >= 70 ? 'var(--color-warning)' : 
-                        'var(--color-danger)'
-                    }}
-                  ></div>
-                </div>
+          
+          {/* Nouveau tableau - Tendances Générales */}
+          <div className={tableStyles.kpiCard}>
+            <div className={tableStyles.cardHeader}>
+              <h3 className={tableStyles.cardTitle}>
+                <span className={`${tableStyles.statusIndicator} ${tableStyles.green}`}></span>
+                Tendances Générales <span className={tableStyles.cardIcon}>📈</span>
+              </h3>
+            </div>
+            <div className={tableStyles.cardContent}>
+              <div className={tableStyles.dataTable}>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Indicateur</th>
+                      <th>7 derniers jours</th>
+                      <th>30 derniers jours</th>
+                      <th>Tendance</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Poids</td>
+                      <td>
+                        <div className={tableStyles.dataCell}>
+                          <span className={tableStyles.metricValue}>-0.8 kg</span>
+                        </div>
+                      </td>
+                      <td>-2.3 kg</td>
+                      <td>
+                        <div className={tableStyles.metricTrend}>
+                          <MdTrendingDown className={tableStyles.trendUp} />
+                          <span>Positif</span>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Hydratation</td>
+                      <td>
+                        <div className={tableStyles.dataCell}>
+                          <span className={tableStyles.metricValue}>+12%</span>
+                        </div>
+                      </td>
+                      <td>+8%</td>
+                      <td>
+                        <div className={tableStyles.metricTrend}>
+                          <MdTrendingUp className={tableStyles.trendUp} />
+                          <span>Positif</span>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Calories</td>
+                      <td>
+                        <div className={tableStyles.dataCell}>
+                          <span className={tableStyles.metricValue}>-120 kcal</span>
+                        </div>
+                      </td>
+                      <td>-85 kcal</td>
+                      <td>
+                        <div className={tableStyles.metricTrend}>
+                          <MdTrendingDown className={tableStyles.trendUp} />
+                          <span>Positif</span>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Sommeil</td>
+                      <td>
+                        <div className={tableStyles.dataCell}>
+                          <span className={tableStyles.metricValue}>+0.5h</span>
+                        </div>
+                      </td>
+                      <td>+0.3h</td>
+                      <td>
+                        <div className={tableStyles.metricTrend}>
+                          <MdTrendingUp className={tableStyles.trendUp} />
+                          <span>Positif</span>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-            ))}
+              
+              <div className={tableStyles.noteSection}>
+                Ces tendances sont calculées par rapport à vos objectifs personnels et ajustées selon votre progression.
+              </div>
+            </div>
           </div>
+          
         </div>
-      )}
-      
-      {/* Notes et Recommandations */}
-      <div className="glass-panel">
-        <h2>📖 Notes & Recommandations</h2>
-        <div className="notes-box">
-          <h3>Dernière mise à jour: {performanceData.notes?.lastUpdate}</h3>
-          <div className="notes-content">
-            {performanceData.notes?.content}
-          </div>
-          <textarea 
-            className="notes-input"
-            value={performanceData.notes?.content}
-            onChange={(e) => setPerformanceData({ ...performanceData, notes: { ...performanceData.notes, content: e.target.value } })}
-            placeholder="Ajouter des notes ou recommandations..."
-          ></textarea>
-          <button className="save-btn">
-            Enregistrer
-          </button>
+        
+        {/* Tableau des données de performance */}
+        <div className="kpi-grid" style={{ marginTop: '2rem' }}>
+          <PerformanceTable 
+            data={filteredHistory}
+            onAdd={handleAddEntry}
+            onView={handleViewEntry}
+            onEdit={handleEditEntry}
+            onDelete={handleDeleteEntry}
+            selectedPatient={selectedPatient}
+          />
         </div>
       </div>
+      
+      {/* Modales CRUD */}
+      <PerformanceForm 
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        onSave={handleSaveEntry}
+        patientId={selectedPatient?.id}
+        isEditing={false}
+      />
+      
+      <PerformanceForm 
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        onSave={handleSaveEntry}
+        initialData={selectedEntry}
+        patientId={selectedPatient?.id}
+        isEditing={true}
+      />
+      
+      <PerformanceForm 
+        isOpen={isViewModalOpen}
+        onClose={() => setIsViewModalOpen(false)}
+        onSave={() => {}}
+        initialData={selectedEntry}
+        patientId={selectedPatient?.id}
+        isEditing={false}
+        readOnly={true}
+      />
+      
+      <DeleteConfirmation 
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={handleConfirmDelete}
+        entryDate={selectedEntry ? formatDisplayDate(selectedEntry.date) : ''}
+        loading={crudLoading}
+      />
     </div>
   );
 }

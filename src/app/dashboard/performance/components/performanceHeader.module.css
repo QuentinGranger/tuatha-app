@@ -1,0 +1,220 @@
+.performanceHeader {
+  background: rgba(17, 25, 40, 0.25);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.performanceHeader::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle at top right,
+    rgba(255, 136, 0, 0.15),
+    transparent 70%
+  );
+  z-index: -1;
+}
+
+.headerTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.titleContainer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, #FFFFFF 0%, rgba(255, 255, 255, 0.7) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+  padding: 0;
+}
+
+.titleIcon {
+  color: #FF8800;
+  font-size: 1.8rem;
+}
+
+.statusContainer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 8px 16px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.statusContainer:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-2px);
+}
+
+.statusBadge {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.green {
+  background: #10B981;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+}
+
+.yellow {
+  background: #F59E0B;
+  box-shadow: 0 0 8px rgba(245, 158, 11, 0.6);
+}
+
+.red {
+  background: #EF4444;
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
+}
+
+.statusText {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.patientInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.selectContainer {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+}
+
+.selectLabel {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.select {
+  width: 100%;
+  padding: 10px 16px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.95rem;
+  appearance: none;
+  backdrop-filter: blur(4px);
+  transition: all 0.3s ease;
+}
+
+.select:hover, .select:focus {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 136, 0, 0.3);
+  box-shadow: 0 0 0 2px rgba(255, 136, 0, 0.1);
+  outline: none;
+}
+
+.selectArrow {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.periodSelect {
+  display: flex;
+  gap: 8px;
+}
+
+.periodButton {
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
+}
+
+.periodButton:hover {
+  background: rgba(255, 136, 0, 0.15);
+  border-color: rgba(255, 136, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+.periodButtonActive {
+  background: rgba(255, 136, 0, 0.15);
+  border-color: rgba(255, 136, 0, 0.3);
+  color: #FF8800;
+  font-weight: 500;
+}
+
+.patientDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.patientObjective {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .headerTop, .patientInfo {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  
+  .selectContainer {
+    max-width: 100%;
+  }
+  
+  .statusContainer {
+    margin-top: 8px;
+  }
+  
+  .periodSelect {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .periodButton {
+    flex: 1;
+    text-align: center;
+    padding: 8px 0;
+    font-size: 0.8rem;
+  }
+}
