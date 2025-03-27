@@ -1,0 +1,149 @@
+.tabNavigation {
+  display: flex;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  padding: 0.75rem;
+  background: rgba(25, 30, 38, 0.3);
+  backdrop-filter: blur(8px);
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Bulles décoratives */
+.tabNavigation::before,
+.tabNavigation::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.tabNavigation::before {
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, rgba(255, 136, 0, 0.1), transparent 70%);
+  top: -75px;
+  right: -30px;
+}
+
+.tabNavigation::after {
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.05), transparent 70%);
+  bottom: -50px;
+  left: 10%;
+}
+
+.tabButton {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.9rem 1.5rem;
+  border: none;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 14px;
+  color: rgba(255, 255, 255, 0.75);
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.tabButton::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.05), 
+    transparent
+  );
+  background-size: 200% 100%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.tabButton:hover::after {
+  opacity: 1;
+  animation: shimmer 1.5s infinite;
+}
+
+.tabButton:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-3px);
+  box-shadow: 0 7px 14px rgba(0, 0, 0, 0.1);
+}
+
+.tabButton:active {
+  transform: translateY(-1px);
+}
+
+/* Effet de scintillement subtil pour les boutons au survol */
+@keyframes shimmer {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Animation subtile pour les onglets actifs */
+@keyframes glowPulse {
+  0% {
+    box-shadow: 0 6px 12px rgba(255, 136, 0, 0.15);
+  }
+  50% {
+    box-shadow: 0 6px 18px rgba(255, 136, 0, 0.25);
+  }
+  100% {
+    box-shadow: 0 6px 12px rgba(255, 136, 0, 0.15);
+  }
+}
+
+.tabActive {
+  background: linear-gradient(135deg, rgba(255, 136, 0, 0.2), rgba(255, 179, 102, 0.15));
+  color: #FF8800;
+  border: 1px solid rgba(255, 136, 0, 0.3);
+  box-shadow: 0 6px 12px rgba(255, 136, 0, 0.15);
+  font-weight: 600;
+  animation: glowPulse 3s infinite ease-in-out;
+}
+
+.tabActive:before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40%;
+  height: 3px;
+  background: linear-gradient(90deg, rgba(255, 136, 0, 0.3), #FF8800, rgba(255, 136, 0, 0.3));
+  border-radius: 3px 3px 0 0;
+}
+
+.tabActive:hover {
+  background: linear-gradient(135deg, rgba(255, 136, 0, 0.25), rgba(255, 179, 102, 0.2));
+}
+
+.tabIcon {
+  font-size: 1.4rem;
+  color: inherit;
+  transition: transform 0.3s ease;
+}
+
+.tabButton:hover .tabIcon {
+  transform: scale(1.1);
+}

@@ -26,6 +26,13 @@
   letter-spacing: 0.5px;
 }
 
+/* Styles pour les boutons du header */
+.headerButtons {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
 /* Bouton de création de facture */
 .createInvoiceButton {
   display: flex;
@@ -68,6 +75,34 @@
 .createInvoiceButton:active {
   transform: translateY(-1px);
   box-shadow: 0 4px 16px rgba(255, 136, 0, 0.25);
+}
+
+.importCsvButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: rgba(255, 136, 0, 0.1);
+  color: #FF8800;
+  border: 1px solid rgba(255, 136, 0, 0.3);
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.importCsvButton:hover {
+  background: rgba(255, 136, 0, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(255, 136, 0, 0.2);
+}
+
+.importCsvButton .buttonIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FF8800;
 }
 
 .buttonIcon {

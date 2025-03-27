@@ -7,6 +7,8 @@ import SearchAndFilter from './components/SearchAndFilter';
 import RecurringPayments from './components/RecurringPayments';
 import CreateInvoiceModal from './components/CreateInvoiceModal';
 import CreateRecurringPaymentModal from './components/CreateRecurringPaymentModal';
+import { FiUpload } from 'react-icons/fi';
+import ImportCsvModal from './components/ImportCsvModal';
 
 export default function Facturation() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -20,6 +22,7 @@ export default function Facturation() {
   const [invoices, setInvoices] = useState([]);
   const [newInvoice, setNewInvoice] = useState(null);
   const [newRecurringPayment, setNewRecurringPayment] = useState(null);
+  const [isImportCsvModalOpen, setIsImportCsvModalOpen] = useState(false);
 
   // Récupérer les factures depuis le composant InvoiceList
   const fetchInvoicesFromList = (invoicesData) => {
@@ -53,6 +56,35 @@ export default function Facturation() {
   const handleAddInvoice = (invoice) => {
     setNewInvoice(invoice);
     setIsCreateModalOpen(false);
+  };
+  
+  // Gestion de l'import CSV
+  const handleOpenImportCsvModal = () => {
+    setIsImportCsvModalOpen(true);
+  };
+  
+  const handleCloseImportCsvModal = () => {
+    setIsImportCsvModalOpen(false);
+  };
+  
+  const handleImportCsvInvoices = (importedInvoices) => {
+    // Marquer les factures importées
+    const markedInvoices = importedInvoices.map(invoice => ({
+      ...invoice,
+      isImported: true
+    }));
+    
+    // Nous allons créer un nouvel objet qui contient toutes les factures importées
+    // avec une propriété pour indiquer qu'il s'agit d'un lot d'importation
+    const batchImport = {
+      invoices: markedInvoices,
+      isBatchImport: true
+    };
+    
+    // Utiliser setNewInvoice une seule fois avec le lot entier
+    setNewInvoice(batchImport);
+    
+    setIsImportCsvModalOpen(false);
   };
 
   // Gestion des paiements récurrents
@@ -98,13 +130,22 @@ export default function Facturation() {
     <div className={styles.facturationContainer}>
       <div className={styles.header}>
         <h1 className={styles.pageTitle}>Facturation</h1>
-        <button 
-          className={styles.createInvoiceButton} 
-          onClick={handleCreateInvoice}
-        >
-          <span className={styles.buttonIcon}>➕</span>
-          <span className={styles.buttonText}>Créer une facture</span>
-        </button>
+        <div className={styles.headerButtons}>
+          <button 
+            className={styles.createInvoiceButton} 
+            onClick={handleCreateInvoice}
+          >
+            <span className={styles.buttonIcon}>➕</span>
+            <span className={styles.buttonText}>Créer une facture</span>
+          </button>
+          <button 
+            className={styles.importCsvButton} 
+            onClick={handleOpenImportCsvModal}
+          >
+            <span className={styles.buttonIcon}><FiUpload /></span>
+            <span className={styles.buttonText}>Importer CSV</span>
+          </button>
+        </div>
       </div>
 
       <SearchAndFilter 
@@ -161,6 +202,12 @@ export default function Facturation() {
           initialData={currentEditPayment}
         />
       )}
+      
+      <ImportCsvModal
+        isOpen={isImportCsvModalOpen}
+        onClose={handleCloseImportCsvModal}
+        onImport={handleImportCsvInvoices}
+      />
     </div>
   );
 }

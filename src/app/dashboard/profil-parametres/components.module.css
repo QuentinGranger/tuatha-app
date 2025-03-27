@@ -1,0 +1,1024 @@
+/* Style glassmorphisme luxueux avec touches d'orange */
+
+/* Onglets principaux */
+.tabsContainer {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 1rem;
+}
+
+.tabButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: rgba(22, 28, 36, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.tabButton:hover {
+  background: rgba(22, 28, 36, 0.8);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.activeTab {
+  background: linear-gradient(135deg, rgba(255, 136, 0, 0.15), rgba(255, 136, 0, 0.05));
+  color: #FF8800;
+  border-color: rgba(255, 136, 0, 0.3);
+  box-shadow: 0 4px 20px rgba(255, 136, 0, 0.15);
+}
+
+.tabIconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.activeTab .tabIconWrapper {
+  background: rgba(255, 136, 0, 0.2);
+}
+
+.tabIcon {
+  font-size: 1.2rem;
+}
+
+/* Section d'action */
+.actionBar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.editButton, .previewButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.editButton {
+  background: linear-gradient(135deg, #FF8800, #FF6600);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 12px rgba(255, 136, 0, 0.3);
+}
+
+.editButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 136, 0, 0.4);
+}
+
+.previewButton {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.previewButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.previewIcon, .changePhotoIcon, .addServiceIcon, .addCollaborationIcon {
+  font-size: 1.1rem;
+}
+
+/* Section des paramètres */
+.settingsSection {
+  display: flex;
+  gap: 2rem;
+  animation: fadeIn 0.5s ease;
+}
+
+.settingsNavigation {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 280px;
+  padding: 1.75rem;
+  background: rgba(22, 28, 36, 0.6);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  height: max-content;
+}
+
+.settingsNavButton {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-align: left;
+  border: 1px solid transparent;
+}
+
+.settingsNavButton:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.9);
+  transform: translateX(3px);
+}
+
+.settingsNavActive {
+  background: linear-gradient(135deg, rgba(255, 136, 0, 0.15), rgba(255, 136, 0, 0.05));
+  color: #FF8800;
+  border-color: rgba(255, 136, 0, 0.2);
+  box-shadow: 0 4px 12px rgba(255, 136, 0, 0.1);
+}
+
+.settingsNavIconContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  transition: all 0.3s ease;
+}
+
+.settingsNavActive .settingsNavIconContainer {
+  background: rgba(255, 136, 0, 0.2);
+  box-shadow: 0 0 10px rgba(255, 136, 0, 0.2);
+}
+
+.settingsNavIcon {
+  font-size: 1.3rem;
+}
+
+/* Contenu des paramètres */
+.settingsContent {
+  flex: 1;
+  padding: 2rem;
+  background: rgba(22, 28, 36, 0.6);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.5s ease;
+  max-width: 800px;
+}
+
+.settingsTitle {
+  font-size: 1.7rem;
+  font-weight: 600;
+  margin-bottom: 1.75rem;
+  background: linear-gradient(135deg, #FF8800, #FFB366);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.settingsTitleIcon {
+  font-size: 1.4rem;
+  padding: 0.6rem;
+  background: rgba(255, 136, 0, 0.15);
+  border-radius: 12px;
+  color: #FF8800;
+}
+
+.settingsForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.settingsGroup {
+  padding: 1.5rem;
+  background: rgba(22, 28, 36, 0.4);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all 0.3s ease;
+}
+
+.settingsGroup:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  background: rgba(22, 28, 36, 0.5);
+}
+
+.settingsSubtitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.formGroupGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.formLabel {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.formHelp {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 0.25rem;
+}
+
+.formActions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  justify-content: flex-end;
+}
+
+.switchContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  margin-bottom: 0.75rem;
+}
+
+.switchLabel {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+
+.switchInput {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switchSlider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.1);
+  transition: .4s;
+  border-radius: 24px;
+}
+
+.switchSlider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+.switchInput:checked + .switchSlider {
+  background-color: #FF8800;
+}
+
+.switchInput:checked + .switchSlider:before {
+  transform: translateX(20px);
+}
+
+/* Style pour le calendrier */
+.calendarContainer {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.calendarDay {
+  text-align: center;
+  padding: 0.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.calendarTimeGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.calendarTime {
+  text-align: center;
+  padding: 0.5rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  background: rgba(255, 255, 255, 0.03);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.calendarTime:hover {
+  background: rgba(255, 136, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.calendarTimeSelected {
+  background: rgba(255, 136, 0, 0.2);
+  color: #FF8800;
+  font-weight: 500;
+}
+
+.userCard {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  margin-bottom: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.userCard:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateX(3px);
+}
+
+.userAvatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: linear-gradient(135deg, #FF8800, #FF6600);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: white;
+}
+
+.userInfo {
+  flex: 1;
+}
+
+.userName {
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.userRole {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.paymentCard {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  margin-bottom: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.paymentCard:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-3px);
+}
+
+.paymentIcon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: #FF8800;
+}
+
+.paymentInfo {
+  flex: 1;
+}
+
+.paymentName {
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.paymentDetails {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.integrationCard {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  margin-bottom: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.integrationCard:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-3px);
+}
+
+.integrationIcon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: #FF8800;
+}
+
+.integrationInfo {
+  flex: 1;
+}
+
+.integrationName {
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.integrationStatus {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Photo de profil */
+.profileImageContainer {
+  position: relative;
+}
+
+.profileImage {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  border: 3px solid rgba(255, 136, 0, 0.5);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.profileImagePlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #FF8800, #FF6600);
+  color: white;
+  font-size: 3rem;
+  font-weight: 600;
+}
+
+.changePhotoButton {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: rgba(22, 28, 36, 0.8);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  color: white;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.changePhotoButton:hover {
+  background: rgba(255, 136, 0, 0.2);
+  border-color: rgba(255, 136, 0, 0.3);
+}
+
+/* Section profil améliorée */
+.profileContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.profileHeader {
+  position: relative;
+  background: rgba(22, 28, 36, 0.4);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.profileHeader::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255, 136, 0, 0.05), transparent);
+  z-index: -1;
+}
+
+.profileInfo {
+  flex: 1;
+  min-width: 300px;
+}
+
+.profileName {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, #FF8800, #FFB366);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.profileTitle {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 1.5rem;
+}
+
+.profileStats {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.statItem {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.75rem 1.25rem;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.statItem:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 136, 0, 0.1);
+}
+
+.statValue {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #FF8800;
+}
+
+.statLabel {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.profileBio {
+  margin-top: 1.5rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+  position: relative;
+  padding-left: 1rem;
+}
+
+.profileBio::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  background: linear-gradient(to bottom, #FF8800, rgba(255, 136, 0, 0.3));
+  border-radius: 3px;
+}
+
+/* Sections profil */
+.profileSectionCard {
+  background: rgba(22, 28, 36, 0.4);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.profileSectionCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 1rem;
+}
+
+.sectionTitle {
+  font-size: 1.3rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, #FF8800, #FFB366);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Services */
+.servicesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.serviceCard {
+  background: rgba(22, 28, 36, 0.6);
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.serviceCard:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 136, 0, 0.3);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.serviceTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: #FF8800;
+}
+
+.serviceDescription {
+  flex: 1;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 1rem;
+}
+
+.servicePrice {
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, rgba(255, 136, 0, 0.2), rgba(255, 136, 0, 0.05));
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+/* Collaborations */
+.collaborationsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.collaborationItem {
+  background: rgba(22, 28, 36, 0.5);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: all 0.3s ease;
+}
+
+.collaborationItem:hover {
+  transform: translateX(5px);
+  background: rgba(22, 28, 36, 0.7);
+  border-color: rgba(255, 136, 0, 0.2);
+}
+
+.collaborationType {
+  background: rgba(255, 136, 0, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #FF8800;
+  font-weight: 500;
+}
+
+.collaborationDetails {
+  flex: 1;
+}
+
+.collaborationTitle {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.collaborationDesc {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Form and Input styling */
+.formInputWrapper {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.formInput {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: rgba(22, 28, 36, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: white;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  margin-bottom: 0.75rem;
+}
+
+.formTextarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: rgba(22, 28, 36, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: white;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  resize: vertical;
+  margin-bottom: 0.75rem;
+}
+
+.formInput:focus, .formTextarea:focus {
+  border-color: #FF8800;
+  box-shadow: 0 0 0 2px rgba(255, 136, 0, 0.2);
+  outline: none;
+}
+
+.formLabel {
+  position: absolute;
+  left: 1rem;
+  top: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.9rem;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.formInput:focus + .formLabel, 
+.formInput:not(:placeholder-shown) + .formLabel,
+.formTextarea:focus + .formLabel,
+.formTextarea:not(:placeholder-shown) + .formLabel {
+  transform: translateY(-1.5rem) scale(0.85);
+  color: #FF8800;
+}
+
+/* Ajuster styles pour le mode d'édition */
+.serviceCard .formInput,
+.serviceCard .formTextarea {
+  background: rgba(255, 255, 255, 0.05);
+  margin-bottom: 0.75rem;
+}
+
+.collaborationItem .formInput,
+.collaborationItem .formTextarea {
+  background: rgba(255, 255, 255, 0.05);
+  margin-bottom: 0.5rem;
+}
+
+/* Animation de transition */
+.fadeInUp {
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Effet de survol amélioré pour les boutons */
+.primaryButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(255, 136, 0, 0.3);
+}
+
+.addButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px dashed rgba(255, 136, 0, 0.3);
+  border-radius: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.addButton:hover {
+  background: rgba(255, 136, 0, 0.1);
+  border-color: rgba(255, 136, 0, 0.5);
+  transform: translateY(-3px);
+}
+
+.addIcon {
+  font-size: 1.2rem;
+  color: #FF8800;
+}
+
+/* Styles pour les notifications */
+.notificationsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(22, 28, 36, 0.6);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+.notificationsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.sectionTitleIcon {
+  font-size: 1.4rem;
+  margin-right: 0.5rem;
+  color: #FF8800;
+}
+
+.notificationsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.notificationItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.notificationItem:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.notificationUnread {
+  border-left: 3px solid #FF8800;
+  background: rgba(255, 136, 0, 0.05);
+}
+
+.notificationIcon {
+  font-size: 1.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  flex-shrink: 0;
+}
+
+.notificationSuccessIcon {
+  color: #4caf50;
+}
+
+.notificationInfoIcon {
+  color: #2196f3;
+}
+
+.notificationCalendarIcon {
+  color: #ff8800;
+}
+
+.notificationContent {
+  flex: 1;
+}
+
+.notificationTitle {
+  font-weight: 500;
+  font-size: 1rem;
+  margin-bottom: 0.35rem;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.notificationDesc {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 0.5rem;
+}
+
+.notificationDate {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.notificationBadge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #FF8800;
+  box-shadow: 0 0 0 2px rgba(255, 136, 0, 0.2);
+}
+
+.notificationsFooter {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+}

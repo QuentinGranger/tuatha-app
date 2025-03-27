@@ -19,6 +19,6 @@
     "resolveJsonModule": true,
     "isolatedModules": true
   },
-  "include": ["next-env.d.js", "**/*.js", "**/*.jsx"],
-  "exclude": ["node_modules", ".next", "out"]
+  "include": ["src/**/*.js", "src/**/*.jsx", "**/*.js", "**/*.jsx"],
+  "exclude": ["node_modules", "**/node_modules", "**/.*/", ".next", "out"]
 }
