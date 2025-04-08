@@ -1,0 +1,315 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  background: linear-gradient(90deg, #FF8800, #FFB366);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.subtitle {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.main {
+  flex: 1;
+  margin-bottom: 2rem;
+}
+
+.section {
+  background: rgba(14, 22, 31, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.section:hover {
+  border-color: rgba(255, 136, 0, 0.2);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.sectionTitle {
+  color: #FF8800;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.text {
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+}
+
+.link {
+  color: #FF8800;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.link:hover {
+  color: #FFB366;
+  text-decoration: underline;
+}
+
+/* Support Options */
+.supportOptions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.supportOption {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.3s ease;
+}
+
+.supportOption:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 136, 0, 0.3);
+}
+
+.supportIcon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.optionTitle {
+  color: #FF8800;
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.optionDescription {
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+}
+
+.button {
+  background: rgba(255, 136, 0, 0.2);
+  color: #FF8800;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  border: 1px solid rgba(255, 136, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.button:hover {
+  background: rgba(255, 136, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Guides */
+.guides {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.guideItem {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 10px;
+  padding: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.guideItem:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 136, 0, 0.2);
+}
+
+.guideTitle {
+  color: #FFB366;
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Contact Form */
+.contactForm {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  padding: 1.5rem;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.formGroup {
+  margin-bottom: 1.5rem;
+}
+
+.formLabel {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
+
+.formInput,
+.formSelect,
+.formTextarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.formInput:focus,
+.formSelect:focus,
+.formTextarea:focus {
+  outline: none;
+  border-color: #FF8800;
+  box-shadow: 0 0 0 2px rgba(255, 136, 0, 0.2);
+}
+
+.formTextarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.submitButton {
+  background: #FF8800;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: block;
+  margin: 0 auto;
+}
+
+.submitButton:hover {
+  background: #FF9D33;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 136, 0, 0.3);
+}
+
+.formDisclaimer {
+  text-align: center;
+  margin-top: 1rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+}
+
+/* Resources */
+.resources {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.resourceItem {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 10px;
+  padding: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.resourceItem:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 136, 0, 0.2);
+}
+
+.resourceTitle {
+  color: #FFB366;
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+}
+
+.footer {
+  padding-top: 2rem;
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.backLink {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.backLink:hover {
+  color: #fff;
+  background: rgba(255, 136, 0, 0.2);
+  border-color: rgba(255, 136, 0, 0.3);
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .container {
+    padding: 1.5rem;
+  }
+  
+  .title {
+    font-size: 2rem;
+  }
+  
+  .supportOptions, 
+  .guides, 
+  .resources {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 1rem;
+  }
+  
+  .title {
+    font-size: 1.75rem;
+  }
+  
+  .section, 
+  .contactForm {
+    padding: 1.25rem;
+  }
+}

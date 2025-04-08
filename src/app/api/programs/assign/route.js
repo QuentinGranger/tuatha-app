@@ -5,84 +5,84 @@ export async function POST(request) {
   try {
     const data = await request.json();
     
-    // Validation des données requises
-    if (!data.programId || !data.patientId) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+    // Validation des données
+    if (!data.programId) {
+      return NextResponse.json({ error: "ID du programme requis" }, { status: 400 });
     }
-
-    // Récupérer le programme template
-    const templateProgram = await prisma.program.findFirst({
-      where: {
-        id: data.programId,
-        status: 'TEMPLATE'
-      },
+    
+    if (!data.patientIds || !Array.isArray(data.patientIds) || data.patientIds.length === 0) {
+      return NextResponse.json({ error: "Liste des patients requise" }, { status: 400 });
+    }
+    
+    // Récupérer le programme existant
+    const program = await prisma.program.findUnique({
+      where: { id: data.programId },
       include: {
         exercises: true,
-        supplements: true,
-        healthProfessional: true
+        supplements: true
       }
     });
-
-    if (!templateProgram) {
-      return NextResponse.json(
-        { error: 'Template program not found' },
-        { status: 404 }
-      );
+    
+    if (!program) {
+      return NextResponse.json({ error: "Programme non trouvé" }, { status: 404 });
     }
-
-    // Créer une copie du programme pour le patient
-    const assignedProgram = await prisma.program.create({
-      data: {
-        title: templateProgram.title,
-        description: templateProgram.description,
-        startDate: templateProgram.startDate,
-        endDate: templateProgram.endDate,
-        status: 'ACTIVE',
-        patientId: data.patientId,
-        healthProfessionalId: templateProgram.healthProfessionalId,
-        exercises: {
-          create: templateProgram.exercises.map(exercise => ({
-            exerciseId: exercise.exerciseId,
-            sets: exercise.sets,
-            reps: exercise.reps,
-            duration: exercise.duration,
-            notes: exercise.notes
-          }))
-        },
-        supplements: {
-          connect: templateProgram.supplements.map(supplement => ({
-            id: supplement.id
-          }))
+    
+    // Créer des copies du programme pour chaque patient sélectionné
+    const assignedPrograms = await Promise.all(
+      data.patientIds.map(async (patientId) => {
+        const patient = await prisma.patient.findUnique({
+          where: { id: patientId }
+        });
+        
+        if (!patient) {
+          return { error: `Patient ${patientId} non trouvé`, patientId };
         }
-      },
-      include: {
-        exercises: {
-          include: {
-            exercise: true
+        
+        // Créer une copie du programme pour ce patient
+        const newProgram = await prisma.program.create({
+          data: {
+            title: program.title,
+            description: program.description,
+            objective: program.objective,
+            category: program.category,
+            status: "ACTIVE",
+            patientId: patientId,
+            healthProfessionalId: program.healthProfessionalId,
+            shareToken: `share-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+            // Copier les exercices
+            exercises: {
+              create: program.exercises.map(ex => ({
+                sets: ex.sets,
+                reps: ex.reps,
+                rest: ex.rest,
+                exerciseId: ex.exerciseId,
+                notes: ex.notes
+              }))
+            },
+            // Copier les suppléments
+            supplements: {
+              connect: program.supplements.map(supp => ({
+                id: supp.id
+              }))
+            }
           }
-        },
-        supplements: true,
-        patient: {
-          include: {
-            user: true
-          }
-        },
-        healthProfessional: {
-          include: {
-            user: true
-          }
-        }
-      }
-    });
-
-    return NextResponse.json(assignedProgram);
+        });
+        
+        return { 
+          success: true, 
+          patientId, 
+          programId: newProgram.id,
+          patientName: `${patient.user?.firstName || ''} ${patient.user?.lastName || ''}`
+        };
+      })
+    );
+    
+    return NextResponse.json({ assignedPrograms });
+    
   } catch (error) {
-    console.error('Error assigning program:', error);
+    console.error("Erreur lors de l'assignation du programme:", error);
     return NextResponse.json(
-      { error: 'Failed to assign program: ' + error.message },
+      { error: "Erreur lors de l'assignation du programme" },
       { status: 500 }
     );
   }

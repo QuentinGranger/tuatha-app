@@ -1,0 +1,262 @@
+/* Login Page Styling */
+.container {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+  position: relative;
+}
+
+.loginPanel {
+  width: 40%;
+  min-width: 400px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0px 36px 36px 0px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-left: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 0 80px rgba(255, 255, 255, 0.05);
+  z-index: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.loginPanel::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle at top right,
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 60%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+.formContainer {
+  width: 80%;
+  max-width: 400px;
+  padding: 2rem;
+}
+
+.loginHelp {
+  background-color: rgba(255, 136, 0, 0.1);
+  border: 1px solid rgba(255, 136, 0, 0.3);
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.emailLink {
+  color: #FF8800;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.emailLink:hover {
+  text-decoration: underline;
+  color: #FFB366;
+}
+
+.emailInput {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  font-size: 16px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.emailInput:focus,
+.passwordInput:focus {
+  border-color: #FF8800;
+  box-shadow: 0 0 0 2px rgba(255, 136, 0, 0.2);
+}
+
+.passwordInput {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  font-size: 16px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.errorMessage {
+  color: #ff4d4d;
+  background-color: rgba(255, 77, 77, 0.1);
+  border: 1px solid rgba(255, 77, 77, 0.3);
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 15px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.continueButton {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #FF8800 0%, #FFB366 100%);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 136, 0, 0.3);
+}
+
+.continueButton:hover {
+  background: linear-gradient(135deg, #FFB366 0%, #FF8800 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 136, 0, 0.4);
+}
+
+.dividerContainer {
+  display: flex;
+  align-items: center;
+  margin: 30px 0;
+  position: relative;
+}
+
+.dividerContainer::before,
+.dividerContainer::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.dividerText {
+  padding: 0 15px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+}
+
+.registerLinks {
+  margin-top: 30px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+}
+
+.registerLink,
+.forgotPassword {
+  color: #FF8800;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.registerLink:hover,
+.forgotPassword:hover {
+  text-decoration: underline;
+  color: #FFB366;
+}
+
+.forgotPassword {
+  display: block;
+  margin-top: 10px;
+}
+
+.logoContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  padding-bottom: 20px;
+  overflow: hidden;
+}
+
+.logoWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 0;
+}
+
+.logo {
+  width: 100%;
+  height: auto;
+  max-width: 800px;
+  object-fit: contain;
+}
+
+.footerContent {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 20px;
+  width: 100%;
+}
+
+.footerLink {
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  font-size: 12px;
+  transition: all 0.3s ease;
+}
+
+.footerLink:hover {
+  color: #FF8800;
+}
+
+/* Media Queries */
+@media (max-width: 800px) {
+  .container {
+    flex-direction: column-reverse;
+  }
+  
+  .loginPanel {
+    width: 100%;
+    min-width: unset;
+    height: auto;
+    padding: 2rem 0;
+  }
+  
+  .logoContainer {
+    height: 40vh;
+    min-height: 300px;
+  }
+  
+  .logoWrapper {
+    width: 200px;
+    height: 200px;
+  }
+}

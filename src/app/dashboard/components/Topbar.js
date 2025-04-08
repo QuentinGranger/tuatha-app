@@ -7,6 +7,7 @@ import { signOut } from 'next-auth/react';
 import styles from './Topbar.module.css';
 import dynamic from 'next/dynamic';
 import { useTheme } from 'next-themes';
+import { useAuth } from '@/app/contexts/AuthContext';
 import { 
   MdSearch, 
   MdNotifications, 
@@ -522,6 +523,8 @@ export default function Topbar() {
     setIsDarkMode(newTheme === 'dark');
   };
 
+  const { logout } = useAuth();
+
   return (
     <div className={styles.topbar}>
       <div className={styles.searchContainer}>
@@ -970,7 +973,13 @@ export default function Topbar() {
                       <MdSettings />
                       <span>Paramètres</span>
                     </button>
-                    <button className={`${styles.profileAction} ${styles.logoutAction}`}>
+                    <button 
+                      className={`${styles.profileAction} ${styles.logoutAction}`}
+                      onClick={() => {
+                        logout();
+                        setShowProfileDropdown(false);
+                      }}
+                    >
                       <MdLogout />
                       <span>Déconnexion</span>
                     </button>

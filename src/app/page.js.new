@@ -1,0 +1,15 @@
+import { Suspense } from 'react';
+import HomeClient from './HomeClient';
+import styles from "./page.module.css";
+
+export default function Home() {
+  return (
+    <Suspense fallback={
+      <div className={styles.container}>
+        <div className={styles.loading}>Chargement...</div>
+      </div>
+    }>
+      <HomeClient />
+    </Suspense>
+  );
+}

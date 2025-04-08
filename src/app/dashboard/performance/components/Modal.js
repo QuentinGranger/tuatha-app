@@ -60,46 +60,43 @@ const Modal = ({
                     size === 'small' ? styles.modalSmall : '';
   
   // Contenu de la modale
-  const modalContent = (
-    <div className={`${styles.modalOverlay} ${isOpen ? styles.open : ''}`} 
-         aria-hidden={!isOpen}
-         role="presentation">
-      <div 
-        ref={modalRef}
-        className={`${styles.modal} ${sizeClass} ${danger ? styles.dangerModal : ''}`}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="modal-title"
-      >
-        <div className={styles.modalHeader}>
-          <h3 id="modal-title" className={styles.modalTitle}>
-            {title}
-            <span className={styles.modalGlow}></span>
-          </h3>
-          <button 
-            className={styles.closeButton} 
-            onClick={onClose}
-            aria-label="Fermer"
-          >
-            <IoMdClose />
-          </button>
-        </div>
-        
-        <div className={styles.modalBody}>
-          {children}
-        </div>
-        
-        {footer && (
-          <div className={styles.modalFooter}>
-            {footer}
+  return (
+    <Portal rootId="modal-root">
+      <div className={styles.modalOverlay}>
+        <div 
+          ref={modalRef}
+          className={`${styles.modalContainer} ${styles[size]} ${danger ? styles.danger : ''}`}
+        >
+          {/* Header */}
+          <div className={styles.modalHeader}>
+            <h3 id="modal-title" className={styles.modalTitle}>
+              {title}
+              <span className={styles.modalGlow}></span>
+            </h3>
+            <button 
+              className={styles.closeButton}
+              onClick={onClose}
+              aria-label="Fermer"
+            >
+              <IoMdClose />
+            </button>
           </div>
-        )}
+          
+          {/* Contenu */}
+          <div className={styles.modalContent}>
+            {children}
+          </div>
+          
+          {/* Footer */}
+          {footer && (
+            <div className={styles.modalFooter}>
+              {footer}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </Portal>
   );
-  
-  // Rendu avec Portal
-  return <Portal rootId="modal-root">{modalContent}</Portal>;
 };
 
 export const ModalButton = ({ 

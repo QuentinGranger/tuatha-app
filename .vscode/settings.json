@@ -3,8 +3,8 @@
     "typescript.disableAutomaticTypeAcquisition": true,
     "javascript.preferences.importModuleSpecifier": "non-relative",
     "javascript.updateImportsOnFileMove.enabled": "always",
-    "javascript.suggest.autoImports": true,
-    "javascript.suggest.completeFunctionCalls": true,
+    "javascript.suggest.autoImports": false,
+    "javascript.suggest.completeFunctionCalls": false,
     "typescript.tsserver.maxTsServerMemory": 4096,
     "typescript.tsserver.watchOptions": {
         "watchFile": "useFsEvents",
@@ -30,6 +30,6 @@
     "typescript.tsc.autoDetect": "off",
     "typescript.suggest.enabled": false,
     "typescript.validate.enable": false,
-    "javascript.validate.enable": true,
+    "javascript.validate.enable": false,
     "js/ts.implicitProjectConfig.checkJs": false
 }

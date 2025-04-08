@@ -55,7 +55,9 @@ export default function PatientHeader({ patient }) {
                 alt={`Photo de ${patient.firstName} ${patient.lastName}`}
                 width={80}
                 height={80}
+                style={{ objectFit: 'cover', width: '100%', height: '100%' }}
                 className={styles.avatarImage}
+                priority
               />
               <span className={styles.status}></span>
             </div>

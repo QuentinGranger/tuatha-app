@@ -1,58 +1,43 @@
+import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
-import { testConnection } from '@/lib/db-connect';
-
-export const dynamic = 'force-dynamic';
-export const runtime = 'nodejs';
+// Suppression des importations NextAuth qui posent problème
+// import { getServerSession } from 'next-auth';
+// import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 export async function GET() {
   try {
-    console.log('Attempting to fetch health professional');
+    // Dans un environnement réel, récupérer l'ID du professionnel à partir de la session
+    // Commenté car l'authentification n'est pas configurée correctement
+    // const session = await getServerSession(authOptions);
+    // if (!session || !session.user) {
+    //   return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
+    // }
     
-    // Tester la connexion avant de faire des requêtes
-    const connected = await testConnection();
+    // Pour la démo, on utilise un ID fixe
+    const healthProId = 'hp-001';
     
-    if (!connected) {
-      return new Response(
-        JSON.stringify({ error: 'Database connection failed' }),
-        { 
-          status: 500,
-          headers: { 'Content-Type': 'application/json' }
-        }
-      );
-    }
-    
-    // Pour la démo, on retourne toujours le premier professionnel de santé
-    const healthProfessional = await prisma.healthProfessional.findFirst({
+    const healthProfessional = await prisma.healthProfessional.findUnique({
+      where: { id: healthProId },
       include: {
-        user: true
+        user: true,
+        patients: {
+          include: {
+            user: true
+          }
+        }
       }
     });
-
+    
     if (!healthProfessional) {
-      return new Response(
-        JSON.stringify({ error: 'Health professional not found' }),
-        { 
-          status: 404,
-          headers: { 'Content-Type': 'application/json' }
-        }
-      );
+      return NextResponse.json({ error: "Professionnel de santé non trouvé" }, { status: 404 });
     }
-
-    return new Response(
-      JSON.stringify(healthProfessional),
-      { 
-        status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      }
-    );
+    
+    return NextResponse.json(healthProfessional);
   } catch (error) {
-    console.error('Error fetching health professional:', error);
-    return new Response(
-      JSON.stringify({ error: 'Failed to fetch current health professional', details: error.message }),
-      { 
-        status: 500,
-        headers: { 'Content-Type': 'application/json' }
-      }
+    console.error("Erreur lors de la récupération du professionnel de santé:", error);
+    return NextResponse.json(
+      { error: "Erreur lors de la récupération du professionnel de santé" },
+      { status: 500 }
     );
   }
 }

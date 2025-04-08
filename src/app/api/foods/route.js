@@ -1,126 +1,104 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
-// GET - Récupérer tous les aliments
 export async function GET() {
   try {
-    const foods = await prisma.food.findMany({
-      orderBy: {
-        name: 'asc',
-      },
-    });
+    const foods = await prisma.food.findMany();
     return NextResponse.json(foods);
   } catch (error) {
-    console.error('Erreur détaillée lors de la récupération des aliments:', error);
+    console.error("Erreur lors de la récupération des aliments:", error);
     return NextResponse.json(
-      { 
-        error: 'Erreur lors de la récupération des aliments',
-        details: error.message,
-        name: error.name,
-        stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
-      }, 
+      { error: "Erreur lors de la récupération des aliments" },
       { status: 500 }
     );
   }
 }
 
-// POST - Créer un nouvel aliment
 export async function POST(request) {
   try {
     const data = await request.json();
-    const food = await prisma.food.create({
+    
+    // Validation des données
+    if (!data.name) {
+      return NextResponse.json({ error: "Nom de l'aliment requis" }, { status: 400 });
+    }
+    
+    // Création de l'aliment
+    const newFood = await prisma.food.create({
       data: {
-        ...data,
-        isCustom: true,
-      },
+        name: data.name,
+        category: data.category || "DIVERS",
+        description: data.description || "",
+        calories: data.calories || 0,
+        proteins: data.proteins || 0,
+        carbs: data.carbs || 0,
+        fats: data.fats || 0,
+        isCustom: data.isCustom || true,
+        createdById: data.createdById
+      }
     });
-    return NextResponse.json(food);
+    
+    return NextResponse.json(newFood, { status: 201 });
   } catch (error) {
-    console.error('Erreur détaillée lors de la création de l\'aliment:', error);
+    console.error("Erreur lors de la création de l'aliment:", error);
     return NextResponse.json(
-      { 
-        error: 'Erreur lors de la création de l\'aliment',
-        details: error.message,
-        name: error.name,
-        stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
-      }, 
+      { error: "Erreur lors de la création de l'aliment" },
       { status: 500 }
     );
   }
 }
 
-// PUT - Mettre à jour un aliment
+// Méthode PUT pour mettre à jour un aliment
 export async function PUT(request) {
   try {
     const data = await request.json();
-    const { id, ...updateData } = data;
-
-    // Vérifier que l'aliment existe et est personnalisé
-    const existingFood = await prisma.food.findUnique({
-      where: { id },
-    });
-
-    if (!existingFood) {
-      return NextResponse.json({ error: 'Aliment non trouvé' }, { status: 404 });
+    
+    if (!data.id) {
+      return NextResponse.json({ error: "ID de l'aliment requis" }, { status: 400 });
     }
-
-    if (!existingFood.isCustom) {
-      return NextResponse.json({ error: 'Impossible de modifier un aliment par défaut' }, { status: 403 });
-    }
-
-    const food = await prisma.food.update({
-      where: { id },
-      data: updateData,
+    
+    const updatedFood = await prisma.food.update({
+      where: { id: data.id },
+      data: {
+        name: data.name,
+        category: data.category,
+        description: data.description,
+        calories: data.calories,
+        proteins: data.proteins,
+        carbs: data.carbs,
+        fats: data.fats
+      }
     });
-
-    return NextResponse.json(food);
+    
+    return NextResponse.json(updatedFood);
   } catch (error) {
-    console.error('Erreur détaillée lors de la mise à jour de l\'aliment:', error);
+    console.error("Erreur lors de la mise à jour de l'aliment:", error);
     return NextResponse.json(
-      { 
-        error: 'Erreur lors de la mise à jour de l\'aliment',
-        details: error.message,
-        name: error.name,
-        stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
-      }, 
+      { error: "Erreur lors de la mise à jour de l'aliment" },
       { status: 500 }
     );
   }
 }
 
-// DELETE - Supprimer un aliment
+// Méthode DELETE pour supprimer un aliment
 export async function DELETE(request) {
+  const url = new URL(request.url);
+  const id = url.searchParams.get('id');
+  
+  if (!id) {
+    return NextResponse.json({ error: "ID de l'aliment requis" }, { status: 400 });
+  }
+  
   try {
-    const { searchParams } = new URL(request.url);
-    const id = searchParams.get('id');
-
-    // Vérifier que l'aliment existe et est personnalisé
-    const existingFood = await prisma.food.findUnique({
-      where: { id },
-    });
-
-    if (!existingFood) {
-      return NextResponse.json({ error: 'Aliment non trouvé' }, { status: 404 });
-    }
-
-    if (!existingFood.isCustom) {
-      return NextResponse.json({ error: 'Impossible de supprimer un aliment par défaut' }, { status: 403 });
-    }
-
     await prisma.food.delete({
-      where: { id },
+      where: { id }
     });
-
-    return NextResponse.json({ message: 'Aliment supprimé avec succès' });
+    
+    return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Erreur détaillée lors de la suppression de l\'aliment:', error);
+    console.error("Erreur lors de la suppression de l'aliment:", error);
     return NextResponse.json(
-      { 
-        error: 'Erreur lors de la suppression de l\'aliment',
-        details: error.message,
-        name: error.name,
-        stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
-      }, 
+      { error: "Erreur lors de la suppression de l'aliment" },
       { status: 500 }
     );
   }

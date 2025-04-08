@@ -17,19 +17,26 @@ export default function SharedProgramPage() {
     const fetchSharedProgram = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`/api/programs/shared/${token}`);
         
-        if (!response.ok) {
-          if (response.status === 404) {
-            throw new Error('Le lien de partage est invalide ou a expiré');
-          } else {
-            throw new Error('Erreur lors de la récupération du programme');
+        try {
+          const response = await fetch(`/api/programs/shared/${token}`);
+          
+          if (!response.ok) {
+            if (response.status === 404) {
+              throw new Error('Le lien de partage est invalide ou a expiré');
+            } else {
+              throw new Error('Erreur lors de la récupération du programme');
+            }
           }
+          
+          const data = await response.json();
+          setProgram(data.program);
+          setShareInfo(data.shareInfo);
+        } catch (apiError) {
+          console.error('API error:', apiError);
+          throw apiError;
         }
         
-        const data = await response.json();
-        setProgram(data.program);
-        setShareInfo(data.shareInfo);
         setLoading(false);
       } catch (err) {
         console.error('Erreur:', err);
@@ -45,7 +52,8 @@ export default function SharedProgramPage() {
 
   const handleDownloadPDF = () => {
     if (program) {
-      window.open(`/api/programs/pdf?id=${program.id}&shared=${token}`, '_blank');
+      // Fonctionnalité à implémenter
+      alert('Téléchargement du PDF en cours de développement');
     }
   };
 

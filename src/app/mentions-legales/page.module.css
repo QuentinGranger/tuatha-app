@@ -1,0 +1,147 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  background: linear-gradient(90deg, #FF8800, #FFB366);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.subtitle {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.main {
+  flex: 1;
+  margin-bottom: 2rem;
+}
+
+.section {
+  background: rgba(14, 22, 31, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.section:hover {
+  border-color: rgba(255, 136, 0, 0.2);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.sectionTitle {
+  color: #FF8800;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.text {
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+}
+
+.link {
+  color: #FF8800;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.link:hover {
+  color: #FFB366;
+  text-decoration: underline;
+}
+
+.list {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.listItem {
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+  position: relative;
+}
+
+.listItem::before {
+  content: '';
+  position: absolute;
+  left: -1rem;
+  top: 0.5rem;
+  width: 6px;
+  height: 6px;
+  background: #FF8800;
+  border-radius: 50%;
+}
+
+.footer {
+  padding-top: 2rem;
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.backLink {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.backLink:hover {
+  color: #fff;
+  background: rgba(255, 136, 0, 0.2);
+  border-color: rgba(255, 136, 0, 0.3);
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .container {
+    padding: 1.5rem;
+  }
+  
+  .title {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 1rem;
+  }
+  
+  .title {
+    font-size: 1.75rem;
+  }
+  
+  .section {
+    padding: 1.25rem;
+  }
+}

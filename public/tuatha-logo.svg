@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFD700" />
+      <stop offset="100%" stop-color="#FF8800" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Circle Background -->
+  <circle cx="200" cy="200" r="150" fill="#0A192F" stroke="url(#logoGradient)" stroke-width="2" />
+  
+  <!-- Horse Head -->
+  <path d="M230,120 Q280,100 290,160 Q295,190 275,210 Q255,230 250,250 L220,230 Q210,200 190,195 Q160,190 155,160 Q150,130 180,120 Q200,115 230,120 Z" fill="url(#logoGradient)" filter="url(#glow)" />
+  
+  <!-- Mane -->
+  <path d="M230,120 Q245,115 250,100 Q255,85 270,80 Q280,75 290,90 Q295,100 290,115 Q285,130 280,140 Q275,150 270,160" fill="none" stroke="url(#logoGradient)" stroke-width="5" stroke-linecap="round" />
+  
+  <!-- Text "Tuatha" -->
+  <text x="200" y="320" font-family="Arial, sans-serif" font-size="60" font-weight="bold" text-anchor="middle" fill="url(#logoGradient)" filter="url(#glow)">Tuatha</text>
+</svg>

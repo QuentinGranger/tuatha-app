@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import aiService from '../services/aiService';
+import prisma from '@/lib/prisma'; // Import du mock prisma
 
 // Créer le contexte des messages
 const MessageContext = createContext();
@@ -13,63 +14,91 @@ export const MessageProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [patientTyping, setPatientTyping] = useState(null);
 
-  // Définition des patients de démo pour les tests
-  const demoPatients = [
+  // Récupérer les patients superhéros depuis le mock Prisma
+  const superheroPatients = [
     { 
-      id: 'patient1',
+      id: 'pat-001',
       name: 'Bruce Wayne',
       email: 'batman@wayne-enterprises.com',
-      avatar: 'batman.jpg',
-      lastVisit: '2023-05-15'
+      avatar: '/img/patient/batman.jpg',
+      lastVisit: '2025-02-05',
+      user: {
+        firstName: 'Bruce',
+        lastName: 'Wayne',
+        photoUrl: '/img/patient/batman.jpg'
+      }
     },
     { 
-      id: 'patient2',
+      id: 'pat-002',
+      name: 'Izuku Midoriya',
+      email: 'deku@ua.edu',
+      avatar: '/img/patient/deku.jpg',
+      lastVisit: '2025-02-04',
+      user: {
+        firstName: 'Izuku',
+        lastName: 'Midoriya',
+        photoUrl: '/img/patient/deku.jpg'
+      }
+    },
+    { 
+      id: 'pat-003',
+      name: 'Son Goku',
+      email: 'goku@capsule-corp.com',
+      avatar: '/img/patient/goku.jpg',
+      lastVisit: '2025-02-03',
+      user: {
+        firstName: 'Son',
+        lastName: 'Goku',
+        photoUrl: '/img/patient/goku.jpg'
+      }
+    },
+    { 
+      id: 'pat-004',
       name: 'Tony Stark',
       email: 'tony@stark-industries.com',
-      avatar: 'ironman.jpg',
-      lastVisit: '2023-05-10'
+      avatar: '/img/patient/ironman.jpg',
+      lastVisit: '2025-02-02',
+      user: {
+        firstName: 'Tony',
+        lastName: 'Stark',
+        photoUrl: '/img/patient/ironman.jpg'
+      }
     },
     { 
-      id: 'patient3',
-      name: 'Clark Kent',
-      email: 'clark.kent@dailyplanet.com',
-      avatar: 'thor.jpg',
-      lastVisit: '2023-05-05'
+      id: 'pat-005',
+      name: 'Monkey D. Luffy',
+      email: 'luffy@thousand-sunny.com',
+      avatar: '/img/patient/luffy.jpg',
+      lastVisit: '2025-02-01',
+      user: {
+        firstName: 'Monkey D.',
+        lastName: 'Luffy',
+        photoUrl: '/img/patient/luffy.jpg'
+      }
     },
     { 
-      id: 'patient4',
-      name: 'Diana Prince',
-      email: 'diana@themyscira.com',
-      avatar: 'wonderwoman.jpg',
-      lastVisit: '2023-04-28'
+      id: 'pat-006',
+      name: 'Naruto Uzumaki',
+      email: 'naruto@konoha.gov',
+      avatar: '/img/patient/naruto.jpg',
+      lastVisit: '2025-01-31',
+      user: {
+        firstName: 'Naruto',
+        lastName: 'Uzumaki',
+        photoUrl: '/img/patient/naruto.jpg'
+      }
     },
     { 
-      id: 'patient5',
-      name: 'Peter Parker',
-      email: 'peter.parker@dailybugle.com',
-      avatar: 'spiderman.jpg',
-      lastVisit: '2023-04-20'
-    },
-    { 
-      id: 'patient6',
-      name: 'Selina Kyle',
-      email: 'selina.kyle@catwoman.com',
-      avatar: 'default-avatar.jpg',
-      lastVisit: '2023-04-15'
-    },
-    { 
-      id: 'patient7',
-      name: 'Barry Allen',
-      email: 'b.allen@starlabs.com',
-      avatar: 'naruto.jpg',
-      lastVisit: '2023-04-10'
-    },
-    { 
-      id: 'patient8',
-      name: 'Natasha Romanoff',
-      email: 'n.romanoff@shield.gov',
-      avatar: 'deku.jpg',
-      lastVisit: '2023-04-05'
+      id: 'pat-007',
+      name: 'Saitama',
+      email: 'saitama@hero-association.org',
+      avatar: '/img/patient/saitama.jpg',
+      lastVisit: '2025-01-30',
+      user: {
+        firstName: 'Saitama',
+        lastName: '',
+        photoUrl: '/img/patient/saitama.jpg'
+      }
     }
   ];
 
@@ -85,21 +114,41 @@ export const MessageProvider = ({ children }) => {
     
     // Vérifier la propriété avatar (utilisée dans le mock)
     if (patient.avatar) {
-      const avatarPath = `/img/patient/${patient.avatar}`;
-      console.log("Avatar path (from patient.avatar):", avatarPath);
-      return avatarPath;
+      // Vérifier si le chemin commence déjà par /img/patient/ pour éviter la duplication
+      if (patient.avatar.startsWith('/img/patient/')) {
+        console.log("Avatar path (from patient.avatar, path complet):", patient.avatar);
+        return patient.avatar;
+      } else {
+        const avatarPath = `/img/patient/${patient.avatar.replace(/^\//, '')}`;
+        console.log("Avatar path (from patient.avatar, path généré):", avatarPath);
+        return avatarPath;
+      }
     }
     
     // Vérifier la propriété photoUrl (utilisée dans certaines implémentations)
     if (patient.photoUrl) {
-      console.log("Avatar path (from patient.photoUrl):", patient.photoUrl);
-      return patient.photoUrl;
+      // Éviter la duplication de /img/patient/
+      if (patient.photoUrl.startsWith('/img/patient/')) {
+        console.log("Avatar path (from patient.photoUrl, path complet):", patient.photoUrl);
+        return patient.photoUrl;
+      } else {
+        const photoPath = `/img/patient/${patient.photoUrl.replace(/^\//, '')}`;
+        console.log("Avatar path (from patient.photoUrl, path généré):", photoPath);
+        return photoPath;
+      }
     }
     
     // Vérifier si le patient a un objet user avec photoUrl
     if (patient.user && patient.user.photoUrl) {
-      console.log("Avatar path (from patient.user.photoUrl):", patient.user.photoUrl);
-      return patient.user.photoUrl;
+      // Éviter la duplication de /img/patient/
+      if (patient.user.photoUrl.startsWith('/img/patient/')) {
+        console.log("Avatar path (from patient.user.photoUrl, path complet):", patient.user.photoUrl);
+        return patient.user.photoUrl;
+      } else {
+        const userPhotoPath = `/img/patient/${patient.user.photoUrl.replace(/^\//, '')}`;
+        console.log("Avatar path (from patient.user.photoUrl, path généré):", userPhotoPath);
+        return userPhotoPath;
+      }
     }
     
     // Fallback sur l'avatar par défaut
@@ -107,18 +156,18 @@ export const MessageProvider = ({ children }) => {
     return '/img/patient/default-avatar.jpg';
   };
 
-  // Initialiser allPatients à partir de demoPatients au démarrage
+  // Initialiser allPatients à partir des patients superhéros au démarrage
   useEffect(() => {
     setIsLoading(true);
     
-    // Générer des avatarUrl pour tous les patients de démo
-    const patientsWithAvatars = demoPatients.map(patient => ({
+    // Générer des avatarUrl pour tous les patients superhéros
+    const patientsWithAvatars = superheroPatients.map(patient => ({
       ...patient,
       avatarUrl: getAvatarUrl(patient)
     }));
     
     setAllPatients(patientsWithAvatars);
-    console.log("Patients initialisés avec avatars:", patientsWithAvatars);
+    console.log("Patients superhéros initialisés avec avatars:", patientsWithAvatars);
     
     setIsLoading(false);
   }, []);
@@ -136,50 +185,71 @@ export const MessageProvider = ({ children }) => {
     
     // Fonction pour trouver un patient par ID dans notre liste de patients
     const findPatientById = (patientId) => {
-      // Chercher d'abord dans demoPatients pour compatibilité
-      const patient = demoPatients.find(p => p.id === patientId);
+      // Chercher dans les superheroPatients
+      const patient = superheroPatients.find(p => p.id === patientId);
       console.log(`Recherche du patient avec l'ID ${patientId}:`, patient || 'Non trouvé');
       return patient || null;
     };
     
     if (!storedConversations) {
-      // Créer quelques conversations fictives si rien n'est stocké
-      // Assurons-nous d'utiliser uniquement des patients qui existent dans demoPatients
-      console.log("Création de nouvelles conversations avec les patients connus:", demoPatients.map(p => p.id));
+      // Créer des conversations pour les patients superhéros
+      console.log("Création de nouvelles conversations avec les superhéros:", superheroPatients.map(p => p.id));
       
-      // On va créer une conversation pour chaque patient dans demoPatients
-      const initialConversations = demoPatients.slice(0, 3).map((patient, index) => {
-        const convId = `conv${index + 1}`;
-        const patientId = patient.id;
-        
-        console.log(`Création de la conversation ${convId} pour le patient ${patientId} (${patient.name})`);
+      // Les messages thématiques pour chaque superhéros
+      const superheroMessages = {
+        'pat-001': [
+          { id: 'msg1', text: "J'ai besoin d'un nouveau régime pour mes patrouilles nocturnes", sender: 'patient', timestamp: new Date(2025, 3, 1, 14, 30).toISOString() },
+          { id: 'msg2', text: "Bonjour Bruce, bien sûr. Je vous recommande un régime riche en protéines et en antioxydants pour maintenir votre force et récupérer rapidement.", sender: 'professional', timestamp: new Date(2025, 3, 1, 14, 35).toISOString() },
+          { id: 'msg3', text: "Et que pensez-vous des compléments alimentaires pour mes fractures récurrentes ?", sender: 'patient', timestamp: new Date(2025, 3, 1, 14, 40).toISOString() }
+        ],
+        'pat-002': [
+          { id: 'msg1', text: "Est-ce que mon nouveau régime convient à One For All ?", sender: 'patient', timestamp: new Date(2025, 3, 1, 10, 15).toISOString() },
+          { id: 'msg2', text: "Bonjour Izuku. Oui, mais j'aimerais augmenter votre apport calorique pour soutenir la charge de votre quirk.", sender: 'professional', timestamp: new Date(2025, 3, 1, 10, 20).toISOString() }
+        ],
+        'pat-003': [
+          { id: 'msg1', text: "J'ai besoin de plus de calories pour mon combat contre Vegeta", sender: 'patient', timestamp: new Date(2025, 2, 29, 9, 0).toISOString() },
+          { id: 'msg2', text: "Bonjour Son Goku. Je vais vous proposer un plan nutritionnel spécial Super Saiyan avec 10 000 calories par jour.", sender: 'professional', timestamp: new Date(2025, 2, 29, 9, 5).toISOString() },
+          { id: 'msg3', text: "Parfait ! Est-ce que je peux toujours manger autant de riz ?", sender: 'patient', timestamp: new Date(2025, 2, 29, 9, 10).toISOString() },
+          { id: 'msg4', text: "Oui, mais essayez d'équilibrer avec plus de protéines et de légumes.", sender: 'professional', timestamp: new Date(2025, 2, 29, 9, 15).toISOString() }
+        ],
+        'pat-004': [
+          { id: 'msg1', text: "Ce complément alimentaire me donne des palpitations", sender: 'patient', timestamp: new Date(2025, 2, 24, 16, 45).toISOString() },
+          { id: 'msg2', text: "Bonjour Tony. C'est probablement dû à l'interaction avec votre réacteur ARK. Je vous recommande d'arrêter immédiatement ce complément.", sender: 'professional', timestamp: new Date(2025, 2, 24, 16, 50).toISOString() }
+        ],
+        'pat-005': [
+          { id: 'msg1', text: "J'ai encore besoin de plus de viande !", sender: 'patient', timestamp: new Date(2025, 2, 23, 12, 0).toISOString() },
+          { id: 'msg2', text: "Bonjour Luffy. Je comprends votre besoin, mais essayons d'équilibrer votre alimentation avec d'autres nutriments essentiels.", sender: 'professional', timestamp: new Date(2025, 2, 23, 12, 5).toISOString() }
+        ],
+        'pat-006': [
+          { id: 'msg1', text: "Est-ce que je peux avoir des ramens dans mon régime ?", sender: 'patient', timestamp: new Date(2025, 2, 21, 19, 30).toISOString() },
+          { id: 'msg2', text: "Bonjour Naruto. Oui, mais en quantité modérée. Je vous suggère des ramens enrichis en légumes et protéines maigres.", sender: 'professional', timestamp: new Date(2025, 2, 21, 19, 35).toISOString() }
+        ],
+        'pat-007': [
+          { id: 'msg1', text: "Je m'ennuie quand je termine mes adversaires en un coup. Des conseils pour m'amuser plus longtemps ?", sender: 'patient', timestamp: new Date(2025, 2, 20, 15, 0).toISOString() },
+          { id: 'msg2', text: "Bonjour Saitama. Avez-vous envisagé de vous imposer des limites ? Peut-être n'utiliser qu'un doigt ?", sender: 'professional', timestamp: new Date(2025, 2, 20, 15, 5).toISOString() }
+        ],
+      };
+      
+      // Créer une conversation pour chaque patient superhéro
+      const initialConversations = superheroPatients.map(patient => {
+        const patientName = `${patient.user.firstName} ${patient.user.lastName}`.trim();
+        const messages = superheroMessages[patient.id] || [];
         
         return {
-          id: convId,
-          patientId: patientId,
-          lastMessageTime: new Date(new Date().getTime() - index * 86400000).toISOString(),
-          unreadCount: index === 0 ? 2 : 0,
-          messages: [
-            {
-              id: `${index+1}-1`,
-              senderId: patientId,
-              receiverId: 'nutritionist',
-              content: `Bonjour, je suis ${patient.name} et j'ai des questions concernant mon suivi.`,
-              timestamp: new Date(new Date().getTime() - (index+1) * 3600000).toISOString(),
-              read: true
-            },
-            {
-              id: `${index+1}-2`,
-              senderId: 'nutritionist',
-              receiverId: patientId,
-              content: `Bonjour ${patient.name} ! Bien sûr, je suis là pour vous aider. Quelles sont vos questions ?`,
-              timestamp: new Date(new Date().getTime() - (index+1) * 3500000).toISOString(),
-              read: true
-            }
-          ]
+          id: `conv-${patient.id}`,
+          patient: patient,
+          patientId: patient.id,
+          patientName: patientName,
+          patientAvatar: getAvatarUrl(patient),
+          unreadCount: Math.floor(Math.random() * 3),
+          lastMessageDate: messages.length > 0 ? new Date(messages[messages.length - 1].timestamp) : new Date(),
+          lastMessage: messages.length > 0 ? messages[messages.length - 1].text : "Aucun message",
+          messages: messages,
+          isArchived: false,
+          isWaitingResponse: false
         };
       });
-      
+
       console.log("Initial conversations:", initialConversations);
       
       // Ajouter les URLs d'avatar générées pour chaque patient dans les conversations
@@ -236,7 +306,7 @@ export const MessageProvider = ({ children }) => {
           
           return {
             ...conv,
-            lastMessageTime: new Date(conv.lastMessageTime),
+            lastMessageDate: new Date(conv.lastMessageDate),
             messages: conv.messages.map(msg => ({
               ...msg,
               timestamp: new Date(msg.timestamp)
@@ -295,9 +365,23 @@ export const MessageProvider = ({ children }) => {
   };
 
   // Fonction pour sélectionner une conversation
-  const handleSelectConversation = (id) => {
-    const conversation = conversations.find(conv => conv.id === id);
-    setSelectedConversation(conversation);
+  const handleSelectConversation = (conversation) => {
+    // Accepter soit un ID de conversation, soit un objet conversation complet
+    if (typeof conversation === 'string') {
+      const foundConversation = conversations.find(conv => conv.id === conversation);
+      setSelectedConversation(foundConversation || null);
+    } else {
+      // Si c'est déjà un objet conversation, l'utiliser directement
+      setSelectedConversation(conversation);
+      
+      // Si la conversation n'a pas de messages, initialiser un tableau vide
+      if (conversation && !conversation.messages) {
+        setSelectedConversation({
+          ...conversation,
+          messages: []
+        });
+      }
+    }
   };
 
   // Fonction pour l'envoi de messages et la génération de réponses
@@ -333,7 +417,7 @@ export const MessageProvider = ({ children }) => {
           const updatedConv = {
             ...conv,
             lastMessage: messageToAdd.content,
-            lastMessageTime: getCurrentTimeString(),
+            lastMessageDate: getCurrentTimeString(),
             messages: updatedMessages,
             waitingResponse: shouldWaitForPatient,
             refreshFlag: now // Ajouter un flag pour forcer le rafraîchissement
@@ -424,7 +508,7 @@ export const MessageProvider = ({ children }) => {
             const updatedConv = {
               ...conv,
               lastMessage: patientReply.content,
-              lastMessageTime: getCurrentTimeString(),
+              lastMessageDate: getCurrentTimeString(),
               messages: updatedMessages,
               waitingResponse: false,
               unreadCount: conv.unreadCount + 1,
@@ -480,7 +564,7 @@ export const MessageProvider = ({ children }) => {
             const updatedConv = {
               ...conv,
               lastMessage: fallbackReply.content,
-              lastMessageTime: getCurrentTimeString(),
+              lastMessageDate: getCurrentTimeString(),
               messages: updatedMessages,
               waitingResponse: false,
               unreadCount: conv.unreadCount + 1,
@@ -533,7 +617,7 @@ export const MessageProvider = ({ children }) => {
       patient: patientWithAvatar,
       patientEmail: patient.email,
       lastMessage: "",
-      lastMessageTime: getCurrentTimeString(),
+      lastMessageDate: getCurrentTimeString(),
       messages: [],
       unreadCount: 0,
       waitingResponse: false,

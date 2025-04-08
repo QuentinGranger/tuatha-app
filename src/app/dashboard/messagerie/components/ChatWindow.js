@@ -9,7 +9,7 @@ import {
   FiArchive, FiClock, FiMessageSquare, FiSquare
 } from 'react-icons/fi';
 import { useMessageContext } from '@/contexts/MessageContext';
-import styles from '../page.module.css';
+import styles from '../styles/page.module.css';
 
 const ChatWindow = () => {
   const { 
@@ -79,6 +79,39 @@ const ChatWindow = () => {
     );
   }
 
+  // Pour le débogage
+  console.log("Conversation sélectionnée dans ChatWindow:", selectedConversation);
+  
+  // Déterminer l'avatar à afficher en fonction de l'ID de la conversation
+  const getPatientAvatar = () => {
+    if (!selectedConversation) return "/img/patient/default-avatar.jpg";
+    
+    const conversationId = selectedConversation.id;
+    switch(conversationId) {
+      case 'conv-001': return "/img/patient/batman.jpg";
+      case 'conv-002': return "/img/patient/deku.jpg";
+      case 'conv-003': return "/img/patient/goku.jpg";
+      case 'conv-004': return "/img/patient/ironman.jpg";
+      case 'conv-005': return "/img/patient/luffy.jpg";
+      default: return "/img/patient/default-avatar.jpg";
+    }
+  };
+  
+  // Déterminer le nom du patient en fonction de l'ID de la conversation
+  const getPatientName = () => {
+    if (!selectedConversation) return "Patient";
+    
+    const conversationId = selectedConversation.id;
+    switch(conversationId) {
+      case 'conv-001': return "Bruce Wayne";
+      case 'conv-002': return "Izuku Midoriya";
+      case 'conv-003': return "Son Goku";
+      case 'conv-004': return "Tony Stark";
+      case 'conv-005': return "Monkey D. Luffy";
+      default: return selectedConversation.userName || "Patient";
+    }
+  };
+  
   // Formater les messages par date
   const formatMessagesWithDateSeparators = (messages) => {
     if (!messages || messages.length === 0) return [];
@@ -100,8 +133,186 @@ const ChatWindow = () => {
     return result;
   };
 
+  // Obtenir les messages spécifiques à la conversation sélectionnée
+  const getMessagesForConversation = () => {
+    if (!selectedConversation) return [];
+    
+    const conversationId = selectedConversation.id;
+    
+    // Messages pour chaque superhéros
+    switch(conversationId) {
+      case 'conv-001': // Bruce Wayne (Batman)
+        return [
+          {
+            id: 'msg-001',
+            senderId: 'patient',
+            receiverId: 'nutritionist',
+            content: "Bonjour, j'aimerais adapter mon régime à mes activités nocturnes.",
+            timestamp: "2025-04-02T20:30:00.000Z",
+            read: true
+          },
+          {
+            id: 'msg-002',
+            senderId: 'nutritionist',
+            receiverId: 'patient',
+            content: "Bien sûr Bruce, je peux vous proposer un plan nutritionnel adapté à vos besoins spécifiques.",
+            timestamp: "2025-04-02T20:35:00.000Z",
+            read: true
+          },
+          {
+            id: 'msg-003',
+            senderId: 'patient',
+            receiverId: 'nutritionist',
+            content: "Je vais avoir besoin d'un nouveau régime pour mes patrouilles nocturnes",
+            timestamp: "2025-04-03T14:30:00.000Z",
+            read: false
+          }
+        ];
+      
+      case 'conv-002': // Izuku Midoriya (Deku)
+        return [
+          {
+            id: 'msg-004',
+            senderId: 'patient',
+            receiverId: 'nutritionist',
+            content: "Bonjour, je cherche à optimiser mon apport calorique pour mieux utiliser mon Alter.",
+            timestamp: "2025-04-01T10:15:00.000Z",
+            read: true
+          },
+          {
+            id: 'msg-005',
+            senderId: 'nutritionist',
+            receiverId: 'patient',
+            content: "Izuku, nous allons travailler sur un régime spécifique pour augmenter ta résistance physique.",
+            timestamp: "2025-04-01T10:20:00.000Z",
+            read: true
+          },
+          {
+            id: 'msg-006',
+            senderId: 'patient',
+            receiverId: 'nutritionist',
+            content: "Est-ce que mon nouveau régime convient à One For All ?",
+            timestamp: "2025-04-02T09:45:00.000Z",
+            read: false
+          }
+        ];
+      
+      case 'conv-003': // Son Goku
+        return [
+          {
+            id: 'msg-007',
+            senderId: 'patient',
+            receiverId: 'nutritionist',
+            content: "Bonjour, je vais bientôt affronter Vegeta et j'ai besoin d'un régime spécial.",
+            timestamp: "2025-03-31T08:10:00.000Z",
+            read: true
+          },
+          {
+            id: 'msg-008',
+            senderId: 'nutritionist',
+            receiverId: 'patient',
+            content: "Goku, nous pouvons augmenter considérablement ton apport calorique pour ce combat important.",
+            timestamp: "2025-03-31T08:15:00.000Z",
+            read: true
+          },
+          {
+            id: 'msg-009',
+            senderId: 'patient',
+            receiverId: 'nutritionist',
+            content: "Super ! J'ai vraiment besoin de beaucoup d'énergie pour mes kamehameha.",
+            timestamp: "2025-03-31T08:20:00.000Z",
+            read: true
+          },
+          {
+            id: 'msg-010',
+            senderId: 'patient',
+            receiverId: 'nutritionist',
+            content: "J'ai besoin de plus de calories pour mon combat contre Vegeta",
+            timestamp: "2025-04-01T10:05:00.000Z",
+            read: false
+          }
+        ];
+      
+      case 'conv-004': // Tony Stark (Iron Man)
+        return [
+          {
+            id: 'msg-011',
+            senderId: 'patient',
+            receiverId: 'nutritionist',
+            content: "Bonjour, je cherche quelque chose qui pourrait améliorer mes performances cognitives.",
+            timestamp: "2025-03-25T15:40:00.000Z",
+            read: true
+          },
+          {
+            id: 'msg-012',
+            senderId: 'nutritionist',
+            receiverId: 'patient',
+            content: "Tony, j'ai une formule qui pourrait vous aider. Elle contient des acides gras oméga-3 et des antioxydants.",
+            timestamp: "2025-03-25T15:45:00.000Z",
+            read: true
+          },
+          {
+            id: 'msg-013',
+            senderId: 'patient',
+            receiverId: 'nutritionist',
+            content: "Ce complément alimentaire me donne des palpitations",
+            timestamp: "2025-03-29T09:30:00.000Z",
+            read: true
+          }
+        ];
+      
+      case 'conv-005': // Monkey D. Luffy
+        return [
+          {
+            id: 'msg-014',
+            senderId: 'patient',
+            receiverId: 'nutritionist',
+            content: "Bonjour ! J'adore manger de la viande ! Comment faire pour en manger plus ?",
+            timestamp: "2025-03-26T18:20:00.000Z",
+            read: true
+          },
+          {
+            id: 'msg-015',
+            senderId: 'nutritionist',
+            receiverId: 'patient',
+            content: "Luffy, tu as besoin d'un régime équilibré, pas seulement de la viande.",
+            timestamp: "2025-03-26T18:25:00.000Z",
+            read: true
+          },
+          {
+            id: 'msg-016',
+            senderId: 'patient',
+            receiverId: 'nutritionist',
+            content: "J'ai besoin d'un régime spécial pour devenir le roi des pirates",
+            timestamp: "2025-03-28T12:10:00.000Z",
+            read: true
+          }
+        ];
+      
+      default:
+        // Si l'ID n'est pas reconnu, renvoyer un message par défaut
+        return [
+          {
+            id: 'default-msg-001',
+            senderId: 'nutritionist',
+            receiverId: 'patient',
+            content: "Bonjour, comment puis-je vous aider aujourd'hui ?",
+            timestamp: new Date().toISOString(),
+            read: true
+          }
+        ];
+    }
+  };
+  
+  // Récupérer les messages pour cette conversation
+  const conversationMessages = getMessagesForConversation();
+  
+  // Vérifier si le patient a un avatar valide
+  const patientAvatar = getPatientAvatar();
+  const patientName = getPatientName();
+  
   // Préparation des données pour l'affichage
-  const formattedMessages = formatMessagesWithDateSeparators(selectedConversation?.messages);
+  const formattedMessages = formatMessagesWithDateSeparators(conversationMessages);
   const patient = selectedConversation?.patient;
 
   // Envoi d'un message
@@ -381,8 +592,8 @@ const ChatWindow = () => {
           </button>
           <div className={styles.chatPatientAvatar}>
             <img
-              src={patient?.avatarUrl || '/img/patient/default-avatar.jpg'}
-              alt={patient?.name || 'Patient'}
+              src={patientAvatar}
+              alt={patientName}
               width={40}
               height={40}
               className={styles.avatarImage}
@@ -393,8 +604,8 @@ const ChatWindow = () => {
             />
           </div>
           <div className={styles.chatPatientDetails}>
-            <h3 className={styles.chatPatientName}>{patient?.name || 'Patient'}</h3>
-            <span className={styles.chatPatientStatus}>{patient?.email || ''}</span>
+            <h3 className={styles.chatPatientName}>{patientName}</h3>
+            <span className={styles.chatPatientStatus}>{selectedConversation?.email || ''}</span>
           </div>
         </div>
         <div className={styles.chatHeaderActions}>
@@ -450,8 +661,8 @@ const ChatWindow = () => {
                 {isReceived && (
                   <div className={styles.messageAvatar}>
                     <img
-                      src={patient?.avatarUrl || '/img/patient/default-avatar.jpg'}
-                      alt={patient?.name || 'Patient'}
+                      src={patientAvatar}
+                      alt={patientName}
                       width={30}
                       height={30}
                       className={styles.messageBubbleAvatar}

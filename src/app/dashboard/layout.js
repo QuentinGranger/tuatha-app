@@ -5,6 +5,7 @@ import Topbar from './components/Topbar';
 import styles from './layout.module.css';
 import { useState, useEffect } from 'react';
 import { ThemeProvider } from 'next-themes';
+import './styles.css';
 
 export default function DashboardLayout({ children }) {
   // State pour gérer le montage du composant

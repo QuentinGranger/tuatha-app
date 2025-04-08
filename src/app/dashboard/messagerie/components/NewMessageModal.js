@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { FiX, FiSearch, FiSend, FiUser } from 'react-icons/fi';
 import { useMessageContext } from '@/contexts/MessageContext';
-import styles from '../page.module.css';
+import styles from '../styles/page.module.css';
 
 const NewMessageModal = ({ onClose }) => {
   const { allPatients, handleStartNewConversation } = useMessageContext();

@@ -10,6 +10,7 @@ import tableStyles from './performanceTables.module.css';
 import PerformanceTable from './PerformanceTable';
 import PerformanceForm from './PerformanceForm';
 import DeleteConfirmation from './DeleteConfirmation';
+import AthleteOverview from './AthleteOverview';
 
 // Composant principal
 export default function PerformanceDashboard({ initialPatients = [] }) {
@@ -513,6 +514,9 @@ export default function PerformanceDashboard({ initialPatients = [] }) {
       
       {/* Contenu principal */}
       <div className="performance-main-content">
+        {/* Vue synthétique du suivi athlète pour les pros */}
+        <AthleteOverview patient={selectedPatient} period={selectedPeriod} />
+        
         {/* Grille des indicateurs de performance */}
         <div className="kpi-grid">
           {/* Poids */}

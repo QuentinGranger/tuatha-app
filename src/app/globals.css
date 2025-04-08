@@ -3,7 +3,7 @@
   --text-color: #fff;
   --color-primary: #4F46E5;
   --color-accent: #06B6D4;
-  --color-background: #0F172A;
+  --color-background: linear-gradient(113deg, #00110D -1.1%, #002641 100%);
   --color-text: #FFFFFF;
   --color-text-light: rgba(255, 255, 255, 0.7);
 }
@@ -20,27 +20,14 @@
   padding: 0;
 }
 
-html {
-  height: 100%;
-  width: 100%;
-  overflow-x: hidden; /* Empêcher le défilement horizontal au niveau du document */
-  max-width: 100vw;
-  box-sizing: border-box;
-}
-
+html,
 body {
-  color: var(--text-color);
-  background: linear-gradient(45deg, #00110D 0%, #002641 100%);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  line-height: 1.6;
-  min-height: 100vh;
-  width: 100%;
-  overflow-x: hidden; /* Empêcher le défilement horizontal au niveau du body */
-  position: relative;
   max-width: 100vw;
-  box-sizing: border-box;
+  overflow-x: hidden;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background: linear-gradient(113deg, #00110D -1.1%, #002641 100%);
+  color: var(--color-text);
+  min-height: 100vh;
 }
 
 /* Support pour le dropdown des notifications qui doit être visible au-dessus de tout */
@@ -61,16 +48,33 @@ body.notifications-open::before {
   isolation: isolate;
 }
 
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: inherit;
 }
 
-img, svg, video, canvas, iframe, 
-object, embed, table, div {
+img,
+svg,
+video,
+canvas,
+iframe,
+object,
+embed,
+table,
+div {
   max-width: 100%;
 }
 
-p, h1, h2, h3, h4, h5, h6, span, a {
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+span,
+a {
   overflow-wrap: break-word;
   word-wrap: break-word;
   word-break: break-word;
@@ -98,24 +102,45 @@ h1 {
 }
 
 /* Règles cruciales pour éviter le débordement horizontal */
-.main, main, div, section, article, aside, nav, header, footer {
+.main,
+main,
+div,
+section,
+article,
+aside,
+nav,
+header,
+footer {
   max-width: 100%;
   overflow-x: hidden;
 }
 
 /* Permettre le défilement vertical dans les conteneurs de contenu */
-.main, main, section, article, [class*="content"] {
+.main,
+main,
+section,
+article,
+[class*="content"] {
   overflow-y: auto;
 }
 
 /* S'assurer que les images, tableaux et autres contenus larges ne causent pas de débordement */
-img, table, pre, code, svg, canvas, iframe, video {
+img,
+table,
+pre,
+code,
+svg,
+canvas,
+iframe,
+video {
   max-width: 100%;
   height: auto;
 }
 
 /* Règles spécifiques pour les conteneurs flexibles */
-[class*="flex"], [class*="grid"], [class*="layout"] {
+[class*="flex"],
+[class*="grid"],
+[class*="layout"] {
   max-width: 100%;
   overflow-x: hidden;
 }
@@ -125,15 +150,15 @@ img, table, pre, code, svg, canvas, iframe, video {
   h1 {
     font-size: 1.75rem;
   }
-  
+
   h2 {
     font-size: 1.5rem;
   }
-  
+
   h3 {
     font-size: 1.25rem;
   }
-  
+
   .container {
     padding: 0 0.75rem;
   }
@@ -143,15 +168,15 @@ img, table, pre, code, svg, canvas, iframe, video {
   h1 {
     font-size: 1.5rem;
   }
-  
+
   h2 {
     font-size: 1.25rem;
   }
-  
+
   h3 {
     font-size: 1rem;
   }
-  
+
   .container {
     padding: 0 0.5rem;
   }

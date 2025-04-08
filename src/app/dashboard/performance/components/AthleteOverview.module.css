@@ -1,0 +1,309 @@
+.athleteOverviewContainer {
+  background: rgba(20, 20, 35, 0.7);
+  backdrop-filter: blur(15px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.athleteOverviewContainer:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+}
+
+.overviewHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.overviewTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: 1.2rem;
+  background: linear-gradient(90deg, #FF8800, #FFB366);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.overviewIcon {
+  color: #FF8800;
+  font-size: 1.3rem;
+}
+
+.sectionsContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 1024px) {
+  .sectionsContainer {
+    grid-template-columns: 1fr;
+  }
+}
+
+.sectionCard {
+  background: rgba(30, 30, 45, 0.6);
+  border-radius: 12px;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.sectionCard:hover {
+  background: rgba(35, 35, 50, 0.7);
+}
+
+.sectionTitle {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 0.8rem;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Timeline et récapitulatif */
+.timelineContainer {
+  display: flex;
+  justify-content: space-between;
+  overflow-x: auto;
+  padding: 0.5rem 0;
+  margin: 0.5rem 0;
+  gap: 0.5rem;
+}
+
+.timelineDay {
+  min-width: 70px;
+  background: rgba(40, 40, 55, 0.5);
+  border-radius: 10px;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.timelineDay:hover {
+  transform: translateY(-2px);
+  background: rgba(50, 50, 65, 0.6);
+}
+
+.timelineDate {
+  font-size: 0.75rem;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+}
+
+.workoutType {
+  font-size: 0.7rem;
+  margin-bottom: 0.25rem;
+  color: #FF8800;
+  font-weight: 500;
+}
+
+.workoutDuration {
+  font-size: 0.7rem;
+  margin-bottom: 0.25rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.muscleGroups {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.muscleTag {
+  font-size: 0.65rem;
+  background: rgba(255, 136, 0, 0.2);
+  border-radius: 4px;
+  padding: 0.15rem 0.3rem;
+  color: #FFB366;
+}
+
+.fatigueLevel {
+  height: 4px;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+  margin-top: 0.2rem;
+}
+
+.fatigueFill {
+  height: 100%;
+  background: linear-gradient(90deg, rgba(255, 136, 0, 0.7), rgba(255, 136, 0, 0.9));
+  border-radius: 2px;
+}
+
+.recapButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: rgba(255, 136, 0, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 136, 0, 0.3);
+  border-radius: 8px;
+  padding: 0.35rem 0.7rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.recapButton:hover {
+  background-color: rgba(255, 136, 0, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.recapButton svg {
+  color: #FF8800;
+}
+
+/* Statistiques */
+.statsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.statItem {
+  border-radius: 8px;
+  padding: 0.5rem;
+  background: rgba(40, 40, 55, 0.5);
+  display: flex;
+  flex-direction: column;
+}
+
+.statLabel {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 0.25rem;
+}
+
+.statValue {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.statHighlight {
+  color: #FF8800;
+}
+
+/* Heatmap pour les douleurs */
+.heatmapContainer {
+  margin-top: 0.5rem;
+}
+
+.heatmapTitle {
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.bodyMap {
+  display: flex;
+  justify-content: center;
+  margin: 0.5rem 0;
+}
+
+.bodyMapImage {
+  height: 120px;
+  position: relative;
+}
+
+.painPoint {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 82, 82, 0.8);
+  filter: blur(2px);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+}
+
+/* Zone commentaire pro */
+.commentSection {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(30, 30, 45, 0.6);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.commentTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.8rem;
+  color: #fff;
+}
+
+.alertIcon {
+  color: #FF8800;
+}
+
+.commentBox {
+  padding: 0.8rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(40, 40, 55, 0.5);
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.alertBox {
+  padding: 0.5rem 0.8rem;
+  border-radius: 6px;
+  background: rgba(255, 82, 82, 0.2);
+  border-left: 3px solid #FF5252;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 0.8rem;
+}
+
+.alertText {
+  font-weight: 500;
+}
+
+.proName {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-align: right;
+  font-style: italic;
+  margin-top: 0.4rem;
+}

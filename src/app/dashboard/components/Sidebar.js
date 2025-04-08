@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import styles from './Sidebar.module.css';
+import { useAuth } from '@/app/contexts/AuthContext';
 
 // Imports d'icônes les plus utilisées directement pour éviter les retards au chargement
 import { 
@@ -38,12 +39,13 @@ const bottomMenuItems = [
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const { logout } = useAuth();
 
   const handleLogout = (e) => {
-    if (e.target.pathname === '/logout') {
+    if (e.target.pathname === '/logout' || e.currentTarget.pathname === '/logout') {
       e.preventDefault();
-      // Ajouter la logique de déconnexion ici
-      console.log('Déconnexion...');
+      // Utiliser la fonction logout du contexte d'authentification
+      logout();
     }
   };
 
@@ -52,7 +54,7 @@ export default function Sidebar() {
       <div className={styles.logoContainer}>
         <Link href="/dashboard">
           <img
-            src="/img/Logotuathavide.png"
+            src="/LogoTuatha.png"
             alt="Tuatha Logo"
             className={styles.logo}
           />

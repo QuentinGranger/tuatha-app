@@ -1,19 +1,24 @@
+import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
-export const dynamic = 'force-dynamic';
-export const runtime = 'nodejs';
-
-export async function GET(request) {
+export async function GET() {
   try {
-    // Ne pas filtrer les professionnels de santé avec patientHealthProfessional
-    // car cela n'est pas implémenté dans le mock
-    const professionals = await prisma.healthProfessional.findMany();
-
-    return Response.json(professionals);
+    const healthProfessionals = await prisma.healthProfessional.findMany({
+      include: {
+        user: true,
+        patients: {
+          include: {
+            user: true
+          }
+        }
+      }
+    });
+    
+    return NextResponse.json(healthProfessionals);
   } catch (error) {
-    console.error('Error fetching health professionals:', error);
-    return Response.json(
-      { error: 'Failed to fetch health professionals' },
+    console.error("Erreur lors de la récupération des professionnels de santé:", error);
+    return NextResponse.json(
+      { error: "Erreur lors de la récupération des professionnels de santé" },
       { status: 500 }
     );
   }

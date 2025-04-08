@@ -1,102 +1,129 @@
-import Image from "next/image";
+'use client';
 
+import Image from "next/image";
+import Link from "next/link";
+import styles from "./page.module.css";
+import { useState, Suspense } from "react";
+import { useAuth } from "./contexts/AuthContext";
+import { useRouter, useSearchParams } from "next/navigation";
+
+// Composant client qui utilise useSearchParams
+function LoginForm() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { login } = useAuth();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get('redirect');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    console.log("Tentative de connexion avec:", email, password);
+
+    if (!email || !password) {
+      setError("Veuillez remplir tous les champs");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      // Simuler un login réussi
+      console.log("Appel de la fonction login avec:", email, password);
+      const success = await login(email, password);
+      console.log("Résultat de login:", success);
+      
+      if (success) {
+        // Rediriger vers le tableau de bord ou la page demandée
+        router.push(redirect || "/dashboard");
+      } else {
+        setError("Identifiants incorrects");
+        setLoading(false);
+      }
+    } catch (err) {
+      console.error("Erreur de connexion:", err);
+      setError("Identifiant ou mot de passe incorrect");
+      setLoading(false);
+    }
+  };
+
+  return (
+    <>
+      <div className={styles.loginHelp}>
+        <p>Ceci est une version alpha de Tuatha. Si vous avez pu accéder à cette page, c'est que vous avez reçu le lien de la part de Quentin.</p>
+        <p>En cas de problème, veuillez contacter <a href="mailto:quentin@tuatha-app.com" className={styles.emailLink}>quentin@tuatha-app.com</a></p>
+      </div>
+      
+      {error && <div className={styles.errorMessage}>{error}</div>}
+      
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          className={styles.emailInput}
+          placeholder="Identifiant"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        
+        <input
+          type="password"
+          className={styles.passwordInput}
+          placeholder="Mot de passe"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        
+        <button 
+          type="submit" 
+          className={styles.continueButton}
+          disabled={loading}
+        >
+          {loading ? "Connexion..." : "Continuer"}
+        </button>
+      </form>
+    </>
+  );
+}
+
+// Fonction principale qui enveloppe le composant utilisant useSearchParams dans Suspense
 export default function Home() {
   return (
-    <div className="container">
-      <main className="main">
-        <h1>Tuatha Dashboard</h1>
-        <Image
-          className="logo"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list">
-          <li className="list-item">
-            Get started by editing{" "}
-            <code className="code">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="list-item">Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="button-container">
-          <a
-            className="button"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="logo"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="button"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className={styles.container}>
+      <div className={styles.loginPanel}>
+        <div className={styles.formContainer}>
+          <Suspense fallback={<div>Chargement...</div>}>
+            <LoginForm />
+          </Suspense>
         </div>
-      </main>
-      <footer className="footer">
-        <a
-          className="link"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+      </div>
+      
+      <div className={styles.logoContainer}>
+        <div className={styles.logoWrapper}>
           <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+            src="/LogoTuatha.png"
+            alt="Tuatha Logo"
+            width={1200}
+            height={1200}
+            priority
+            unoptimized={true}
+            className={styles.logo}
           />
-          Learn
-        </a>
-        <a
-          className="link"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="link"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        </div>
+        
+        <div className={styles.footerContent}>
+          <Link href="/sitemap" className={styles.footerLink}>Sitemap</Link>
+          <Link href="/mentions-legales" className={styles.footerLink}>Mentions légales</Link>
+          <Link href="/cgu" className={styles.footerLink}>CGU</Link>
+          <Link href="/support" className={styles.footerLink}>Support & aide</Link>
+          <Link href="/faq" className={styles.footerLink}>FAQ</Link>
+        </div>
+      </div>
     </div>
   );
 }
