@@ -19,3 +19,53 @@
   position: relative;
   z-index: 1;
 }
+
+/* Styles pour l'écran de chargement */
+.loadingContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 15, 30, 0.85);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  z-index: 1000;
+}
+
+.loadingLogo {
+  width: 120px;
+  height: auto;
+  margin-bottom: 30px;
+  animation: pulsate 2s ease-in-out infinite alternate;
+}
+
+.loadingSpinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 136, 0, 0.1);
+  border-top-color: #FF8800;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes pulsate {
+  0% {
+    opacity: 0.7;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

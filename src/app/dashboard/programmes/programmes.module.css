@@ -2,6 +2,7 @@
   position: relative;
   min-height: 100vh;
   padding: 2rem;
+  background: #0f172a;
 }
 
 .header {
@@ -70,108 +71,203 @@
 }
 
 .programList {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 1.5rem;
   padding: 1.5rem;
 }
 
 .programCard {
-  background: rgba(0, 0, 0, 0.2);
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  padding: 1.5rem;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
+  background: linear-gradient(120deg, rgba(15,23,42,0.32) 0%, rgba(255,255,255,0.16) 60%, rgba(255,184,102,0.10) 100%);
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.14), 0 1.5px 6px rgba(255,136,0,0.08);
+  border: 1.5px solid rgba(255,255,255,0.13);
+  overflow: hidden;
+  transition: box-shadow 0.35s, transform 0.3s, border-color 0.3s;
+  margin-bottom: 0.7rem;
+  backdrop-filter: blur(18px);
 }
 
 .programCard:hover {
-  transform: translateY(-2px);
-  border-color: #FF721C;
-  background: rgba(255, 114, 28, 0.1);
+  box-shadow: 0 16px 48px rgba(255,136,0,0.12), 0 4px 24px rgba(0,0,0,0.22);
+  border-color: #FF8800;
+  transform: translateY(-3px) scale(1.012);
 }
 
 .programHeader {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  width: 100%;
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  text-align: center;
+  justify-content: space-between;
+  padding: 1.3rem 2rem 1.3rem 1.7rem;
+  cursor: pointer;
+  background: linear-gradient(90deg, rgba(255,255,255,0.18) 60%, rgba(255,184,102,0.09) 100%);
+  backdrop-filter: blur(10px);
+  border-bottom: 1.5px solid rgba(255,255,255,0.13);
+  transition: background 0.25s;
+}
+
+.programHeader:focus-visible {
+  outline: 2px solid #FF8800;
 }
 
 .programTitle {
-  font-size: 1.8rem;
-  color: #FF721C;
-  margin: 0 0 0.75rem 0;
-  font-weight: 600;
-  line-height: 1.2;
-  text-align: center;
-}
-
-.programDescription {
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 1rem;
-  line-height: 1.4;
-  margin: 0;
-  text-align: center;
-  max-width: 90%;
-}
-
-.programDetailsContainer {
+  font-size: 1.32rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #FF8800 10%, #FFB366 90%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
   display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin-top: 10px;
+  align-items: center;
+  gap: 0.82rem;
+  letter-spacing: 0.01em;
 }
 
-.programDetails {
+.toggleIcon {
+  font-size: 1.12rem;
+  margin-left: 0.65rem;
+  color: #FF8800;
+  transition: transform 0.3s;
+  filter: drop-shadow(0 0 3px #fff6);
+}
+
+.programContent {
+  padding: 1.5rem 2rem 1.8rem 2rem;
+  animation: fadeIn 0.37s cubic-bezier(0.33,1,0.68,1);
+  background: linear-gradient(120deg, rgba(255,255,255,0.13) 60%, rgba(255,184,102,0.07) 100%);
+  backdrop-filter: blur(10px);
+}
+
+.mockDietBlock {
   display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 10px;
+  flex-wrap: wrap;
+  gap: 2.2rem;
+  background: linear-gradient(120deg, rgba(15,23,42,0.25) 0%, rgba(255,255,255,0.09) 70%, rgba(255,184,102,0.11) 100%);
+  border-radius: 18px;
+  margin-bottom: 1.3rem;
+  box-shadow: 0 2px 16px rgba(255,136,0,0.04);
+  padding: 1.2rem 1.1rem 1.1rem 1.1rem;
+  border: 1.2px solid rgba(255,255,255,0.09);
+  backdrop-filter: blur(8px);
 }
 
-.detailSection {
-  width: 100%;
-  margin-bottom: 10px;
-  background: rgba(0, 0, 0, 0.15);
-  border-radius: 8px;
-  padding: 12px;
+.mockSection {
+  min-width: 180px;
+  flex: 1 1 180px;
+  margin-bottom: 0.5rem;
 }
 
-.detailSection h4 {
-  color: #FF721C;
-  font-size: 0.9rem;
-  font-weight: 600;
-  margin: 0 0 8px 0;
+.mockSection h4 {
+  margin: 0 0 0.4rem 0;
+  font-size: 1.04rem;
+  font-weight: 700;
+  color: #FF8800;
+  letter-spacing: 0.01em;
 }
 
-.detailSection p {
-  color: rgba(255, 255, 255, 0.8);
-  margin: 4px 0;
-  font-size: 0.85rem;
+.mockSection p {
+  margin: 0.2rem 0;
+  color: #fff;
+  font-size: 1.01rem;
+  opacity: 0.94;
 }
 
-.mealsList, .supplementsList {
-  list-style-type: none;
-  padding-left: 0;
-  margin: 5px 0;
+.mockList {
+  margin: 0.2rem 0 0 0;
+  padding-left: 1.1rem;
+  color: #fff;
+  opacity: 0.94;
+  font-size: 1.01rem;
 }
 
-.mealsList li, .supplementsList li {
-  padding: 4px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  font-size: 0.85rem;
+.mockList li {
+  margin-bottom: 0.15rem;
 }
 
-.mealsList li:last-child, .supplementsList li:last-child {
-  border-bottom: none;
+.filterBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.1rem;
+  align-items: center;
+  margin-bottom: 2.2rem;
+  padding: 1.1rem 1.5rem 0.5rem 1.5rem;
+  background: linear-gradient(120deg, rgba(15,23,42,0.33) 0%, rgba(255,255,255,0.13) 70%, rgba(255,184,102,0.10) 100%);
+  border-radius: 18px;
+  box-shadow: 0 2px 18px 0 rgba(255,136,0,0.07), 0 2px 16px rgba(0,0,0,0.07);
+  border: 1.2px solid rgba(255,255,255,0.10);
+  backdrop-filter: blur(12px);
+}
+
+.filterInput {
+  flex: 2 1 220px;
+  background: rgba(15,23,42,0.33);
+  border: 1.2px solid rgba(255,136,0,0.18);
+  border-radius: 12px;
+  padding: 0.7rem 1.1rem;
+  font-size: 1.08rem;
+  color: #fff;
+  outline: none;
+  transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+  box-shadow: 0 1px 3px rgba(255,136,0,0.04);
+  backdrop-filter: blur(6px);
+}
+
+.filterInput:focus {
+  border-color: #FF8800;
+  box-shadow: 0 0 0 2px #FF880066;
+  background: rgba(15,23,42,0.42);
+}
+
+.filterInput::placeholder {
+  color: #fff;
+  opacity: 0.74;
+}
+
+.filterSelect {
+  flex: 1 1 180px;
+  background: rgba(15,23,42,0.33);
+  border: 1.2px solid rgba(255,136,0,0.18);
+  border-radius: 12px;
+  padding: 0.7rem 1.1rem;
+  font-size: 1.07rem;
+  color: #fff;
+  outline: none;
+  transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+  margin-left: 0.2rem;
+  box-shadow: 0 1px 3px rgba(255,136,0,0.04);
+  backdrop-filter: blur(6px);
+}
+
+.filterSelect:focus {
+  border-color: #FF8800;
+  box-shadow: 0 0 0 2px #FF880066;
+  background: rgba(15,23,42,0.42);
+}
+
+.filterSelect option {
+  color: #222;
+  background: #fff;
+}
+
+@media (max-width: 900px) {
+  .filterBar {
+    flex-direction: column;
+    gap: 0.7rem;
+    padding: 0.7rem 0.7rem 0.7rem 0.7rem;
+  }
+  .filterInput, .filterSelect {
+    width: 100%;
+    min-width: 0;
+  }
+  .programCard {
+    border-radius: 14px;
+  }
+  .mockDietBlock {
+    flex-direction: column;
+    gap: 1.1rem;
+    padding: 0.7rem 0.7rem 0.7rem 0.7rem;
+  }
 }
 
 .cardActions {
@@ -498,6 +594,14 @@
   }
 }
 
+@media (max-width: 900px) {
+  .programList {
+    flex-direction: column;
+    gap: 1rem;
+    overflow-x: visible;
+  }
+}
+
 /* Styles pour la page de partage */
 .sharedContainer {
   max-width: 900px;
@@ -727,4 +831,144 @@
 
 .shareButton {
   position: relative;
+}
+
+.mockDietBlock {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.2rem;
+  background: linear-gradient(120deg, rgba(15,23,42,0.25) 0%, rgba(255,255,255,0.09) 70%, rgba(255,184,102,0.11) 100%);
+  border-radius: 18px;
+  margin-bottom: 1.3rem;
+  box-shadow: 0 2px 16px rgba(255,136,0,0.04);
+  padding: 1.2rem 1.1rem 1.1rem 1.1rem;
+  border: 1.2px solid rgba(255,255,255,0.09);
+  backdrop-filter: blur(8px);
+}
+
+.mockSection {
+  min-width: 180px;
+  flex: 1 1 180px;
+  margin-bottom: 0.5rem;
+}
+
+.mockSection h4 {
+  margin: 0 0 0.4rem 0;
+  font-size: 1.04rem;
+  font-weight: 700;
+  color: #FF8800;
+  letter-spacing: 0.01em;
+}
+
+.mockSection p {
+  margin: 0.2rem 0;
+  color: #fff;
+  font-size: 1.01rem;
+  opacity: 0.94;
+}
+
+.mockList {
+  margin: 0.2rem 0 0 0;
+  padding-left: 1.1rem;
+  color: #fff;
+  opacity: 0.94;
+  font-size: 1.01rem;
+}
+
+.mockList li {
+  margin-bottom: 0.15rem;
+}
+
+.filterBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.1rem;
+  align-items: center;
+  margin-bottom: 2.2rem;
+  padding: 1.1rem 1.5rem 0.5rem 1.5rem;
+  background: linear-gradient(120deg, rgba(15,23,42,0.33) 0%, rgba(255,255,255,0.13) 70%, rgba(255,184,102,0.10) 100%);
+  border-radius: 18px;
+  box-shadow: 0 2px 18px 0 rgba(255,136,0,0.07), 0 2px 16px rgba(0,0,0,0.07);
+  border: 1.2px solid rgba(255,255,255,0.10);
+  backdrop-filter: blur(12px);
+}
+
+.filterInput {
+  flex: 2 1 220px;
+  background: rgba(15,23,42,0.33);
+  border: 1.2px solid rgba(255,136,0,0.18);
+  border-radius: 12px;
+  padding: 0.7rem 1.1rem;
+  font-size: 1.08rem;
+  color: #fff;
+  outline: none;
+  transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+  box-shadow: 0 1px 3px rgba(255,136,0,0.04);
+  backdrop-filter: blur(6px);
+}
+
+.filterInput:focus {
+  border-color: #FF8800;
+  box-shadow: 0 0 0 2px #FF880066;
+  background: rgba(15,23,42,0.42);
+}
+
+.filterInput::placeholder {
+  color: #fff;
+  opacity: 0.74;
+}
+
+.filterSelect {
+  flex: 1 1 180px;
+  background: rgba(15,23,42,0.33);
+  border: 1.2px solid rgba(255,136,0,0.18);
+  border-radius: 12px;
+  padding: 0.7rem 1.1rem;
+  font-size: 1.07rem;
+  color: #fff;
+  outline: none;
+  transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+  margin-left: 0.2rem;
+  box-shadow: 0 1px 3px rgba(255,136,0,0.04);
+  backdrop-filter: blur(6px);
+}
+
+.filterSelect:focus {
+  border-color: #FF8800;
+  box-shadow: 0 0 0 2px #FF880066;
+  background: rgba(15,23,42,0.42);
+}
+
+.filterSelect option {
+  color: #222;
+  background: #fff;
+}
+
+@media (max-width: 900px) {
+  .filterBar {
+    flex-direction: column;
+    gap: 0.7rem;
+    padding: 0.7rem 0.7rem 0.7rem 0.7rem;
+  }
+  .filterInput, .filterSelect {
+    width: 100%;
+    min-width: 0;
+  }
+  .programCard {
+    border-radius: 14px;
+  }
+  .mockDietBlock {
+    flex-direction: column;
+    gap: 1.1rem;
+    padding: 0.7rem 0.7rem 0.7rem 0.7rem;
+  }
+}
+
+.programActions {
+  display: flex;
+  flex-direction: row;
+  gap: 0.75rem;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 1.2rem 0 0.7rem 0;
 }

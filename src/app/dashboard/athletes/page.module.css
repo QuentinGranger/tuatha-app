@@ -10,6 +10,7 @@
   position: relative;
   overflow-x: hidden;
   overflow-y: visible;
+  /* Suppression du fond glassmorphisme, de la bordure, de l'ombre et du flou */
 }
 
 .headerSection {
@@ -24,10 +25,11 @@
 .title {
   font-size: 1.75rem;
   font-weight: 600;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.8));
+  background: linear-gradient(90deg, #FF8800 10%, #FFB366 90%);
   -webkit-background-clip: text;
-  background-clip: text;
   -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
   width: fit-content;
 }
 

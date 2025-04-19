@@ -38,6 +38,8 @@ import {
 import { FaRegBell } from 'react-icons/fa';
 import { IoMdSync } from 'react-icons/io';
 import { RiPushpinLine, RiPushpinFill } from 'react-icons/ri';
+import Breadcrumb from './Breadcrumb';
+import { usePathname } from 'next/navigation';
 
 const getImageUrl = (url) => {
   console.log('Photo URL reçue:', url); // Ajout d'un log pour déboguer
@@ -159,6 +161,12 @@ export default function Topbar() {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const handleGlobalSearch = (query) => {
+    // Cette fonction sera appelée quand l'utilisateur soumet une recherche
+    console.log('Recherche globale pour:', query);
+    // On pourrait ici naviguer vers une page de résultats de recherche
+  };
 
   // Écouteur pour les événements de notification personnalisés
   useEffect(() => {
@@ -525,29 +533,63 @@ export default function Topbar() {
 
   const { logout } = useAuth();
 
+  const pathname = usePathname();
+
+  // Fonction utilitaire pour générer le fil d'Ariane en français (y compris pages imbriquées et dynamiques)
+  const getBreadcrumbItems = () => {
+    // Mapping des chemins connus vers labels FR
+    const pathMap = {
+      '/dashboard': 'Tableau de bord',
+      '/dashboard/programmes': 'Programmes',
+      '/dashboard/performance': 'Indicateurs de performance',
+      '/dashboard/athletes': 'Dossiers patients',
+      '/dashboard/relations': 'Réseau professionnel',
+      '/dashboard/messagerie': 'Messagerie',
+      '/dashboard/facturation': 'Facturation et paiements',
+      '/dashboard/profil-parametres': 'Profil & paramètres',
+      // Ajout d'exemples pour pages imbriquées
+      '/dashboard/profil-parametres/payment': 'Paiement',
+      '/dashboard/performance/details': 'Détail performance',
+    };
+    const segments = pathname.split('/').filter(Boolean);
+    let currentPath = '';
+    const items = segments.map((seg, idx) => {
+      currentPath += '/' + seg;
+      // Si le segment est un id ou une valeur dynamique, on tente de le rendre lisible
+      let label = pathMap[currentPath];
+      if (!label) {
+        // Si c'est un id numérique ou slug, on affiche "Détail" ou le slug formaté
+        if (/^\d+$/.test(seg)) label = 'Détail';
+        else if (seg.length > 24) label = seg.slice(0, 12) + '…'; // Tronque les longs ids
+        else label = seg.charAt(0).toUpperCase() + seg.slice(1).replace(/-/g, ' ');
+      }
+      return {
+        label,
+        href: idx < segments.length - 1 ? currentPath : undefined,
+      };
+    });
+    // Si aucun segment, on est sur /dashboard
+    return items.length ? items : [{ label: 'Tableau de bord', href: '/dashboard' }];
+  };
+
   return (
     <div className={styles.topbar}>
-      <div className={styles.searchContainer}>
-        <MdSearch className={styles.searchIcon} />
-        <input
-          type="text"
-          placeholder="Rechercher..."
-          value={searchQuery}
-          onChange={handleSearchChange}
-          className={styles.searchInput}
-          data-form-type="other"
-          autoComplete="off"
-        />
+      <div className={styles.breadcrumbWrapper}>
+        <Breadcrumb items={getBreadcrumbItems()} />
       </div>
 
       <div className={styles.rightSection}>
         <div className={styles.notificationContainer} ref={notificationsRef}>
-          {notifications.length > 0 && (
-            <div className={styles.lastNotification}>
-              <span className={styles.lastNotificationTime}>
-                {getRelativeTime(notifications[0].timestamp)}
-              </span>
-            </div>
+          {/* Remplacement du minuteur par un bouton "Tout marquer comme lu" si des notifications non lues existent */}
+          {notifications.filter(n => !n.read).length > 0 && (
+            <button
+              className={styles.markAllRead}
+              onClick={markAllAsRead}
+              title="Tout marquer comme lu"
+            >
+              <MdCheckCircle style={{ marginRight: 6, verticalAlign: 'middle' }} />
+              Tout marquer comme lu
+            </button>
           )}
           
           <button 

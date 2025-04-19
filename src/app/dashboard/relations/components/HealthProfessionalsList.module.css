@@ -37,30 +37,29 @@
   align-items: center;
 }
 
+.titleIcon {
+  color: #FF8800;
+  margin-right: 10px;
+  font-size: 1.2em;
+  filter: drop-shadow(0 0 5px rgba(255, 136, 0, 0.4));
+}
+
 /* Onglets de filtrage */
 .filterTabs {
-  display: flex;
-  gap: 5px;
-  overflow-x: auto;
-  padding-bottom: 5px;
-  scrollbar-width: thin;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin: 5px 0;
+  width: 100%;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.filterTabs::-webkit-scrollbar {
-  height: 3px;
-}
-
-.filterTabs::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 114, 28, 0.3);
-  border-radius: 3px;
+  padding-bottom: 10px;
 }
 
 .filterTab {
-  padding: 8px 12px;
-  background: transparent;
-  border: none;
-  border-radius: 6px 6px 0 0;
+  padding: 8px;
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
   color: rgba(255, 255, 255, 0.7);
   cursor: pointer;
   transition: all 0.3s ease;
@@ -68,18 +67,26 @@
   white-space: nowrap;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 5px;
   position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 36px;
 }
 
 .filterTab:hover {
   color: #ffffff;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 
 .activeFilter {
-  color: rgba(255, 114, 28, 1);
-  font-weight: 500;
+  color: #ffffff;
+  background: linear-gradient(135deg, rgba(255, 136, 0, 0.2), rgba(255, 114, 28, 0.3));
+  border-color: rgba(255, 136, 0, 0.3);
+  box-shadow: 0 3px 10px rgba(255, 136, 0, 0.15);
 }
 
 .statusDot {
@@ -88,43 +95,212 @@
   border-radius: 50%;
   display: inline-block;
   transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.countBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.7rem;
+  border-radius: 10px;
+  padding: 1px 5px;
+  margin-left: 4px;
+  min-width: 16px;
+  height: 16px;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
 /* Barre de recherche */
 .searchBox {
   position: relative;
-  margin-top: 10px;
+  margin-top: 12px;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.searchFocused {
+  transform: scale(1.01);
+}
+
+.searchInputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .searchInput {
   width: 100%;
-  height: 40px;
-  padding: 0 15px 0 40px;
-  background: rgba(0, 0, 0, 0.2);
+  height: 38px;
+  padding: 0 35px 0 35px;
+  background: rgba(15, 23, 42, 0.4);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
+  border-radius: 10px;
   color: #ffffff;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   outline: none;
   transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
 }
 
 .searchInput:focus {
-  border-color: rgba(255, 114, 28, 0.5);
-  box-shadow: 0 0 0 2px rgba(255, 114, 28, 0.1);
+  border-color: rgba(255, 136, 0, 0.4);
+  box-shadow: 0 0 0 2px rgba(255, 136, 0, 0.1);
+  background: rgba(15, 23, 42, 0.5);
 }
 
 .searchInput::placeholder {
   color: rgba(255, 255, 255, 0.5);
+  font-size: 0.85rem;
 }
 
 .searchIcon {
   position: absolute;
-  left: 15px;
+  left: 12px;
   top: 50%;
   transform: translateY(-50%);
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 136, 0, 0.6);
   pointer-events: none;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.searchFocused .searchIcon {
+  color: rgba(255, 136, 0, 0.9);
+}
+
+.clearSearch {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.clearSearch:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.searchActions {
+  display: flex;
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  gap: 5px;
+}
+
+.filterButton {
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 136, 0, 0.8);
+  cursor: pointer;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.filterButton:hover {
+  color: #FF8800;
+  background: rgba(255, 136, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(255, 136, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+/* Options de tri avancées */
+.advancedFilterPanel {
+  margin-top: 10px;
+  padding: 12px;
+  background: rgba(15, 23, 42, 0.4);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  animation: slideDown 0.3s forwards;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sortOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sortTitle {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 5px;
+}
+
+.sortButtons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  width: 100%;
+}
+
+.sortButton {
+  padding: 6px 8px;
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s ease;
+  text-align: center;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sortButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.activeSort {
+  background: linear-gradient(135deg, rgba(255, 136, 0, 0.2), rgba(255, 114, 28, 0.3));
+  border-color: rgba(255, 136, 0, 0.3);
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(255, 136, 0, 0.15);
 }
 
 /* Liste de professionnels */
@@ -135,6 +311,7 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  transition: opacity 0.3s ease;
 }
 
 .professionalsList::-webkit-scrollbar {
@@ -151,6 +328,49 @@
   border-radius: 3px;
 }
 
+/* Message quand la liste est vide */
+.emptyList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  min-height: 250px;
+}
+
+.emptyIcon {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  color: rgba(255, 114, 28, 0.5);
+  filter: drop-shadow(0 0 8px rgba(255, 114, 28, 0.2));
+}
+
+.resetButton {
+  margin-top: 15px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.9);
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+}
+
+.resetButton:hover {
+  background: rgba(255, 114, 28, 0.15);
+  border-color: rgba(255, 114, 28, 0.3);
+  transform: translateY(-2px);
+}
+
 /* Carte de professionnel */
 .professionalCard {
   display: flex;
@@ -160,11 +380,12 @@
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   position: relative;
   overflow: hidden;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
+  align-items: center;
 }
 
 .professionalCard::before {
@@ -177,10 +398,11 @@
   background: linear-gradient(45deg, rgba(255, 114, 28, 0) 0%, rgba(255, 114, 28, 0.05) 100%);
   opacity: 0;
   transition: all 0.3s ease;
+  z-index: 0;
 }
 
 .professionalCard:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
   border-color: rgba(255, 114, 28, 0.2);
 }
@@ -189,11 +411,27 @@
   opacity: 1;
 }
 
-/* Styles pour les cartes sélectionnées */
+/* Styles pour les cartes avec des états spéciaux */
 .selectedPro {
   background: rgba(255, 114, 28, 0.15) !important;
   border: 1px solid rgba(255, 114, 28, 0.3) !important;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 114, 28, 0.2) !important;
+}
+
+.highlightedPro {
+  animation: pulse 0.6s;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 114, 28, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(255, 114, 28, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 114, 28, 0);
+  }
 }
 
 /* Styles des cartes par statut */
@@ -210,195 +448,204 @@
   opacity: 0.8;
 }
 
-/* Avatar du professionnel */
+/* Avatar container */
+.avatarContainer {
+  position: relative;
+  width: 55px;
+  height: 55px;
+  flex-shrink: 0;
+}
+
+.statusIndicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border: 2px solid rgba(0, 0, 0, 0.8);
+  z-index: 2;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
 .proAvatar {
   width: 55px;
   height: 55px;
   border-radius: 50%;
   overflow: hidden;
-  background: rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid;
-  position: relative;
-  flex-shrink: 0;
+  background-color: rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
-  background: linear-gradient(45deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4));
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  z-index: 1;
 }
 
 .professionalCard:hover .proAvatar {
   transform: scale(1.05);
-  box-shadow: 0 0 15px rgba(255, 114, 28, 0.2);
-}
-
-.imageWrapper {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  border-radius: 50%;
-  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 .avatarImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 50%;
 }
 
-/* Contenu de la carte */
-.proContent {
-  flex: 1;
+.avatarPlaceholder {
+  width: 100%;
+  height: 100%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  min-width: 0; 
-  gap: 10px;
-}
-
-.proInfo {
-  flex: 1;
-  overflow: hidden;
-  transition: all 0.2s ease;
-  min-width: 0;
-}
-
-.proName {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #fff;
-  margin: 0 0 8px 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  letter-spacing: 0.01em;
-  transition: all 0.2s ease;
-  max-width: 100%;
-}
-
-.professionalCard:hover .proName {
-  color: rgba(255, 114, 28, 0.9);
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 /* Détails du professionnel */
 .proDetails {
+  flex: 1;
+  min-width: 0;
   display: flex;
-  align-items: center;
-  gap: 15px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.proName {
+  font-size: 1rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.95);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: all 0.3s ease;
+}
+
+.professionalCard:hover .proName {
+  color: rgba(255, 114, 28, 0.95);
 }
 
 .proSpecialty {
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.8);
   display: flex;
   align-items: center;
   gap: 6px;
-  white-space: nowrap;
-  font-weight: 500;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .specialtyIcon {
-  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
 }
 
-.lastContact {
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.6);
+.professionalCard:hover .specialtyIcon {
+  transform: scale(1.1);
+}
+
+.contactInfo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 5px;
+}
+
+.contactItem {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-style: italic;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
 }
 
-/* Boutons d'action */
+.contactText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Actions */
 .proActions {
   display: flex;
   gap: 8px;
-  flex-shrink: 0;
 }
 
 .actionButton {
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all 0.3s ease;
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
-  z-index: 2;
 }
 
 .actionButton:hover {
-  background: rgba(255, 114, 28, 0.3);
-  border-color: rgba(255, 114, 28, 0.5);
-  color: #fff;
+  background: rgba(255, 114, 28, 0.2);
+  border-color: rgba(255, 114, 28, 0.3);
+  color: rgba(255, 255, 255, 0.95);
   transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* Indicateur de statut */
-.proStatus {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  position: absolute;
-  bottom: -1px;
-  right: -1px;
-  border: 2px solid rgba(17, 25, 40, 0.9);
-  transition: all 0.3s ease;
-}
-
-.statusDotActive {
-  background-color: #34A853;
-  box-shadow: 0 0 8px rgba(52, 168, 83, 0.6);
-}
-
-.statusDotPending {
-  background-color: #FBBC05;
-  box-shadow: 0 0 8px rgba(251, 188, 5, 0.6);
-}
-
-.statusDotHistory {
-  background-color: #9E9E9E;
-  box-shadow: 0 0 8px rgba(158, 158, 158, 0.4);
-}
-
-/* État vide */
-.emptyProfessionals {
-  text-align: center;
-  color: rgba(255, 255, 255, 0.7);
-  padding: 30px;
-  font-size: 0.9rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 200px;
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  border: 1px dashed rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-}
-
-.emptyProfessionals p {
-  margin-top: 5px;
-  font-weight: 500;
-}
-
-/* Media queries pour la responsive */
+/* Responsive */
 @media (max-width: 768px) {
+  .filterTabs {
+    gap: 2px;
+  }
+  
+  .filterTab {
+    padding: 6px 8px;
+    font-size: 0.8rem;
+  }
+  
+  .statusDot {
+    width: 6px;
+    height: 6px;
+  }
+  
+  .proName {
+    font-size: 0.9rem;
+  }
+  
+  .proSpecialty {
+    font-size: 0.8rem;
+  }
+  
+  .contactInfo {
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .contactItem {
+    font-size: 0.75rem;
+  }
+  
+  .avatarContainer, .proAvatar {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .statusIndicator {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+@media (max-width: 480px) {
   .listHeader {
     padding: 1rem;
   }
@@ -409,68 +656,36 @@
   
   .professionalCard {
     padding: 12px;
-  }
-  
-  .proAvatar {
-    width: 45px;
-    height: 45px;
-  }
-  
-  .proName {
-    font-size: 0.9rem;
-  }
-  
-  .proSpecialty, .lastContact {
-    font-size: 0.8rem;
-  }
-  
-  .actionButton {
-    width: 32px;
-    height: 32px;
-  }
-}
-
-@media (max-width: 480px) {
-  .filterTabs {
-    justify-content: flex-start;
-    width: 100%;
-    overflow-x: auto;
-  }
-  
-  .filterTab {
-    padding: 6px 10px;
-    font-size: 0.8rem;
-  }
-  
-  .professionalCard {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
     gap: 10px;
   }
   
-  .proAvatar {
-    width: 60px;
-    height: 60px;
-  }
-  
-  .proContent {
-    flex-direction: column;
-    width: 100%;
-  }
-  
-  .proInfo {
-    text-align: center;
-    width: 100%;
-  }
-  
   .proDetails {
-    justify-content: center;
+    gap: 3px;
   }
   
-  .proActions {
-    margin-top: 8px;
-    width: 100%;
-    justify-content: center;
+  .proName {
+    font-size: 0.85rem;
+  }
+  
+  .proSpecialty {
+    font-size: 0.75rem;
+  }
+  
+  .contactInfo {
+    display: none;
+  }
+  
+  .avatarContainer, .proAvatar {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .avatarPlaceholder {
+    font-size: 1rem;
+  }
+  
+  .statusIndicator {
+    width: 8px;
+    height: 8px;
   }
 }

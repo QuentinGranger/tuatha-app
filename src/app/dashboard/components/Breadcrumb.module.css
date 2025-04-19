@@ -1,0 +1,61 @@
+.breadcrumbContainer {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  padding: 0.6rem 1.5rem;
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  margin: 0.5rem 0 0.5rem 0;
+  overflow-x: auto;
+  transition: box-shadow 0.3s;
+}
+
+.breadcrumbList {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.breadcrumbItem {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.85);
+}
+
+.breadcrumbLink {
+  color: #FF8800;
+  text-decoration: none;
+  background: linear-gradient(90deg, #FF8800 0%, #FFB366 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: text-shadow 0.3s, color 0.3s;
+}
+.breadcrumbLink:hover {
+  text-shadow: 0 2px 8px rgba(255,136,0,0.12);
+  color: #FFB366;
+}
+
+.breadcrumbCurrent {
+  color: rgba(255,255,255,0.95);
+  font-weight: 700;
+  background: linear-gradient(90deg, #FF8800 0%, #FFB366 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.breadcrumbSeparator {
+  color: rgba(255,255,255,0.35);
+  font-size: 1.3em;
+  margin: 0 0.2em;
+  vertical-align: middle;
+}

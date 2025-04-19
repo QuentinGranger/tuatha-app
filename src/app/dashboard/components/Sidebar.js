@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import styles from './Sidebar.module.css';
 import { useAuth } from '@/app/contexts/AuthContext';
+import { useState, useEffect } from 'react';
 
 // Imports d'icônes les plus utilisées directement pour éviter les retards au chargement
 import { 
@@ -40,6 +41,12 @@ const bottomMenuItems = [
 export default function Sidebar() {
   const pathname = usePathname();
   const { logout } = useAuth();
+  const [mounted, setMounted] = useState(false);
+
+  // Effet pour éviter les erreurs d'hydratation
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleLogout = (e) => {
     if (e.target.pathname === '/logout' || e.currentTarget.pathname === '/logout') {
@@ -48,6 +55,23 @@ export default function Sidebar() {
       logout();
     }
   };
+
+  // Si le composant n'est pas encore monté, retourner une div au lieu de nav
+  // pour éviter les incohérences entre SSR et client
+  if (!mounted) {
+    return (
+      <div className={styles.sidebar}>
+        <div className={styles.logoContainer}>
+          <img
+            src="/LogoTuatha.png"
+            alt="Tuatha Logo"
+            className={styles.logo}
+          />
+        </div>
+        {/* Version simplifiée sans interactivité pendant le chargement */}
+      </div>
+    );
+  }
 
   return (
     <nav className={styles.sidebar}>

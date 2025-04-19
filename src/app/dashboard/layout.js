@@ -14,7 +14,26 @@ export default function DashboardLayout({ children }) {
   // Effet pour définir mounted à true une fois que le composant est monté
   useEffect(() => {
     setMounted(true);
+    return () => {
+      setMounted(false);
+    };
   }, []);
+
+  // Attendre que l'hydratation soit terminée avant d'afficher le layout complet
+  if (!mounted) {
+    return (
+      <div className={styles.layout}>
+        <div className={styles.loadingContainer}>
+          <img
+            src="/LogoTuatha.png"
+            alt="Tuatha Logo"
+            className={styles.loadingLogo}
+          />
+          <div className={styles.loadingSpinner}></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
@@ -23,7 +42,7 @@ export default function DashboardLayout({ children }) {
         <div className={styles.mainContent}>
           <Topbar />
           <main className={styles.content}>
-            {mounted ? children : <div>Chargement...</div>}
+            {children}
           </main>
         </div>
       </div>

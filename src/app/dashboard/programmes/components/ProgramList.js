@@ -17,7 +17,13 @@ export default function ProgramList() {
   const [pdfSuccess, setPdfSuccess] = useState(null);
   const [copySuccess, setCopySuccess] = useState(null);
   const [origin, setOrigin] = useState('');
-  
+  const [openPrograms, setOpenPrograms] = useState({});
+  const [filter, setFilter] = useState({
+    search: '',
+    dietType: '',
+    status: '',
+  });
+
   // Références pour les boutons
   const shareButtonRefs = useRef({});
   const pdfButtonRefs = useRef({});
@@ -339,6 +345,29 @@ export default function ProgramList() {
     });
   };
 
+  const toggleProgram = (programId) => {
+    setOpenPrograms(prev => ({
+      ...prev,
+      [programId]: !prev[programId]
+    }));
+  };
+
+  // Liste des types de régime (mock ou à partir des données)
+  const dietTypes = Array.from(new Set(programs.map(p => p.dietType || 'Méditerranéen')));
+  const statusTypes = ['ACTIVE', 'TEMPLATE'];
+
+  // Filtrage des programmes
+  const filteredPrograms = programs.filter(program => {
+    const matchSearch =
+      filter.search.trim() === '' ||
+      (program.title && program.title.toLowerCase().includes(filter.search.toLowerCase())) ||
+      (program.patient?.user?.firstName && program.patient.user.firstName.toLowerCase().includes(filter.search.toLowerCase())) ||
+      (program.patient?.user?.lastName && program.patient.user.lastName.toLowerCase().includes(filter.search.toLowerCase()));
+    const matchDiet = !filter.dietType || (program.dietType || 'Méditerranéen') === filter.dietType;
+    const matchStatus = !filter.status || program.status === filter.status;
+    return matchSearch && matchDiet && matchStatus;
+  });
+
   if (loading) {
     return <div className={styles.loading}>Chargement des programmes...</div>;
   }
@@ -347,257 +376,190 @@ export default function ProgramList() {
     return <div className={styles.error}>Erreur: {error}</div>;
   }
 
-  if (programs.length === 0) {
-    return <div className={styles.empty}>Aucun programme trouvé</div>;
-  }
-
   return (
-    <div className={styles.programList}>
-      {programs.map((program) => (
-        <div 
-          key={program.id} 
-          className={styles.programCard} 
-          onClick={(e) => {
-            // Empêcher tout comportement par défaut du clic sur la carte
-            e.preventDefault();
-          }}
+    <>
+      <div className={styles.filterBar}>
+        <input
+          className={styles.filterInput}
+          type="text"
+          placeholder="Rechercher par nom de programme ou patient..."
+          value={filter.search}
+          onChange={e => setFilter(f => ({ ...f, search: e.target.value }))}
+        />
+        <select
+          className={styles.filterSelect}
+          value={filter.dietType}
+          onChange={e => setFilter(f => ({ ...f, dietType: e.target.value }))}
         >
-          <div className={styles.programHeader}>
-            {editingProgram === program.id ? (
-              <>
-                <input
-                  type="text"
-                  className={styles.editInput}
-                  value={editForm.title}
-                  onChange={(e) => setEditForm({ ...editForm, title: e.target.value })}
-                />
-                <div className={styles.editActions}>
-                  <button
-                    className={styles.editButton}
-                    onClick={() => handleSaveEdit(program.id)}
-                  >
-                    <FaCheck />
-                  </button>
-                  <button
-                    className={styles.editButton}
-                    onClick={handleCancelEdit}
-                  >
-                    <FaTimes />
-                  </button>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className={styles.programHeader}>
-                  <h3 className={styles.programTitle}>{program.title}</h3>
-                  {program.description && (
-                    <p className={styles.programDescription}>{program.description}</p>
-                  )}
-                </div>
-              </>
-            )}
-          </div>
-
-          {editingProgram === program.id ? (
-            <div className={styles.editForm}>
-              <textarea
-                className={styles.editInput}
-                value={editForm.description}
-                onChange={(e) => setEditForm({ ...editForm, description: e.target.value })}
-                placeholder="Description"
-              />
-              <div className={styles.editDates}>
-                <div>
-                  <label>Date de début:</label>
-                  <input
-                    type="date"
-                    value={editForm.startDate}
-                    onChange={(e) => setEditForm({ ...editForm, startDate: e.target.value })}
-                  />
-                </div>
-                <div>
-                  <label>Date de fin:</label>
-                  <input
-                    type="date"
-                    value={editForm.endDate}
-                    onChange={(e) => setEditForm({ ...editForm, endDate: e.target.value })}
-                  />
-                </div>
-              </div>
-              <select
-                value={editForm.status}
-                onChange={(e) => setEditForm({ ...editForm, status: e.target.value })}
+          <option value="">Tous les régimes</option>
+          {dietTypes.map(type => (
+            <option key={type} value={type}>{type}</option>
+          ))}
+        </select>
+        <select
+          className={styles.filterSelect}
+          value={filter.status}
+          onChange={e => setFilter(f => ({ ...f, status: e.target.value }))}
+        >
+          <option value="">Tous les statuts</option>
+          <option value="ACTIVE">Actif</option>
+          <option value="TEMPLATE">Modèle</option>
+        </select>
+      </div>
+      <div className={styles.programList}>
+        {filteredPrograms.length === 0 ? (
+          <div className={styles.empty}>Aucun programme ne correspond à votre recherche.</div>
+        ) : (
+          filteredPrograms.map((program) => {
+            const isOpen = !!openPrograms[program.id];
+            return (
+              <div
+                key={program.id}
+                className={styles.programCard + (isOpen ? ' ' + styles.open : '')}
               >
-                <option value="ACTIVE">Actif</option>
-                <option value="TEMPLATE">Modèle</option>
-              </select>
-            </div>
-          ) : (
-            <div className={styles.programDetailsContainer}>
-              <div className={styles.programDetails}>
-                <div className={styles.detailSection}>
-                  <h4>Régime alimentaire</h4>
-                  <p>Type : {program.dietType}</p>
-                  <p>Objectif : {program.dietGoal}</p>
-                </div>
-
-                <div className={styles.detailSection}>
-                  <h4>Informations sur le patient</h4>
-                  <p>Nom : {program.patient?.user?.firstName || 'N/A'} {program.patient?.user?.lastName || 'N/A'}</p>
-                  <p>Âge : {program.patient?.age || 'N/A'}</p>
-                  <p>Poids : {program.patient?.weight || 'N/A'} kg</p>
-                  <p>Taille : {program.patient?.height || 'N/A'} cm</p>
-                </div>
-
-                <div className={styles.detailSection}>
-                  <h4>Informations sur la nutritionniste</h4>
-                  <p>Nom : {(program.nutritionist?.user?.firstName || program.healthProfessional?.user?.firstName || 'N/A')} {(program.nutritionist?.user?.lastName || program.healthProfessional?.user?.lastName || 'N/A')}</p>
-                  <p>Spécialité : {program.nutritionist?.specialty || program.healthProfessional?.specialty || 'N/A'}</p>
-                </div>
-
-                {program.meals && program.meals.length > 0 && (
-                  <div className={styles.detailSection}>
-                    <h4>Repas ({program.meals.length})</h4>
-                    <ul className={styles.mealsList}>
-                      {program.meals.map((meal) => (
-                        <li key={meal.id || Math.random()}>
-                          {meal.name || 'Repas sans nom'}
-                          {meal.calories && ` - ${meal.calories} calories`}
-                          {meal.protein && ` - ${meal.protein} grammes de protéines`}
-                          {meal.carbohydrates && ` - ${meal.carbohydrates} grammes de glucides`}
-                          {meal.fat && ` - ${meal.fat} grammes de lipides`}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                {program.supplements && program.supplements.length > 0 && (
-                  <div className={styles.detailSection}>
-                    <h4>Suppléments ({program.supplements.length})</h4>
-                    <ul className={styles.supplementsList}>
-                      {program.supplements.map((supplement) => (
-                        <li key={supplement.id || Math.random()}>
-                          {supplement.name || 'Supplément sans nom'}
-                          {supplement.dosage && ` - ${supplement.dosage}`}
-                          {supplement.frequency && ` - ${supplement.frequency}`}
-                        </li>
-                      ))}
-                    </ul>
+                <button
+                  className={styles.programHeader}
+                  type="button"
+                  aria-expanded={isOpen}
+                  aria-controls={`program-content-${program.id}`}
+                  onClick={() => toggleProgram(program.id)}
+                  tabIndex={0}
+                >
+                  <h3 className={styles.programTitle}>
+                    {program.title}
+                    <span className={styles.toggleIcon}>{isOpen ? '▲' : '▼'}</span>
+                  </h3>
+                </button>
+                {isOpen && (
+                  <div
+                    id={`program-content-${program.id}`}
+                    className={styles.programContent}
+                    role="region"
+                    aria-labelledby={`program-header-${program.id}`}
+                  >
+                    {/* MOCK ALIMENTAIRE */}
+                    <div className={styles.mockDietBlock}>
+                      <div className={styles.mockSection}>
+                        <h4>Régime alimentaire</h4>
+                        <p>Type : {program.dietType || 'Méditerranéen'}</p>
+                        <p>Objectif : {program.dietGoal || 'Perte de poids'}</p>
+                      </div>
+                      <div className={styles.mockSection}>
+                        <h4>Patient</h4>
+                        <p>Nom : {program.patient?.user?.firstName || 'Jean'} {program.patient?.user?.lastName || 'Dupont'}</p>
+                        <p>Âge : {program.patient?.age || 34}</p>
+                        <p>Poids : {program.patient?.weight || 78} kg</p>
+                        <p>Taille : {program.patient?.height || 178} cm</p>
+                      </div>
+                      <div className={styles.mockSection}>
+                        <h4>Nutritionniste</h4>
+                        <p>Nom : {(program.nutritionist?.user?.firstName || program.healthProfessional?.user?.firstName || 'Marie')} {(program.nutritionist?.user?.lastName || program.healthProfessional?.user?.lastName || 'Martin')}</p>
+                        <p>Spécialité : {program.nutritionist?.specialty || program.healthProfessional?.specialty || 'Diététicien'}</p>
+                      </div>
+                      <div className={styles.mockSection}>
+                        <h4>Repas</h4>
+                        <ul className={styles.mockList}>
+                          <li>Petit-déjeuner : Flocons d’avoine, banane, yaourt nature</li>
+                          <li>Déjeuner : Poulet grillé, quinoa, légumes verts</li>
+                          <li>Dîner : Saumon, patate douce, brocolis</li>
+                        </ul>
+                      </div>
+                    </div>
+                    {/* FIN MOCK ALIMENTAIRE */}
+                    {editingProgram === program.id ? (
+                      <>
+                        <input
+                          type="text"
+                          className={styles.editInput}
+                          value={editForm.title}
+                          onChange={(e) => setEditForm({ ...editForm, title: e.target.value })}
+                        />
+                        <div className={styles.editActions}>
+                          <button
+                            className={styles.editButton}
+                            onClick={() => handleSaveEdit(program.id)}
+                          >
+                            <FaCheck />
+                          </button>
+                          <button
+                            className={styles.editButton}
+                            onClick={handleCancelEdit}
+                          >
+                            <FaTimes />
+                          </button>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        {program.description && (
+                          <p className={styles.programDescription}>{program.description}</p>
+                        )}
+                        <div className={styles.programActions}>
+                          <button
+                            className={`${styles.actionButton} ${styles.shareButton}`}
+                            onClick={(e) => { e.stopPropagation(); handleShareProgram(program); }}
+                            title="Partager"
+                            ref={el => shareButtonRefs.current[program.id] = el}
+                          >
+                            <FaShareAlt />
+                            {shareSuccess === program.id && (
+                              <span className={styles.shareTooltip} style={{ left: `${tooltipPositions.share[program.id]?.left}px`, top: `${tooltipPositions.share[program.id]?.top}px` }}>Partagé !</span>
+                            )}
+                          </button>
+                          <button
+                            className={`${styles.actionButton} ${styles.pdfButton}`}
+                            onClick={(e) => { e.stopPropagation(); handleGeneratePDF(program); }}
+                            title="Télécharger en PDF"
+                            disabled={pdfGenerating === program.id}
+                            ref={el => pdfButtonRefs.current[program.id] = el}
+                          >
+                            {pdfGenerating === program.id ? <FaSpinner className={styles.loadingIcon} /> : <FaFilePdf />}
+                            {pdfSuccess === program.id && (
+                              <span className={styles.pdfTooltip} style={{ left: `${tooltipPositions.pdf[program.id]?.left}px`, top: `${tooltipPositions.pdf[program.id]?.top}px` }}>PDF généré !</span>
+                            )}
+                          </button>
+                          <button
+                            className={`${styles.actionButton} ${styles.copyButton}`}
+                            onClick={(e) => { e.stopPropagation(); handleCopyToClipboard(program); }}
+                            title="Copier les détails"
+                            ref={el => copyButtonRefs.current[program.id] = el}
+                          >
+                            <FaClipboard />
+                            {copySuccess === program.id && (
+                              <span className={styles.copyTooltip} style={{ left: `${tooltipPositions.copy[program.id]?.left}px`, top: `${tooltipPositions.copy[program.id]?.top}px` }}>Copié !</span>
+                            )}
+                          </button>
+                          <button
+                            className={styles.actionButton}
+                            onClick={(e) => { e.stopPropagation(); handleEdit(program); }}
+                            title="Modifier"
+                          >
+                            <FaEdit />
+                          </button>
+                          <button
+                            className={styles.actionButton}
+                            onClick={(e) => { e.stopPropagation(); handleDelete(program.id); }}
+                            title="Supprimer"
+                          >
+                            <FaTrash />
+                          </button>
+                        </div>
+                      </>
+                    )}
+                    <div className={styles.programMeta}>
+                      <span className={styles.programStatus}>{program.status === 'TEMPLATE' ? 'Modèle' : 'Actif'}</span>
+                      <span className={styles.programDate}>Créé le {formatDate(program.createdAt)}</span>
+                      {program.updatedAt !== program.createdAt && (
+                        <span className={styles.programDate}>Mis à jour le {formatDate(program.updatedAt)}</span>
+                      )}
+                    </div>
                   </div>
                 )}
               </div>
-              <div className={styles.cardActions}>
-                <button
-                  className={`${styles.actionButton} ${styles.shareButton}`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleShareProgram(program);
-                  }}
-                  title="Partager"
-                  ref={el => shareButtonRefs.current[program.id] = el}
-                >
-                  <FaShareAlt />
-                  {shareSuccess === program.id && (
-                    <span 
-                      className={styles.shareTooltip}
-                      style={{
-                        left: `${tooltipPositions.share[program.id]?.left}px`,
-                        top: `${tooltipPositions.share[program.id]?.top}px`
-                      }}
-                    >
-                      Partagé !
-                    </span>
-                  )}
-                </button>
-                <button
-                  className={`${styles.actionButton} ${styles.pdfButton}`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleGeneratePDF(program);
-                  }}
-                  title="Télécharger en PDF"
-                  disabled={pdfGenerating === program.id}
-                  ref={el => pdfButtonRefs.current[program.id] = el}
-                >
-                  {pdfGenerating === program.id ? (
-                    <FaSpinner className={styles.loadingIcon} />
-                  ) : (
-                    <FaFilePdf />
-                  )}
-                  {pdfSuccess === program.id && (
-                    <span 
-                      className={styles.pdfTooltip}
-                      style={{
-                        left: `${tooltipPositions.pdf[program.id]?.left}px`,
-                        top: `${tooltipPositions.pdf[program.id]?.top}px`
-                      }}
-                    >
-                      PDF généré !
-                    </span>
-                  )}
-                </button>
-                <button
-                  className={`${styles.actionButton} ${styles.copyButton}`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleCopyToClipboard(program);
-                  }}
-                  title="Copier les détails"
-                  ref={el => copyButtonRefs.current[program.id] = el}
-                >
-                  <FaClipboard />
-                  {copySuccess === program.id && (
-                    <span 
-                      className={styles.copyTooltip}
-                      style={{
-                        left: `${tooltipPositions.copy[program.id]?.left}px`,
-                        top: `${tooltipPositions.copy[program.id]?.top}px`
-                      }}
-                    >
-                      Copié !
-                    </span>
-                  )}
-                </button>
-                <button
-                  className={styles.actionButton}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleEdit(program);
-                  }}
-                  title="Modifier"
-                >
-                  <FaEdit />
-                </button>
-                <button
-                  className={styles.actionButton}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDelete(program.id);
-                  }}
-                  title="Supprimer"
-                >
-                  <FaTrash />
-                </button>
-              </div>
-            </div>
-          )}
-
-          <div className={styles.programMeta}>
-            <span className={styles.programStatus}>
-              {program.status === 'TEMPLATE' ? 'Modèle' : 'Actif'}
-            </span>
-            <span className={styles.programDate}>
-              Créé le {formatDate(program.createdAt)}
-            </span>
-            {program.updatedAt !== program.createdAt && (
-              <span className={styles.programDate}>
-                Mis à jour le {formatDate(program.updatedAt)}
-              </span>
-            )}
-          </div>
-        </div>
-      ))}
-    </div>
+            );
+          })
+        )}
+      </div>
+    </>
   );
 }

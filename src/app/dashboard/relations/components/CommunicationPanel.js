@@ -64,10 +64,10 @@ const CommunicationPanel = ({ selectedProfessional }) => {
       title: "Suivi post-opératoire",
       description: "Discussion sur le suivi et les recommandations après l'opération du genou",
       participants: [
-        { id: 'pro-1', name: 'Dr. Tony', photo: '/img/professionel/chopper.jpg' },
-        { id: 'pro-2', name: 'Dr. Smith', photo: '/img/professionel/recovery-girl.jpg' },
-        { id: 'pro-3', name: 'Dr. Leroy', photo: '/img/professionel/tsunade.jpg' },
-        { id: 'current-user', name: 'Vous', photo: '/img/professionel/saitama.jpg' }
+        { id: 'pro-1', name: 'Dr. Tony', photo: `${selectedProfessional.user?.photoUrl || '/img/professionel/chopper.jpg'}` },
+        { id: 'pro-2', name: 'Dr. Smith', photo: `${selectedProfessional.user?.photoUrl || '/img/professionel/recovery-girl.jpg'}` },
+        { id: 'pro-3', name: 'Dr. Leroy', photo: `${selectedProfessional.user?.photoUrl || '/img/professionel/tsunade.jpg'}` },
+        { id: 'current-user', name: 'Vous', photo: `${selectedProfessional.user?.photoUrl || '/img/professionel/sanji.jpg'}` }
       ],
       lastActivity: new Date(2025, 2, 15),
       type: 'consultation',
@@ -85,9 +85,9 @@ const CommunicationPanel = ({ selectedProfessional }) => {
       title: "Coordination nutritionnelle",
       description: "Synchronisation des recommandations nutritionnelles avec le programme de rééducation",
       participants: [
-        { id: 'pro-1', name: 'Dr. Tony', photo: '/img/professionel/chopper.jpg' },
-        { id: 'pro-4', name: 'Dr. Zeno', photo: '/img/professionel/zeno.jpg' },
-        { id: 'current-user', name: 'Vous', photo: '/img/professionel/saitama.jpg' }
+        { id: 'pro-1', name: 'Dr. Tony', photo: `${selectedProfessional.user?.photoUrl || '/img/professionel/chopper.jpg'}` },
+        { id: 'pro-4', name: 'Dr. Zeno', photo: `${selectedProfessional.user?.photoUrl || '/img/professionel/zeno.jpg'}` },
+        { id: 'current-user', name: 'Vous', photo: `${selectedProfessional.user?.photoUrl || '/img/professionel/sanji.jpg'}` }
       ],
       lastActivity: new Date(2025, 2, 16),
       type: 'discussion',
@@ -155,8 +155,8 @@ const CommunicationPanel = ({ selectedProfessional }) => {
       title: forumTitle,
       description: forumDescription,
       participants: [
-        { id: 'current-user', name: 'Vous', photo: '/img/professionel/saitama.jpg' },
-        { id: 'pro-1', name: 'Dr. Tony', photo: '/img/professionel/chopper.jpg' }
+        { id: 'current-user', name: 'Vous', photo: `${selectedProfessional.user?.photoUrl || '/img/professionel/saitama.jpg'}` },
+        { id: 'pro-1', name: 'Dr. Tony', photo: `${selectedProfessional.user?.photoUrl || '/img/professionel/chopper.jpg'}` }
       ],
       lastActivity: new Date(),
       type: forumType,
