@@ -258,7 +258,7 @@ const InvoiceList = ({
   };
 
   // Filtrer les factures en fonction de la recherche
-  const filteredInvoices = invoices.filter(invoice => {
+  const filteredInvoices = Array.isArray(invoices) ? invoices.filter(invoice => {
     const searchString = searchQuery.toLowerCase();
     
     // Si la recherche est vide, on retourne toutes les factures
@@ -272,7 +272,7 @@ const InvoiceList = ({
       (invoice.amount?.toString().includes(searchString)) ||
       (invoice.description?.toLowerCase().includes(searchString))
     );
-  });
+  }) : [];
 
   // Appliquer le filtre de période
   const getFilteredByPeriod = (invoices) => {
@@ -284,11 +284,11 @@ const InvoiceList = ({
     
     switch(currentFilter) {
       case 'year':
-        return invoices.filter(invoice => new Date(invoice.date) >= yearStart);
+        return Array.isArray(invoices) ? invoices.filter(invoice => new Date(invoice.date) >= yearStart) : [];
       case 'quarter':
-        return invoices.filter(invoice => new Date(invoice.date) >= quarterStart);
+        return Array.isArray(invoices) ? invoices.filter(invoice => new Date(invoice.date) >= quarterStart) : [];
       case 'month':
-        return invoices.filter(invoice => new Date(invoice.date) >= monthStart);
+        return Array.isArray(invoices) ? invoices.filter(invoice => new Date(invoice.date) >= monthStart) : [];
       default:
         return invoices; // 'all' ne filtre pas par période
     }
@@ -297,7 +297,7 @@ const InvoiceList = ({
   // Appliquer le filtre de statut
   const getFilteredByStatus = (invoices) => {
     if (currentStatus && currentStatus !== 'all') {
-      return invoices.filter(invoice => invoice.status === currentStatus);
+      return Array.isArray(invoices) ? invoices.filter(invoice => invoice.status === currentStatus) : [];
     }
     return invoices;
   };
@@ -338,7 +338,7 @@ const InvoiceList = ({
       setSortDirection(direction);
     }
     
-    return sortInvoices(invoices, field, direction);
+    return Array.isArray(invoices) ? sortInvoices(invoices, field, direction) : [];
   };
 
   // Fonction pour exporter les factures en CSV
@@ -358,7 +358,7 @@ const InvoiceList = ({
     ];
     
     // Formater les données pour le CSV
-    const csvData = dataToExport.map(invoice => {
+    const csvData = Array.isArray(dataToExport) ? dataToExport.map(invoice => {
       return [
         invoice.id || invoice.invoiceNumber || '',
         invoice.patient?.name || '',
@@ -368,19 +368,19 @@ const InvoiceList = ({
         invoice.amount ? `${invoice.amount} €` : '',
         invoice.status || ''
       ];
-    });
+    }) : [];
     
     // Ajouter les en-têtes au début
     csvData.unshift(headers);
     
     // Convertir en texte CSV
-    const csvString = csvData.map(row => row.map(cell => {
+    const csvString = Array.isArray(csvData) ? csvData.map(row => row.map(cell => {
       // Échapper les virgules, les guillemets et autres caractères spéciaux
       if (cell && (cell.includes(',') || cell.includes('"') || cell.includes('\n'))) {
         return `"${cell.replace(/"/g, '""')}"`;
       }
       return cell;
-    }).join(',')).join('\n');
+    }).join(',')).join('\n') : '';
     
     // Créer un blob avec le bon type MIME
     const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
@@ -424,8 +424,8 @@ const InvoiceList = ({
   // Calculer le nombre total de pages et les éléments de la page actuelle
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const paginatedInvoices = sortedInvoices.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(sortedInvoices.length / itemsPerPage);
+  const paginatedInvoices = Array.isArray(sortedInvoices) ? sortedInvoices.slice(indexOfFirstItem, indexOfLastItem) : [];
+  const totalPages = Array.isArray(sortedInvoices) ? Math.ceil(sortedInvoices.length / itemsPerPage) : 0;
   
   // Navigation de pagination
   const goToPage = (pageNumber) => {
@@ -501,9 +501,9 @@ const InvoiceList = ({
 
   // Fonction pour mettre à jour une facture
   const handleInvoiceUpdate = (updatedInvoice) => {
-    const updatedInvoices = invoices.map(invoice => 
+    const updatedInvoices = Array.isArray(invoices) ? invoices.map(invoice => 
       invoice.id === updatedInvoice.id ? updatedInvoice : invoice
-    );
+    ) : [];
     setInvoices(updatedInvoices);
   };
 
@@ -552,9 +552,9 @@ const InvoiceList = ({
         </h2>
         <div className={styles.headerActions}>
           <div className={styles.invoiceCount}>
-            {sortedInvoices.length} facture{sortedInvoices.length > 1 ? 's' : ''}
+            {Array.isArray(invoices) ? invoices.length : 0} facture{(Array.isArray(invoices) ? invoices.length : 0) > 1 ? 's' : ''}
           </div>
-          {sortedInvoices.length > 0 && (
+          {Array.isArray(invoices) && invoices.length > 0 && (
             <button className={styles.exportButton} onClick={exportToCSV} title="Exporter au format CSV">
               <FiFileText size={16} />
               <span>Exporter CSV</span>
@@ -569,7 +569,7 @@ const InvoiceList = ({
         </div>
       )}
       
-      {sortedInvoices.length > 0 ? (
+      {Array.isArray(sortedInvoices) && sortedInvoices.length > 0 ? (
         <div className={styles.tableWrapper}>
           <table className={styles.invoiceTable}>
             <thead>
@@ -600,7 +600,7 @@ const InvoiceList = ({
               </tr>
             </thead>
             <tbody>
-              {paginatedInvoices.map((invoice) => {
+              {Array.isArray(paginatedInvoices) ? paginatedInvoices.map((invoice) => {
                 const statusInfo = getStatusInfo(invoice.status);
                 const sourceInfo = getSourceInfo(invoice.isImported);
                 
@@ -672,7 +672,7 @@ const InvoiceList = ({
                     </td>
                   </tr>
                 );
-              })}
+              }) : []}
             </tbody>
           </table>
         </div>
@@ -685,7 +685,7 @@ const InvoiceList = ({
       )}
       
       {/* Afficher la pagination uniquement s'il y a plus de 5 factures */}
-      {sortedInvoices.length > itemsPerPage && (
+      {Array.isArray(sortedInvoices) && sortedInvoices.length > itemsPerPage && (
         <div className={styles.pagination}>
           <button 
             onClick={goToPreviousPage} 
@@ -733,7 +733,7 @@ const InvoiceList = ({
           </button>
           
           <div className={styles.paginationInfo}>
-            Affichage {indexOfFirstItem + 1}-{Math.min(indexOfLastItem, sortedInvoices.length)} sur {sortedInvoices.length}
+            Affichage {indexOfFirstItem + 1}-{Math.min(indexOfLastItem, Array.isArray(sortedInvoices) ? sortedInvoices.length : 0)} sur {Array.isArray(sortedInvoices) ? sortedInvoices.length : 0}
           </div>
         </div>
       )}
