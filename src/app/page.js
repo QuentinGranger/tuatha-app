@@ -87,6 +87,16 @@ function LoginForm() {
           {loading ? "Connexion..." : "Continuer"}
         </button>
       </form>
+
+      <div className={styles.registerLinks}>
+        <span>Vous n'avez pas de compte ? </span>
+        <Link 
+          href="/signup" 
+          className={styles.registerLink}
+        >
+          Inscrivez-vous
+        </Link>
+      </div>
     </>
   );
 }

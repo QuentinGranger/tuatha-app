@@ -5,6 +5,10 @@ export function isPublicRoute(pathname) {
   const publicRoutes = [
     '/',
     '/login',
+    '/signup',
+    '/athlete-signup',
+    '/medecin-signup',
+    '/medecin-config-services',
     '/inscrivez-vous',
     '/mot-de-passe-oublie',
     '/mentions-legales',

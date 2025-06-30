@@ -1,0 +1,98 @@
+/* Athlete Signup Page Styling */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 40px 20px;
+  /* Utilise le background du global.css */
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.signupCard {
+  background: rgba(28, 36, 50, 0.75);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  padding: 40px;
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+}
+
+.logo {
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 32px;
+  margin-bottom: 16px;
+  background: linear-gradient(to right, #FF8800, #FFB366);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 700;
+}
+
+.message {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 18px;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.returnButton {
+  padding: 12px 24px;
+  background: linear-gradient(to right, #FF8800, #FF9933);
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 136, 0, 0.3);
+  margin-bottom: 20px;
+}
+
+.returnButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 136, 0, 0.4);
+}
+
+.loginLink {
+  margin-top: 20px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 16px;
+}
+
+.loginLink a {
+  color: #FF8800;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+  margin-left: 5px;
+}
+
+.loginLink a:hover {
+  color: #FFB366;
+  text-decoration: underline;
+}
+
+/* Media Queries pour la responsivité */
+@media (max-width: 768px) {
+  .signupCard {
+    padding: 30px 20px;
+  }
+  
+  .title {
+    font-size: 28px;
+  }
+  
+  .message {
+    font-size: 16px;
+  }
+}

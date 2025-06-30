@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="80px" height="80px" viewBox="0 0 80 80" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <circle fill="#FF8800" opacity="0.2" cx="40" cy="40" r="40"></circle>
+        <circle stroke="#FF8800" stroke-width="2" cx="40" cy="28" r="12"></circle>
+        <path d="M25,50 C25,42.268 31.768,36 40,36 C48.232,36 55,42.268 55,50 C55,57.732 48.232,64 40,64 C31.768,64 25,57.732 25,50 Z" stroke="#FF8800" stroke-width="2"></path>
+        <circle fill="#FF8800" cx="34" cy="26" r="2"></circle>
+        <circle fill="#FF8800" cx="46" cy="26" r="2"></circle>
+        <path d="M34,32 C34,32 37,34 40,34 C43,34 46,32 46,32" stroke="#FF8800" stroke-width="2" stroke-linecap="round"></path>
+        <rect stroke="#FF8800" stroke-width="2" x="34" y="42" width="12" height="16" rx="2"></rect>
+        <line x1="36" y1="46" x2="44" y2="46" stroke="#FF8800" stroke-width="2" stroke-linecap="round"></line>
+        <line x1="36" y1="50" x2="44" y2="50" stroke="#FF8800" stroke-width="2" stroke-linecap="round"></line>
+        <line x1="36" y1="54" x2="40" y2="54" stroke="#FF8800" stroke-width="2" stroke-linecap="round"></line>
+    </g>
+</svg>

@@ -14,8 +14,9 @@ model User {
   firstName          String
   lastName           String
   role               UserRole
-  phoneNumber        String?
+  phoneNumber        String?             // Gardé optionnel pour compatibilité avec données existantes
   photoUrl           String?
+  bio                String?
   createdAt          DateTime            @default(now())
   updatedAt          DateTime            @updatedAt
   healthProfessional HealthProfessional?
@@ -24,40 +25,52 @@ model User {
 
 model HealthProfessional {
   id                        String                      @id @default(cuid())
-  availability              Json
-  emergencyContact          Boolean
+  specialty                 Specialty
+  licenseNumber             String?                    // Numéro de licence professionnel
+  userId                    String                      @unique
   createdAt                 DateTime                    @default(now())
   updatedAt                 DateTime                    @updatedAt
-  acceptsEmergencies        Boolean
-  acceptsHealthCard         Boolean
-  adeliNumber               String?
-  averageWaitTime           Int
-  city                      String
-  closingTime               String
-  consultationDuration      Int
-  consultationFee           Float
-  consultationTypes         ConsultationType[]
-  conventionStatus          StatutConventionnement
-  country                   String
-  description               String?
-  diplomas                  String[]
-  disponibilite             Disponibilite
-  equipment                 String[]
-  handicapAccess            Boolean
-  occupancyRate             Float
-  openingTime               String
-  parking                   Boolean
-  paymentMethods            ModeReglement[]
-  postalCode                String
-  rppsNumber                String?
-  spokenLanguages           String[]
-  street                    String
-  subSpecialty              String?
-  userId                    String                      @unique
-  workingDays               String[]
-  yearsExperience           Int
-  specialty                 Specialty
-  preferredContactMethod    ContactMethod
+  
+  // Vérification du statut professionnel
+  verificationDocumentUrl   String?                    // URL du document de vérification
+  verificationStatus        VerificationStatus          @default(PENDING)
+  verificationSubmittedAt   DateTime?                  // Date de soumission de la vérification
+  verificationProcessedAt   DateTime?                  // Date de traitement de la vérification
+  verificationNotes         String?                    @db.Text  // Notes d'administration
+  
+  // Champs existants rendus optionnels
+  availability              Json?                       @default("{}") 
+  emergencyContact          Boolean?                    @default(false)
+  acceptsEmergencies        Boolean?                    @default(false)
+  acceptsHealthCard         Boolean?                    @default(false)
+  averageWaitTime           Int?                        @default(30)
+  city                      String?                     @default("")
+  closingTime               String?                     @default("18:00")
+  consultationDuration      Int?                        @default(30)
+  consultationFee           Float?                      @default(0.0)
+  consultationTypes         ConsultationType[]           @default([])
+  conventionStatus          StatutConventionnement?     @default(SECTEUR_1)
+  country                   String?                     @default("France")
+  description               String?                    // Gardé pour compatibilité, remplacé par bio dans User
+  diplomas                  String[]                    @default([])
+  disponibilite             Disponibilite?              @default(DISPONIBLE)
+  equipment                 String[]                    @default([])
+  handicapAccess            Boolean?                    @default(false)
+  occupancyRate             Float?                      @default(0.0)
+  openingTime               String?                     @default("09:00")
+  parking                   Boolean?                    @default(false)
+  paymentMethods            ModeReglement[]             @default([])
+  postalCode                String?                     @default("")
+  rppsNumber                String?                    // Gardé pour compatibilité avec données existantes
+  adeliNumber               String?                    // Gardé pour compatibilité avec données existantes
+  spokenLanguages           String[]                    @default([])
+  street                    String?                     @default("")
+  subSpecialty              String?                     @default("")
+  workingDays               String[]                    @default([])
+  yearsExperience           Int?                        @default(0)
+  preferredContactMethod    ContactMethod?              @default(EMAIL)
+
+  // Relations  
   user                      User                        @relation(fields: [userId], references: [id])
   PatientHealthProfessional PatientHealthProfessional[]
   programs                  Program[]
@@ -341,6 +354,7 @@ enum UserRole {
 }
 
 enum Specialty {
+  // Valeurs existantes préservées
   NUTRITIONIST
   PHYSIOTHERAPIST
   PSYCHOLOGIST
@@ -350,6 +364,13 @@ enum Specialty {
   PEDIATRICIAN
   PHYSICAL_TRAINER
   DIETITIAN
+  
+  // Nouvelles valeurs ajoutées
+  COACH_SPORTIF
+  NUTRITIONNISTE
+  MEDECIN_SPORT
+  KINESITHERAPEUTE
+  OSTEOPATHE
 }
 
 enum ContactMethod {
@@ -395,6 +416,13 @@ enum ProgressionStatus {
   STAGNATING
   DECLINING
   WORSENING
+}
+
+enum VerificationStatus {
+  PENDING    // En attente de vérification
+  APPROVED   // Vérifié et approuvé
+  REJECTED   // Rejeté
+  ADDITIONAL_INFO_NEEDED  // Informations supplémentaires requises
 }
 
 enum DeficiencyLevel {

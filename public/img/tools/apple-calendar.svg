@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="80px" height="80px" viewBox="0 0 80 80" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect fill="#FF3B30" x="0" y="0" width="80" height="80" rx="16"></rect>
+        <rect fill="#FFFFFF" x="15" y="15" width="50" height="50" rx="5"></rect>
+        <text font-family="Arial-BoldMT, Arial" font-size="20" font-weight="bold" fill="#FF3B30" x="32" y="38">
+            31
+        </text>
+        <text font-family="Arial-BoldMT, Arial" font-size="14" font-weight="bold" fill="#FF3B30" x="27" y="58">
+            JUN
+        </text>
+    </g>
+</svg>

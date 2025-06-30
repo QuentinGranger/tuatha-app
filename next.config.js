@@ -6,6 +6,12 @@ const nextConfig = {
   images: {
     domains: ['localhost'],
     unoptimized: false,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
   },
 
   // Désactiver strictMode pour éviter les doubles rendus en dev
@@ -24,10 +30,13 @@ const nextConfig = {
   // Augmenter la limite de temps pour la génération statique (en ms)
   staticPageGenerationTimeout: 180000, // 3 minutes au lieu de 60 secondes par défaut
   
-  // Configuration pour éviter les timeouts sur les routes API
+  // Paquets externes pour les Server Components
+  serverExternalPackages: ['@prisma/client', 'bcrypt', 'openai'],
+  
+  // Autres optimisations
   experimental: {
-    // Désactiver la génération statique pour les routes API
-    serverComponentsExternalPackages: ['@prisma/client', 'bcrypt', 'openai']
+    optimizeCss: true,
+    optimizePackageImports: ['react-icons'],
   },
   
   // Configuration des routes dynamiques vs statiques

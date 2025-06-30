@@ -346,21 +346,137 @@ const patientsWithProps = patients.map(patient => {
   };
 });
 
-// Création de programmes d'exemple
+// Mock data pour les exercices
 const mockExercises = [
-  { id: '1', name: 'Squat', type: 'STRENGTH', targetArea: 'LOWER_BODY', description: 'Squat traditionnel travaillant les quadriceps, fessiers et ischio-jambiers.' },
-  { id: '2', name: 'Bench Press', type: 'STRENGTH', targetArea: 'UPPER_BODY', description: 'Développé couché travaillant les pectoraux, triceps et épaules.' },
-  { id: '3', name: 'Deadlift', type: 'STRENGTH', targetArea: 'FULL_BODY', description: 'Soulevé de terre travaillant le dos, les fessiers et les ischio-jambiers.' },
-  { id: '4', name: 'Sprint', type: 'CARDIO', targetArea: 'FULL_BODY', description: 'Sprint de haute intensité pour améliorer l\'explosivité et la capacité cardiovasculaire.' },
-  { id: '5', name: 'Plank', type: 'STABILITY', targetArea: 'CORE', description: 'Planche isométrique travaillant les muscles centraux et la stabilité.' }
+  {
+    id: '1',
+    name: 'Squats',
+    description: 'Exercice de musculation pour les jambes et les fessiers',
+    category: 'STRENGTH',
+    muscleGroups: ['LEGS', 'GLUTES'],
+    equipment: 'BODYWEIGHT',
+    difficulty: 'BEGINNER',
+    imageUrl: '/images/exercises/squats.jpg',
+    instructions: 'Descendez en position accroupie en gardant le dos droit',
+    createdAt: new Date('2024-01-01').toISOString(),
+    updatedAt: new Date('2024-01-01').toISOString()
+  },
+  {
+    id: '2',
+    name: 'Pompes',
+    description: 'Exercice de musculation pour le haut du corps',
+    category: 'STRENGTH',
+    muscleGroups: ['CHEST', 'ARMS'],
+    equipment: 'BODYWEIGHT',
+    difficulty: 'BEGINNER',
+    imageUrl: '/images/exercises/pushups.jpg',
+    instructions: 'Descendez et remontez en gardant le corps aligné',
+    createdAt: new Date('2024-01-01').toISOString(),
+    updatedAt: new Date('2024-01-01').toISOString()
+  },
+  {
+    id: '3',
+    name: 'Deadlifts',
+    description: 'Exercice de force pour le dos et les jambes',
+    category: 'STRENGTH',
+    muscleGroups: ['BACK', 'LEGS'],
+    equipment: 'BARBELL',
+    difficulty: 'ADVANCED',
+    imageUrl: '/images/exercises/deadlifts.jpg',
+    instructions: 'Soulevez la barre en gardant le dos droit',
+    createdAt: new Date('2024-01-01').toISOString(),
+    updatedAt: new Date('2024-01-01').toISOString()
+  },
+  {
+    id: '4',
+    name: 'Course à pied',
+    description: 'Exercice cardiovasculaire',
+    category: 'CARDIO',
+    muscleGroups: ['LEGS'],
+    equipment: 'NONE',
+    difficulty: 'INTERMEDIATE',
+    imageUrl: '/images/exercises/running.jpg',
+    instructions: 'Courez à un rythme modéré en contrôlant votre respiration',
+    createdAt: new Date('2024-01-01').toISOString(),
+    updatedAt: new Date('2024-01-01').toISOString()
+  },
+  {
+    id: '5',
+    name: 'Planche',
+    description: 'Exercice de gainage pour le core',
+    category: 'CORE',
+    muscleGroups: ['CORE'],
+    equipment: 'BODYWEIGHT',
+    difficulty: 'INTERMEDIATE',
+    imageUrl: '/images/exercises/plank.jpg',
+    instructions: 'Maintenez la position en gardant le corps aligné',
+    createdAt: new Date('2024-01-01').toISOString(),
+    updatedAt: new Date('2024-01-01').toISOString()
+  }
 ];
 
+// Mock data pour les suppléments
 const mockSupplements = [
-  { id: '1', name: 'Whey Protein', type: 'PROTEIN', description: 'Protéine de lactosérum pour la récupération musculaire.', dosage: '25g', frequency: '1-2 fois par jour' },
-  { id: '2', name: 'BCAA', type: 'AMINO_ACIDS', description: 'Acides aminés à chaîne ramifiée favorisant la récupération musculaire.', dosage: '5g', frequency: 'Avant et après l\'entraînement' },
-  { id: '3', name: 'Creatine Monohydrate', type: 'PERFORMANCE', description: 'Supplément de créatine pour améliorer la force et la puissance musculaire.', dosage: '5g', frequency: 'Quotidien' },
-  { id: '4', name: 'Multivitamines', type: 'VITAMINS', description: 'Complément multivitaminique pour combler les carences nutritionnelles.', dosage: '1 comprimé', frequency: 'Quotidien' },
-  { id: '5', name: 'Oméga-3', type: 'ESSENTIAL_FATS', description: 'Acides gras essentiels pour la santé cardiovasculaire et la récupération.', dosage: '1000mg', frequency: 'Quotidien' }
+  {
+    id: '1',
+    name: 'Protéine Whey',
+    description: 'Protéine en poudre pour la récupération musculaire',
+    type: 'PROTEIN',
+    brand: 'Optimum Nutrition',
+    dosage: '30g',
+    instructions: 'Mélanger avec 250ml d\'eau ou de lait',
+    sideEffects: 'Peut causer des troubles digestifs chez certaines personnes',
+    createdAt: new Date('2024-01-01').toISOString(),
+    updatedAt: new Date('2024-01-01').toISOString()
+  },
+  {
+    id: '2',
+    name: 'Créatine Monohydrate',
+    description: 'Améliore les performances lors d\'exercices courts et intenses',
+    type: 'PERFORMANCE',
+    brand: 'Creapure',
+    dosage: '5g',
+    instructions: 'Prendre avec beaucoup d\'eau, de préférence après l\'entraînement',
+    sideEffects: 'Peut causer une rétention d\'eau',
+    createdAt: new Date('2024-01-01').toISOString(),
+    updatedAt: new Date('2024-01-01').toISOString()
+  },
+  {
+    id: '3',
+    name: 'BCAA',
+    description: 'Acides aminés à chaîne ramifiée pour la récupération',
+    type: 'RECOVERY',
+    brand: 'Scivation',
+    dosage: '10g',
+    instructions: 'Prendre pendant ou après l\'entraînement',
+    sideEffects: 'Généralement bien tolérés',
+    createdAt: new Date('2024-01-01').toISOString(),
+    updatedAt: new Date('2024-01-01').toISOString()
+  },
+  {
+    id: '4',
+    name: 'Vitamines D3',
+    description: 'Vitamine essentielle pour la santé osseuse',
+    type: 'VITAMIN',
+    brand: 'Now Foods',
+    dosage: '2000 IU',
+    instructions: 'Prendre avec un repas contenant des graisses',
+    sideEffects: 'Rare à doses recommandées',
+    createdAt: new Date('2024-01-01').toISOString(),
+    updatedAt: new Date('2024-01-01').toISOString()
+  },
+  {
+    id: '5',
+    name: 'Oméga-3',
+    description: 'Acides gras essentiels pour la santé cardiovasculaire',
+    type: 'VITAMIN',
+    brand: 'Nordic Naturals',
+    dosage: '1000mg',
+    instructions: 'Prendre avec les repas',
+    sideEffects: 'Peut causer des reflux chez certaines personnes',
+    createdAt: new Date('2024-01-01').toISOString(),
+    updatedAt: new Date('2024-01-01').toISOString()
+  }
 ];
 
 // Programme d'exercices pour chaque patient
@@ -506,7 +622,39 @@ const prisma = {
       return healthProfessionals;
     },
     findUnique: async (options) => {
-      return healthProfessionals.find(hp => hp.id === options.where.id);
+      // D'abord chercher dans les données persistées localStorage
+      if (typeof window !== 'undefined') {
+        const storedHPs = JSON.parse(localStorage.getItem('tuatha-mock-health-professionals') || '[]');
+        if (options?.where?.id) {
+          const storedHP = storedHPs.find(hp => hp.id === options.where.id);
+          if (storedHP) return storedHP;
+        }
+        if (options?.where?.userId) {
+          const storedHP = storedHPs.find(hp => hp.userId === options.where.userId);
+          if (storedHP) return storedHP;
+        }
+      }
+      
+      // Fallback sur les données statiques
+      return healthProfessionals.find(hp => hp.id === options?.where?.id) || null;
+    },
+    create: async (options) => {
+      const newHealthProfessional = {
+        id: `hp-${Date.now()}`,
+        ...options.data,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
+      console.log('Mock health professional created:', newHealthProfessional);
+      
+      // Persister dans localStorage côté client
+      if (typeof window !== 'undefined') {
+        const existingHPs = JSON.parse(localStorage.getItem('tuatha-mock-health-professionals') || '[]');
+        existingHPs.push(newHealthProfessional);
+        localStorage.setItem('tuatha-mock-health-professionals', JSON.stringify(existingHPs));
+      }
+      
+      return newHealthProfessional;
     }
   },
   food: {
@@ -719,15 +867,54 @@ const prisma = {
       return healthProfessionals[0].user;
     },
     findUnique: async (options) => {
+      // D'abord chercher dans les données persistées localStorage
+      if (typeof window !== 'undefined') {
+        const storedUsers = JSON.parse(localStorage.getItem('tuatha-mock-users') || '[]');
+        if (options?.where?.id) {
+          const storedUser = storedUsers.find(user => user.id === options.where.id);
+          if (storedUser) return storedUser;
+        }
+        if (options?.where?.email) {
+          const storedUser = storedUsers.find(user => user.email === options.where.email);
+          if (storedUser) return storedUser;
+        }
+      }
+      
+      // Fallback sur les données statiques
       if (options?.where?.id) {
         const foundUser = 
           healthProfessionals.find(hp => hp.user.id === options.where.id)?.user ||
           patients.find(p => p.user.id === options.where.id)?.user;
         return foundUser || null;
       }
+      if (options?.where?.email) {
+        const foundUser = 
+          healthProfessionals.find(hp => hp.user.email === options.where.email)?.user ||
+          patients.find(p => p.user.email === options.where.email)?.user;
+        return foundUser || null;
+      }
       return null;
+    },
+    create: async (options) => {
+      const newUser = {
+        id: `user-${Date.now()}`,
+        ...options.data,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
+      console.log('Mock user created:', newUser);
+      
+      // Persister dans localStorage côté client
+      if (typeof window !== 'undefined') {
+        const existingUsers = JSON.parse(localStorage.getItem('tuatha-mock-users') || '[]');
+        existingUsers.push(newUser);
+        localStorage.setItem('tuatha-mock-users', JSON.stringify(existingUsers));
+      }
+      
+      return newUser;
     }
   },
+  
   $transaction: async (callback) => {
     return callback(prisma);
   },

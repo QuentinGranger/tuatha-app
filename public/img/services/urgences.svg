@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="80px" height="80px" viewBox="0 0 80 80" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <circle fill="#FF8800" opacity="0.2" cx="40" cy="40" r="40"></circle>
+        <circle stroke="#FF8800" stroke-width="2" cx="40" cy="40" r="30"></circle>
+        <polygon fill="#FF8800" points="40 25 45 35 55 37 47 45 50 55 40 50 30 55 33 45 25 37 35 35"></polygon>
+        <path d="M30,40 C30,34.477 34.477,30 40,30 C45.523,30 50,34.477 50,40" stroke="#FF8800" stroke-width="2"></path>
+        <circle stroke="#FF8800" stroke-width="2" cx="30" cy="50" r="6"></circle>
+        <circle stroke="#FF8800" stroke-width="2" cx="50" cy="50" r="6"></circle>
+    </g>
+</svg>
