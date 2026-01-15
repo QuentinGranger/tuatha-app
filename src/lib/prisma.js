@@ -292,7 +292,71 @@ const healthProfessionals = [
       lastName: 'Banner',
       role: UserRole.HEALTH_PROFESSIONAL,
       phoneNumber: '0666666666',
-      photoUrl: '/img/professionel/hulk.jpg'
+      photoUrl: '/img/professionel/Hulk.jpg'
+    }
+  },
+  {
+    id: 'hp-005',
+    userId: 'user-hp-005',
+    specialty: Specialty.PHYSIOTHERAPIST,
+    subSpecialty: 'Récupération accélérée',
+    organization: 'U.A. High School',
+    user: {
+      id: 'user-hp-005',
+      email: 'recovery.girl@tuatha.app',
+      firstName: 'Chiyo',
+      lastName: 'Shuzenji',
+      role: UserRole.HEALTH_PROFESSIONAL,
+      phoneNumber: '0654321987',
+      photoUrl: '/img/professionel/recovery-girl.jpg'
+    }
+  },
+  {
+    id: 'hp-006',
+    userId: 'user-hp-006',
+    specialty: Specialty.PHYSICAL_TRAINER,
+    subSpecialty: 'Guérison spirituelle',
+    organization: 'Karakura Clinic',
+    user: {
+      id: 'user-hp-006',
+      email: 'orihime.healer@tuatha.app',
+      firstName: 'Orihime',
+      lastName: 'Inoue',
+      role: UserRole.HEALTH_PROFESSIONAL,
+      phoneNumber: '0698765432',
+      photoUrl: '/img/professionel/orihime.jpg'
+    }
+  },
+  {
+    id: 'hp-007',
+    userId: 'user-hp-007',
+    specialty: Specialty.PSYCHOLOGIST,
+    subSpecialty: 'Thérapie existentielle',
+    organization: 'Palais Zeno',
+    user: {
+      id: 'user-hp-007',
+      email: 'zeno.psychologist@tuatha.app',
+      firstName: 'Zeno',
+      lastName: 'Sama',
+      role: UserRole.HEALTH_PROFESSIONAL,
+      phoneNumber: '0612345678',
+      photoUrl: '/img/professionel/zeno.jpg'
+    }
+  },
+  {
+    id: 'hp-008',
+    userId: 'user-hp-008',
+    specialty: Specialty.PHYSICAL_TRAINER,
+    subSpecialty: 'Entraînement de puissance',
+    organization: 'Hero Association',
+    user: {
+      id: 'user-hp-008',
+      email: 'saitama.trainer@tuatha.app',
+      firstName: 'Saitama',
+      lastName: '',
+      role: UserRole.HEALTH_PROFESSIONAL,
+      phoneNumber: '0611223344',
+      photoUrl: '/img/professionel/saitama.jpg'
     }
   }
 ];
@@ -308,38 +372,38 @@ const patientsWithProps = patients.map(patient => {
     email: patient.user.email,
     phoneNumber: patient.user.phoneNumber,
     photoUrl: patient.user.photoUrl,
-    
+
     // Métriques nutritionnelles
     proteinIntake: Math.floor(Math.random() * 200) + 100, // 100-300g
     carbIntake: Math.floor(Math.random() * 300) + 150,    // 150-450g
     fatIntake: Math.floor(Math.random() * 100) + 50,      // 50-150g
     hydration: Math.floor(Math.random() * 50) + 50,       // 50-100%
-    
+
     // Métriques physiques
     weight: Math.floor(Math.random() * 40) + 60,          // 60-100kg
     height: Math.floor(Math.random() * 40) + 160,         // 160-200cm
     bodyFat: Math.floor(Math.random() * 20) + 5,          // 5-25%
     muscleMass: Math.floor(Math.random() * 20) + 30,      // 30-50%
-    
+
     // Métriques cardio
     vo2max: Math.floor(Math.random() * 30) + 40,          // 40-70 ml/kg/min
     restingHeartRate: Math.floor(Math.random() * 30) + 40, // 40-70 bpm
     maxHeartRate: Math.floor(Math.random() * 20) + 180,    // 180-200 bpm
-    
+
     // Métriques de performance
     strengthScore: Math.floor(Math.random() * 50) + 50,    // 50-100
     enduranceScore: Math.floor(Math.random() * 50) + 50,   // 50-100
     flexibilityScore: Math.floor(Math.random() * 50) + 50, // 50-100
-    
+
     // Métriques de récupération
     recoveryScore: Math.floor(Math.random() * 50) + 50,    // 50-100
     sleepQuality: Math.floor(Math.random() * 50) + 50,     // 50-100
     stressLevel: Math.floor(Math.random() * 8) + 2,        // 2-10
-    
+
     // Alertes (structure vide par défaut)
     alerts: {},
   };
-  
+
   return {
     ...patient,
     ...baseMetrics,
@@ -590,16 +654,16 @@ const prisma = {
     findUnique: async (options) => {
       console.log('Mock prisma.patient.findUnique called', options);
       const patient = patientsWithProps.find(p => p.id === options.where.id);
-      
+
       // Si patient non trouvé, retourner null comme le ferait Prisma
       if (!patient) return null;
-      
+
       // Si la requête inclut l'utilisateur, s'assurer que les champs nécessaires sont présents
       if (options?.include?.user) {
         // La structure est déjà correcte dans patientsWithProps
         return patient;
       }
-      
+
       return patient;
     },
     findFirst: async (options) => {
@@ -634,7 +698,7 @@ const prisma = {
           if (storedHP) return storedHP;
         }
       }
-      
+
       // Fallback sur les données statiques
       return healthProfessionals.find(hp => hp.id === options?.where?.id) || null;
     },
@@ -646,14 +710,14 @@ const prisma = {
         updatedAt: new Date()
       };
       console.log('Mock health professional created:', newHealthProfessional);
-      
+
       // Persister dans localStorage côté client
       if (typeof window !== 'undefined') {
         const existingHPs = JSON.parse(localStorage.getItem('tuatha-mock-health-professionals') || '[]');
         existingHPs.push(newHealthProfessional);
         localStorage.setItem('tuatha-mock-health-professionals', JSON.stringify(existingHPs));
       }
-      
+
       return newHealthProfessional;
     }
   },
@@ -665,8 +729,8 @@ const prisma = {
     create: async (options) => {
       console.log('Mock prisma.food.create called', options);
       const newId = `food_${mockFoods.length + 1}_custom`;
-      const newFood = { 
-        id: newId, 
+      const newFood = {
+        id: newId,
         ...options.data,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
@@ -680,8 +744,8 @@ const prisma = {
       if (index === -1) {
         throw new Error('Food not found');
       }
-      mockFoods[index] = { 
-        ...mockFoods[index], 
+      mockFoods[index] = {
+        ...mockFoods[index],
         ...options.data,
         updatedAt: new Date().toISOString()
       };
@@ -715,54 +779,54 @@ const prisma = {
   program: {
     findMany: async (options) => {
       console.log('Mock prisma.program.findMany called', options);
-      
+
       // Filtrer si nécessaire
       let filteredPrograms = [...mockPrograms];
-      
+
       if (options?.where?.status) {
         filteredPrograms = filteredPrograms.filter(p => p.status === options.where.status);
       }
-      
+
       return filteredPrograms;
     },
     findFirst: async (options) => {
       console.log('Mock prisma.program.findFirst called', options);
-      
+
       // Filtrer si nécessaire
       let filteredPrograms = [...mockPrograms];
-      
+
       // Appliquer les filtres si présents dans options.where
       if (options?.where) {
         Object.entries(options.where).forEach(([key, value]) => {
           filteredPrograms = filteredPrograms.filter(p => p[key] === value);
         });
       }
-      
+
       // Si include est spécifié, ajouter les relations
       if (options?.include) {
         filteredPrograms = filteredPrograms.map(program => {
           const enrichedProgram = { ...program };
-          
+
           if (options.include.exercises) {
             enrichedProgram.exercises = mockProgramExercises.filter(
               ex => ex.programId === program.id
             );
           }
-          
+
           if (options.include.supplements) {
             enrichedProgram.supplements = program.supplements || []; // Correction ici
           }
-          
+
           if (options.include.healthProfessional) {
             enrichedProgram.healthProfessional = healthProfessionals.find(
               hp => hp.id === program.healthProfessionalId
             );
           }
-          
+
           return enrichedProgram;
         });
       }
-      
+
       // Retourner le premier résultat ou null si aucun résultat
       return filteredPrograms.length > 0 ? filteredPrograms[0] : null;
     },
@@ -773,10 +837,10 @@ const prisma = {
     create: async (options) => {
       console.log('Mock prisma.program.create called', options);
       const data = options.data;
-      
+
       // Génération d'un ID unique pour le nouveau programme
       const newId = (mockPrograms.length + 1).toString();
-      
+
       // Création du nouveau programme
       const newProgram = {
         id: newId,
@@ -789,56 +853,56 @@ const prisma = {
         status: data.status || 'ACTIVE',
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
-        
+
         // Inclusion des relations si nécessaire
         patient: patients.find(p => p.id === data.patientId),
         healthProfessional: healthProfessionals.find(hp => hp.id === data.healthProfessionalId),
         supplements: [],
         exercises: []
       };
-      
+
       // Ajout à la liste des programmes
       mockPrograms.push(newProgram);
-      
+
       return newProgram;
     },
     update: async (options) => {
       console.log('Mock prisma.program.update called', options);
       const { id } = options.where;
       const data = options.data;
-      
+
       const programIndex = mockPrograms.findIndex(p => p.id === id);
       if (programIndex === -1) {
         throw new Error('Program not found');
       }
-      
+
       // Mise à jour du programme
       const updatedProgram = {
         ...mockPrograms[programIndex],
         ...data,
         updatedAt: new Date().toISOString()
       };
-      
+
       mockPrograms[programIndex] = updatedProgram;
-      
+
       return updatedProgram;
     },
     delete: async (options) => {
       console.log('Mock prisma.program.delete called', options);
       const { id } = options.where;
-      
+
       const programIndex = mockPrograms.findIndex(p => p.id === id);
       if (programIndex === -1) {
         throw new Error('Program not found');
       }
-      
+
       const deletedProgram = mockPrograms[programIndex];
       mockPrograms.splice(programIndex, 1);
-      
+
       return deletedProgram;
     }
   },
-  
+
   exercise: {
     findMany: async () => {
       console.log('Mock prisma.exercise.findMany called');
@@ -849,7 +913,7 @@ const prisma = {
       return mockExercises.find(e => e.id === options.where.id);
     }
   },
-  
+
   programExercise: {
     deleteMany: async () => ({})
   },
@@ -859,7 +923,7 @@ const prisma = {
   user: {
     findFirst: async (options) => {
       if (options?.where?.email) {
-        const foundUser = 
+        const foundUser =
           healthProfessionals.find(hp => hp.user.email === options.where.email)?.user ||
           patients.find(p => p.user.email === options.where.email)?.user;
         return foundUser || null;
@@ -879,16 +943,16 @@ const prisma = {
           if (storedUser) return storedUser;
         }
       }
-      
+
       // Fallback sur les données statiques
       if (options?.where?.id) {
-        const foundUser = 
+        const foundUser =
           healthProfessionals.find(hp => hp.user.id === options.where.id)?.user ||
           patients.find(p => p.user.id === options.where.id)?.user;
         return foundUser || null;
       }
       if (options?.where?.email) {
-        const foundUser = 
+        const foundUser =
           healthProfessionals.find(hp => hp.user.email === options.where.email)?.user ||
           patients.find(p => p.user.email === options.where.email)?.user;
         return foundUser || null;
@@ -903,18 +967,18 @@ const prisma = {
         updatedAt: new Date()
       };
       console.log('Mock user created:', newUser);
-      
+
       // Persister dans localStorage côté client
       if (typeof window !== 'undefined') {
         const existingUsers = JSON.parse(localStorage.getItem('tuatha-mock-users') || '[]');
         existingUsers.push(newUser);
         localStorage.setItem('tuatha-mock-users', JSON.stringify(existingUsers));
       }
-      
+
       return newUser;
     }
   },
-  
+
   $transaction: async (callback) => {
     return callback(prisma);
   },

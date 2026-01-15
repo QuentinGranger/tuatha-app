@@ -7,9 +7,9 @@ import { useRouter } from 'next/navigation';
 const AuthContext = createContext();
 
 // Identifiants fixes pour la démonstration
-const VALID_USERNAME = "DrTuatha25!";
-const VALID_EMAIL = "dr.tuatha@nutritionniste.com";
-const VALID_PASSWORD = "Y0urTh3F1rstT3st3r";
+const VALID_USERNAME = "quentin";
+const VALID_EMAIL = "quentin@tuatha-app.com";
+const VALID_PASSWORD = "password123";
 
 // Hook personnalisé pour utiliser le contexte d'authentification
 export const useAuth = () => {
@@ -31,13 +31,13 @@ export function AuthProvider({ children }) {
       try {
         // Vérifier si l'utilisateur a un cookie d'authentification
         const hasAuthCookie = document.cookie.includes('tuatha-auth=');
-        
+
         if (hasAuthCookie) {
           // Simulons un utilisateur connecté pour la démonstration
           setUser({
             id: '12345',
-            name: 'Dr. Tuatha',
-            email: 'dr.tuatha@nutritionniste.com',
+            name: 'Quentin Granger',
+            email: 'quentin@tuatha-app.com',
             role: 'nutritionniste'
           });
         } else {
@@ -58,12 +58,12 @@ export function AuthProvider({ children }) {
   const login = async (emailOrUsername, password) => {
     console.log("AuthContext - Tentative de login avec:", emailOrUsername, password);
     console.log("Valeurs attendues:", VALID_USERNAME, VALID_PASSWORD);
-    
+
     try {
       // Vérifier si les identifiants correspondent aux valeurs attendues
       if ((emailOrUsername === VALID_USERNAME || emailOrUsername === VALID_EMAIL) && password === VALID_PASSWORD) {
         console.log("AuthContext - Identifiants valides");
-        
+
         // Créer un cookie d'authentification
         const date = new Date();
         date.setTime(date.getTime() + 7 * 24 * 60 * 60 * 1000); // expire dans 7 jours
@@ -71,8 +71,8 @@ export function AuthProvider({ children }) {
 
         setUser({
           id: '12345',
-          name: 'Dr. Tuatha',
-          email: 'dr.tuatha@nutritionniste.com',
+          name: 'Quentin Granger',
+          email: 'quentin@tuatha-app.com',
           role: 'nutritionniste'
         });
 

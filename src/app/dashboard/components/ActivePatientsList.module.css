@@ -1,16 +1,20 @@
 .sidebar {
   position: fixed;
-  top: 0;
-  right: -400px;
-  width: 400px;
-  height: 100vh;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-left: 1px solid rgba(255, 255, 255, 0.1);
-  z-index: 1000;
-  transition: right 0.3s ease;
-  box-shadow: -5px 0 25px rgba(0, 0, 0, 0.3);
+  top: 70px;
+  right: -420px;
+  width: 420px;
+  height: calc(100vh - 70px);
+  background: linear-gradient(180deg, rgba(22, 33, 51, 0.98) 0%, rgba(15, 23, 36, 0.98) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-left: 1px solid rgba(255, 114, 28, 0.2);
+  border-top-left-radius: 16px;
+  z-index: 100;
+  transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow:
+    -8px 0 32px rgba(0, 0, 0, 0.4),
+    inset 1px 0 0 rgba(255, 255, 255, 0.05);
+  overflow-y: auto;
 }
 
 .sidebar.open {
@@ -19,17 +23,21 @@
 
 .sidePanel {
   position: fixed;
-  top: 0;
-  right: -400px;
-  width: 400px;
-  height: 100vh;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-left: 1px solid rgba(255, 255, 255, 0.1);
-  z-index: 1000;
-  transition: right 0.3s ease;
-  box-shadow: -5px 0 25px rgba(0, 0, 0, 0.3);
+  top: 70px;
+  right: -420px;
+  width: 420px;
+  height: calc(100vh - 70px);
+  background: linear-gradient(180deg, rgba(22, 33, 51, 0.98) 0%, rgba(15, 23, 36, 0.98) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-left: 1px solid rgba(255, 114, 28, 0.2);
+  border-top-left-radius: 16px;
+  z-index: 100;
+  transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow:
+    -8px 0 32px rgba(0, 0, 0, 0.4),
+    inset 1px 0 0 rgba(255, 255, 255, 0.05);
+  overflow-y: auto;
 }
 
 .sidePanel.open {
@@ -222,24 +230,30 @@
 }
 
 .closeButton {
-  background: none;
-  border: none;
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 1.5rem;
+  background: rgba(255, 114, 28, 0.2);
+  border: 1px solid rgba(255, 114, 28, 0.4);
+  color: #FF721C;
+  font-size: 1.25rem;
   cursor: pointer;
   padding: 0.5rem;
   transition: all 0.2s ease;
-  border-radius: 50%;
-  width: 36px;
-  height: 36px;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  z-index: 10;
 }
 
 .closeButton:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 114, 28, 0.3);
+  border-color: #FF721C;
   color: white;
+  transform: scale(1.05);
 }
 
 .patientDetailsHeader h3 {
@@ -250,10 +264,12 @@
 
 .patientDetails {
   color: white;
-  padding: 2rem;
-  height: 100vh;
+  padding: 2rem 1.5rem 2rem 2rem;
+  padding-top: 4rem;
+  height: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .detailsHeader {
@@ -322,21 +338,11 @@
 }
 
 .overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 999;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  display: none;
 }
 
 .overlay.visible {
-  opacity: 1;
-  visibility: visible;
+  display: none;
 }
 
 .alertsSection {
@@ -557,7 +563,7 @@
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 1rem;
-  box-shadow: 
+  box-shadow:
     0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
@@ -663,10 +669,12 @@
     transform: scale(1);
     opacity: 1;
   }
+
   50% {
     transform: scale(1.5);
     opacity: 0.5;
   }
+
   100% {
     transform: scale(1);
     opacity: 1;
@@ -680,7 +688,7 @@
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.1);
   overflow: hidden;
-  box-shadow: 
+  box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.1),
     0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -713,7 +721,7 @@
   font-weight: 500;
   letter-spacing: 0.025em;
   transition: all 0.2s ease;
-  box-shadow: 
+  box-shadow:
     0 1px 2px rgba(0, 0, 0, 0.05),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }

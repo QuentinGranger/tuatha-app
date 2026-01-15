@@ -7,6 +7,56 @@ const prisma = new PrismaClient();
 const healthProfessionals = [
   {
     user: {
+      email: 'quentin@tuatha-app.com',
+      password: await hash('password123', 10),
+      firstName: 'Quentin',
+      lastName: 'Granger',
+      role: UserRole.HEALTH_PROFESSIONAL,
+      phoneNumber: '0600000000',
+      photoUrl: '/img/professionel/default.jpg'
+    },
+    professional: {
+      specialty: Specialty.NUTRITIONIST,
+      subSpecialty: 'Nutrition sportive',
+      availability: {
+        monday: true,
+        tuesday: true,
+        wednesday: true,
+        thursday: true,
+        friday: true
+      },
+      preferredContactMethod: ContactMethod.EMAIL,
+      emergencyContact: true,
+      consultationTypes: [ConsultationType.PRESENTIEL, ConsultationType.VISIO],
+      consultationFee: 80.00,
+      conventionStatus: StatutConventionnement.SECTEUR_1,
+      paymentMethods: [ModeReglement.CB, ModeReglement.ESPECES],
+      acceptsHealthCard: true,
+      description: "Spécialiste en nutrition sportive.",
+      yearsExperience: 10,
+      spokenLanguages: ['Français', 'Anglais'],
+      openingTime: '09:00',
+      closingTime: '18:00',
+      consultationDuration: 30,
+      workingDays: ['LUNDI', 'MARDI', 'MERCREDI', 'JEUDI', 'VENDREDI'],
+      disponibilite: Disponibilite.DISPONIBLE,
+      averageWaitTime: 2,
+      street: '1 Rue de la Santé',
+      city: 'Paris',
+      postalCode: '75001',
+      country: 'France',
+      handicapAccess: true,
+      parking: true,
+      equipment: ['Balance connectée', 'Impédancemètre'],
+      acceptsEmergencies: false,
+      occupancyRate: 0.8,
+      adeliNumber: '000000001',
+      rppsNumber: '00000000101',
+      diplomas: ['nutrition-diploma.pdf']
+    }
+  },
+  {
+    user: {
       email: 'chopper.nutritionist@tuatha.app',
       password: await hash('password123', 10),
       firstName: 'Tony',
@@ -733,11 +783,11 @@ async function main() {
   });
 
   // Créer un programme d'exemple
-  const luffyUser = await prisma.user.findFirst({ 
+  const luffyUser = await prisma.user.findFirst({
     where: { email: 'luffy@thousand-sunny.com' },
     include: { patient: true }
   });
-  const chopperUser = await prisma.user.findFirst({ 
+  const chopperUser = await prisma.user.findFirst({
     where: { email: 'chopper.nutritionist@tuatha.app' },
     include: { healthProfessional: true }
   });
